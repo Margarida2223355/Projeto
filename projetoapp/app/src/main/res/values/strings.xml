@@ -3,4 +3,10 @@
     <string name="hintUsername">Username</string>
     <string name="hintPassword">Password</string>
     <string name="btnLogin">Login</string>
+
+    <!-- Appbar -->
+    <string name="appbar_room">Quartos</string>
+    <string name="appbar_food">Refeições</string>
+    <string name="appbar_extra">Serviços Adicionais</string>
+    <string name="appbar_logout">Logout</string>
 </resources>

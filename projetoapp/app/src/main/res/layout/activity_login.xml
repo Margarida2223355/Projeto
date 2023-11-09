@@ -20,7 +20,6 @@
       android:src="@drawable/logoipl" />
 
   <com.google.android.material.textfield.TextInputLayout
-      android:id="@+id/txtUsername"
       android:layout_width="250dp"
       android:layout_height="wrap_content"
       android:layout_marginBottom="10dp"
@@ -28,6 +27,7 @@
       app:boxStrokeWidth="3dp">
 
     <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/txtUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -36,7 +36,6 @@
 
   <!-- Input da Password -->
   <com.google.android.material.textfield.TextInputLayout
-      android:id="@+id/txtPassword"
       android:layout_width="250dp"
       android:layout_height="wrap_content"
       android:hint="@string/hintPassword"
@@ -46,6 +45,7 @@
     <com.google.android.material.textfield.TextInputEditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/txtPassword"
         android:inputType="textPassword">
 
     </com.google.android.material.textfield.TextInputEditText>
@@ -61,6 +61,7 @@
       android:layout_marginHorizontal="120dp"
       android:paddingVertical="10dp"
       android:textSize="30sp"
+      android:onClick="onClickLogin"
       android:text="@string/btnLogin">
 
   </Button>
