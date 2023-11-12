@@ -4,9 +4,14 @@
     <string name="hintPassword">Password</string>
     <string name="btnLogin">Login</string>
 
-    <!-- Appbar -->
-    <string name="appbar_room">Quartos</string>
-    <string name="appbar_food">Refeições</string>
-    <string name="appbar_extra">Serviços Adicionais</string>
-    <string name="appbar_logout">Logout</string>
+    <!-- Botões Menu Cliente -->
+    <string name="room_MenuClient">Quartos</string>
+    <string name="food_MenuClient">Refeições</string>
+    <string name="extra_MenuClient">Serviços Adicionais</string>
+    <string name="help_MenuClient">Configurações</string>
+    <string name="settings_MenuClient">Servidor</string>
+    <string name="userInfo_MenuClient">Utilizador</string>
+
+    <string name="buy_MenuClient">Compras</string>
+
 </resources>
