@@ -1,6 +1,6 @@
 <?php
 
-use app\models\InfCliente;
+use common\models\infUser;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
@@ -9,15 +9,15 @@ use yii\grid\GridView;
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Inf Clientes';
+$this->title = 'Inf Users';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="inf-cliente-index">
+<div class="inf-user-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Inf Cliente', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Inf User', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
 
@@ -28,14 +28,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'nome_completo',
-            'telefone',
             'morada',
             'pais',
+            'telefone',
+            //'salario',
             //'nif',
-            //'user_id',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, InfCliente $model, $key, $index, $column) {
+                'urlCreator' => function ($action, infUser $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
             ],

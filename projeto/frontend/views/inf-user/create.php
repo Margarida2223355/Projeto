@@ -3,13 +3,13 @@
 use yii\helpers\Html;
 
 /** @var yii\web\View $this */
-/** @var app\models\InfCliente $model */
+/** @var common\models\infUser $model */
 
-$this->title = 'Create Inf Cliente';
-$this->params['breadcrumbs'][] = ['label' => 'Inf Clientes', 'url' => ['index']];
+$this->title = 'Create Inf User';
+$this->params['breadcrumbs'][] = ['label' => 'Inf Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="inf-cliente-create">
+<div class="inf-user-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

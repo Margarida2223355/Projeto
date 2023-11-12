@@ -12,6 +12,9 @@ class m231030_205507_init_rbac extends Migration
      */
     public function safeUp()
     {
+        // *****ATENÇÃO PRECISO SEPARAR O READ DO CRUD PARA O CLIENTE*****
+        // QUANDO A FUNÇAO VAI SER USADA POR TODOS INCLUSIVE SEM UTILIZADOR LOGADO NAO DEVO FAZER PERMISSAO RBAC
+        
         $auth = Yii::$app->authManager;
         //Criar permissões
         $permission_crud_cliente = $auth->createPermission('crudCliente');
