@@ -12,7 +12,6 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'id')->textInput() ?>
 
     <?= $form->field($model, 'nome_completo')->textInput(['maxlength' => true]) ?>
 
@@ -21,8 +20,6 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'pais')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'telefone')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'salario')->textInput() ?>
 
     <?= $form->field($model, 'nif')->textInput(['maxlength' => true]) ?>
 

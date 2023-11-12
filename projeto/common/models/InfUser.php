@@ -33,7 +33,7 @@ class InfUser extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nome_completo', 'morada', 'pais', 'telefone', 'salario', 'nif'], 'required'],
+            [['nome_completo', 'morada', 'pais', 'telefone', 'nif'], 'required'],
             [['salario'], 'number'],
             [['nome_completo'], 'string', 'max' => 150],
             [['morada'], 'string', 'max' => 100],

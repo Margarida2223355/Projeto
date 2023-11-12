@@ -58,7 +58,6 @@ class m231030_205507_init_rbac extends Migration
         $auth->addChild($role_gestor, $role_funcionario);
 
         $auth->assign($role_gestor, 1);
-        $auth->assign($role_cliente, 2);
     }
 
     /**

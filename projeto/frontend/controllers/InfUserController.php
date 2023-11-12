@@ -1,12 +1,15 @@
 <?php
 
-namespace frontend\Controllers;
+namespace frontend\controllers;
 
-use common\models\infUser;
+use common\models\InfUser;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+use Yii;
+
 
 /**
  * InfUserController implements the CRUD actions for infUser model.
@@ -18,43 +21,32 @@ class InfUserController extends Controller
      */
     public function behaviors()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'only' => ['view','update'],
+                'rules' => [
+                    [
+                        'actions' => ['view','update'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'matchCallback' => function ($rule, $action) {
+                            // Verificar se o user está tentando acessar ou modificar sua própria view
+                            $userId = Yii::$app->user->id;
+                            $requestedUserId = Yii::$app->request->get('id');
+
+                            return $userId == $requestedUserId;
+                        }
                     ],
                 ],
-            ]
-        );
-    }
-
-    /**
-     * Lists all infUser models.
-     *
-     * @return string
-     */
-    public function actionIndex()
-    {
-        $dataProvider = new ActiveDataProvider([
-            'query' => infUser::find(),
-            /*
-            'pagination' => [
-                'pageSize' => 50
             ],
-            'sort' => [
-                'defaultOrder' => [
-                    'id' => SORT_DESC,
-                ]
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
             ],
-            */
-        ]);
-
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
+        ];
     }
 
     /**
@@ -67,28 +59,6 @@ class InfUserController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * Creates a new infUser model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
-     */
-    public function actionCreate()
-    {
-        $model = new infUser();
-
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        } else {
-            $model->loadDefaultValues();
-        }
-
-        return $this->render('create', [
-            'model' => $model,
         ]);
     }
 
@@ -135,7 +105,7 @@ class InfUserController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = infUser::findOne(['id' => $id])) !== null) {
+        if (($model = InfUser::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

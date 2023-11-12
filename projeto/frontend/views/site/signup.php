@@ -24,6 +24,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'email') ?>
 
                 <?= $form->field($model, 'password')->passwordInput() ?>
+                
+                <?= $form->field($model, 'nome_completo') ?>
+                <?= $form->field($model, 'morada') ?>
+                <?= $form->field($model, 'pais') ?>
+                <?= $form->field($model, 'telefone') ?>
+                <?= $form->field($model, 'nif') ?>
 
                 <div class="form-group">
                     <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>

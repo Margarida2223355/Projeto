@@ -141,7 +141,12 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->getPrimaryKey();
     }
-
+    
+    public function getInfUser()
+    {
+        return $this->hasOne(InfUser::className(), ['id' => 'id']);
+    }
+    
     /**
      * {@inheritdoc}
      */

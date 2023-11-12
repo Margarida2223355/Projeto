@@ -6,7 +6,6 @@ use yii\helpers\Html;
 /** @var common\models\infUser $model */
 
 $this->title = 'Update Inf User: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Inf Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>

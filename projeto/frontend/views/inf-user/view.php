@@ -7,7 +7,6 @@ use yii\widgets\DetailView;
 /** @var common\models\infUser $model */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Inf Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -34,7 +33,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'morada',
             'pais',
             'telefone',
-            'salario',
             'nif',
         ],
     ]) ?>
