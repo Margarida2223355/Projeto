@@ -5,6 +5,7 @@ namespace frontend\models;
 use Yii;
 use yii\base\Model;
 use common\models\User;
+use common\models\infUser;
 
 /**
  * Signup form
@@ -14,6 +15,12 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
+    public $nome_completo; 
+    public $morada;        
+    public $pais;
+    public $telefone;
+    public $nif;
+    public $salario;
 
 
     /**
@@ -35,6 +42,13 @@ class SignupForm extends Model
 
             ['password', 'required'],
             ['password', 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
+            
+            [['nome_completo', 'morada', 'pais', 'telefone', 'nif'], 'required'],
+            [['nome_completo'], 'string', 'max' => 150],
+            [['morada'], 'string', 'max' => 100],
+            [['pais'], 'string', 'max' => 50],
+            [['telefone'], 'string', 'max' => 20],
+            [['nif'], 'string', 'max' => 15],
         ];
     }
 
@@ -55,8 +69,24 @@ class SignupForm extends Model
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
+        
+        $infUser = new infUser();
+        $infUser->nome_completo = $this->nome_completo;
+        $infUser->morada = $this->morada;
+        $infUser->pais = $this->pais;
+        $infUser->telefone = $this->telefone;
+        $infUser->nif = $this->nif;
+        $infUser->salario = $this->salario;
 
-        return $user->save() && $this->sendEmail($user);
+        if ($user->save() && $this->sendEmail($user) && ($infUser->id = $user->id) !== null && $infUser->save()) {
+            $auth = Yii::$app->authManager;
+            $clienteRole = $auth->getRole('cliente'); 
+            $auth->assign($clienteRole, $user->getId());
+            
+            return true;
+        } else {
+            return null;
+        }
     }
 
     /**

@@ -1,17 +1,17 @@
 <?php
 
-namespace app\Controllers;
+namespace frontend\controllers;
 
-use app\models\InfCliente;
+use common\models\Reserva;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * InfClienteController implements the CRUD actions for InfCliente model.
+ * ReservaController implements the CRUD actions for Reserva model.
  */
-class InfClienteController extends Controller
+class ReservaController extends Controller
 {
     /**
      * @inheritDoc
@@ -32,14 +32,14 @@ class InfClienteController extends Controller
     }
 
     /**
-     * Lists all InfCliente models.
+     * Lists all Reserva models.
      *
      * @return string
      */
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => InfCliente::find(),
+            'query' => Reserva::find(),
             /*
             'pagination' => [
                 'pageSize' => 50
@@ -58,7 +58,7 @@ class InfClienteController extends Controller
     }
 
     /**
-     * Displays a single InfCliente model.
+     * Displays a single Reserva model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -71,13 +71,13 @@ class InfClienteController extends Controller
     }
 
     /**
-     * Creates a new InfCliente model.
+     * Creates a new Reserva model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new InfCliente();
+        $model = new Reserva();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -93,7 +93,7 @@ class InfClienteController extends Controller
     }
 
     /**
-     * Updates an existing InfCliente model.
+     * Updates an existing Reserva model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -113,7 +113,7 @@ class InfClienteController extends Controller
     }
 
     /**
-     * Deletes an existing InfCliente model.
+     * Deletes an existing Reserva model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
@@ -127,15 +127,15 @@ class InfClienteController extends Controller
     }
 
     /**
-     * Finds the InfCliente model based on its primary key value.
+     * Finds the Reserva model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return InfCliente the loaded model
+     * @return Reserva the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = InfCliente::findOne(['id' => $id])) !== null) {
+        if (($model = Reserva::findOne(['id' => $id])) !== null) {
             return $model;
         }
 
