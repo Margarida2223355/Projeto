@@ -12,6 +12,7 @@
         app:backgroundTint="@color/colorPrimary"
         android:layout_gravity="bottom|center"
         android:layout_margin="16dp"
+        app:fabSize="mini"
         android:visibility="invisible"
         android:contentDescription="@string/room_MenuClient"/>
 
@@ -23,6 +24,7 @@
         app:backgroundTint="@color/colorPrimary"
         android:layout_gravity="bottom|center"
         android:layout_margin="16dp"
+        app:fabSize="mini"
         android:visibility="invisible"
         android:contentDescription="@string/food_MenuClient"/>
 
@@ -34,9 +36,10 @@
         app:backgroundTint="@color/colorPrimary"
         android:layout_gravity="bottom|center"
         android:layout_margin="16dp"
+        app:fabSize="mini"
         android:visibility="invisible"
         android:contentDescription="@string/extra_MenuClient"/>
-<!--
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnSettings"
         android:layout_width="wrap_content"
@@ -45,6 +48,7 @@
         app:backgroundTint="@color/colorPrimary"
         android:layout_gravity="bottom|center"
         android:layout_margin="16dp"
+        app:fabSize="mini"
         android:visibility="invisible"
         android:contentDescription="@string/settings_MenuClient"/>
 
@@ -56,7 +60,7 @@
         app:backgroundTint="@color/colorPrimary"
         android:layout_gravity="bottom|center"
         android:layout_margin="16dp"
+        app:fabSize="mini"
         android:visibility="invisible"
         android:contentDescription="@string/help_MenuClient"/>
-        -->
 </FrameLayout>

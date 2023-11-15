@@ -1,7 +1,13 @@
 package com.example.pousadas;
 
+import static android.view.animation.AnimationUtils.loadAnimation;
+import static java.lang.Math.PI;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
+
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.animation.AnimatorSet;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -24,6 +30,7 @@ public class HomeActivity extends AppCompatActivity {
     private FloatingActionButton menuButton;
     private boolean menuOpen = false; //Menu começa fechado
     private FloatingActionButton btnRoom, btnFood, btnExtra, btnSettings, btnHelp; //Botões Menu Client
+    private View.OnClickListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,58 +51,100 @@ public class HomeActivity extends AppCompatActivity {
                 btnRoom = findViewById(R.id.btnRoom);
                 btnFood = findViewById(R.id.btnFood);
                 btnExtra = findViewById(R.id.btnExtra);
-                //btnSettings = findViewById(R.id.btnSettings);
-                //btnHelp = findViewById(R.id.btnHelp);
+                btnSettings = findViewById(R.id.btnSettings);
+                btnHelp = findViewById(R.id.btnHelp);
 
                 /* Enviar lista de botões para a função de mostrar o menu */
                 toogleMenu(new ArrayList<FloatingActionButton>(
                         //Arrays.asList(new FloatingActionButton[]{btnRoom, btnFood, btnExtra, btnSettings, btnHelp})
-                        Arrays.asList(new FloatingActionButton[]{btnRoom, btnFood, btnExtra})
+                        Arrays.asList(new FloatingActionButton[]{btnRoom, btnFood, btnExtra, btnSettings, btnHelp})
                 ));
             }
 
             /* Método para abrir ou fechar o menu */
             private void toogleMenu(ArrayList<FloatingActionButton> buttons) {
-                float x = 2.4F, y=-.4F;
-                final float FIRST = 2.0F;
+                //Definir coordenada inicial (inicia no botão Menu)
+                float x = menuButton.getX(), y = menuButton.getY();
 
+                //Definir raio de círculo onde ficarão os botões
+                float r = (btnRoom.getWidth() * buttons.size()) / 2.5F;
+
+                //Se o menu estiver fechado
                 if (!menuOpen) {
-                    for (FloatingActionButton btn : buttons) {
-                        x-=2.0F/FIRST;
-                        y+=2.0F/FIRST;
-                        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) btn.getLayoutParams();
-                        layoutParams.rightMargin += btn.getWidth() * 1.7;
-                        layoutParams.bottomMargin += btn.getHeight() * .9;
-                        btn.setLayoutParams(layoutParams);
+                    int i = 0;
 
+                    for (FloatingActionButton btn : buttons) {
+                        //Definir ângulo inicial - 180/nº de botões
+                        float angle = (float) (PI / (buttons.size() + 1)) * (i + 1);
+
+                        /* Criar animação do tipo Translate:
+                         *
+                         * RELATIVE_TO_SELF - valor é multiplicado pelo Width/Height do objeto
+                         * ABSOLUTE - valor absoluto em pixels
+                         *
+                         * fromXValue / fromYValue - ponto inicial em x / y
+                         * toXValue / toYValue - ponto final em x / y
+                         */
                         TranslateAnimation move = new TranslateAnimation(
-                                Animation.ABSOLUTE, 0.0F, Animation.ABSOLUTE, x,
-                                Animation.ABSOLUTE,0.0F, Animation.ABSOLUTE, y);
+                                Animation.ABSOLUTE, 0.0F,
+                                Animation.ABSOLUTE, (float) -(r * cos(angle)),
+                                Animation.ABSOLUTE, 0.0F,
+                                Animation.ABSOLUTE, (float) -(r * sin(angle))
+                        );
+
+                        //Definir duração da animação - 1s
                         move.setDuration(1000);
 
-                        btn.startAnimation(move);
+                        AnimationSet animation = new AnimationSet(false);
+
+                        animation.addAnimation(move);
+                        animation.addAnimation(AnimationUtils.loadAnimation(getBaseContext(), R.anim.fab1_show));
+
+                        //Para que a transformação da animação se mantenha após esta terminar
+                        animation.setFillAfter(true);
+
+                        //Colocar o botão visível e habilitar a opção de clicar no mesmo
+                        btn.setVisibility(View.VISIBLE);
                         btn.setClickable(true);
+
+                        //Iniciar animação
+                        btn.startAnimation(animation);
+
+                        i++;
                     }
-                }
+                } else {
+                    int i = 0;
 
-                else {
                     for (FloatingActionButton btn : buttons) {
-                        x-=2.0F/FIRST;
-                        y+=2.0F/FIRST;
-                        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) btn.getLayoutParams();
-                        layoutParams.rightMargin += btn.getWidth() * 1.7;
-                        layoutParams.bottomMargin += btn.getHeight() * .9;
-                        btn.setLayoutParams(layoutParams);
+                        //Definir ângulo inicial - 180/nº de botões
+                        float angle = (float) (PI / (buttons.size() + 1)) * (i + 1);
 
+                        /* Criar animação do tipo Translate:
+                         *
+                         * RELATIVE_TO_SELF - valor é multiplicado pelo Width/Height do objeto
+                         * ABSOLUTE - valor absoluto em pixels
+                         *
+                         * fromXValue / fromYValue - ponto inicial em x / y
+                         * toXValue / toYValue - ponto final em x / y
+                         */
                         TranslateAnimation move = new TranslateAnimation(
-                                Animation.ABSOLUTE, 0.0F, Animation.ABSOLUTE, -x,
-                                Animation.ABSOLUTE,0.0F, Animation.ABSOLUTE, -y);
+                                Animation.ABSOLUTE, (float) -(r * cos(angle)),
+                                Animation.ABSOLUTE, 0.0F,
+                                Animation.ABSOLUTE, (float) -(r * sin(angle)),
+                                Animation.ABSOLUTE, 0.0F
+                        );
+
+                        //Definir duração da animação - 1s
                         move.setDuration(1000);
 
-                        btn.startAnimation(move);
-                        btn.setClickable(true);
+                        //Colocar o botão visível e habilitar a opção de clicar no mesmo
+                        btn.setVisibility(View.INVISIBLE);
+                        btn.setClickable(false);
 
-                        return;
+                        //Iniciar animação
+                        btn.startAnimation(move);
+
+                        i++;
                     }
                 }
 
@@ -103,5 +152,6 @@ public class HomeActivity extends AppCompatActivity {
                 menuOpen = !menuOpen;
             }
         });
+
     }
 }
