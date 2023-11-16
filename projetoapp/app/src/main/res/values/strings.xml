@@ -14,5 +14,9 @@
 
     <string name="buy_MenuClient">Compras</string>
     <string name="menu">Menu</string>
+    <string name="tasks_MenuFunc">Tarefas</string>
+    <string name="reservation_MenuAdmin">Reservas</string>
+    <string name="users_MenuAdmin">Utilizadores</string>
+    <string name="finance_MenuAdmin">Finanças</string>
 
 </resources>

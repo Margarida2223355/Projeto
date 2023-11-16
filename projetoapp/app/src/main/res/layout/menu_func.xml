@@ -8,37 +8,25 @@
         android:id="@+id/btnRoom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:layout_margin="16dp"
-        android:contentDescription="@string/room_MenuClient"
         android:src="@drawable/ic_client_room"
-        android:visibility="invisible"
-        app:backgroundTint="@color/colorPrimary"
-        app:fabSize="mini" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnFood"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_client_food"
         app:backgroundTint="@color/colorPrimary"
         android:layout_gravity="bottom|center"
         android:layout_margin="16dp"
         app:fabSize="mini"
         android:visibility="invisible"
-        android:contentDescription="@string/food_MenuClient"/>
+        android:contentDescription="@string/room_MenuClient"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnExtra"
+        android:id="@+id/btnTasks"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_client_extra"
+        android:src="@drawable/ic_func_tasks"
         app:backgroundTint="@color/colorPrimary"
         android:layout_gravity="bottom|center"
         android:layout_margin="16dp"
         app:fabSize="mini"
         android:visibility="invisible"
-        android:contentDescription="@string/extra_MenuClient"/>
+        android:contentDescription="@string/tasks_MenuFunc"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnSettings"

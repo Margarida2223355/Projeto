@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MenuClientActivity">
+    tools:context=".ClientActivity">
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/appbarClient"
@@ -35,10 +35,5 @@
         android:src="@drawable/ic_home_menu"
         app:fabCustomSize="60dp"
         app:layout_anchor="@id/appbarClient" />
-
-    <include
-        layout="@layout/menu_client"
-        app:layout_anchor="@+id/appbarClient"
-        app:layout_anchorGravity="center" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

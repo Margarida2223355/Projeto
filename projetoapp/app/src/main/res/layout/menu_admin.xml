@@ -8,37 +8,49 @@
         android:id="@+id/btnRoom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:layout_margin="16dp"
-        android:contentDescription="@string/room_MenuClient"
         android:src="@drawable/ic_client_room"
-        android:visibility="invisible"
-        app:backgroundTint="@color/colorPrimary"
-        app:fabSize="mini" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnFood"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_client_food"
         app:backgroundTint="@color/colorPrimary"
         android:layout_gravity="bottom|center"
         android:layout_margin="16dp"
         app:fabSize="mini"
         android:visibility="invisible"
-        android:contentDescription="@string/food_MenuClient"/>
+        android:contentDescription="@string/room_MenuClient"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnExtra"
+        android:id="@+id/btnReservation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_client_extra"
+        android:src="@drawable/ic_admin_reservation"
         app:backgroundTint="@color/colorPrimary"
         android:layout_gravity="bottom|center"
         android:layout_margin="16dp"
         app:fabSize="mini"
         android:visibility="invisible"
-        android:contentDescription="@string/extra_MenuClient"/>
+        android:contentDescription="@string/reservation_MenuAdmin"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnUsers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_admin_users"
+        app:backgroundTint="@color/colorPrimary"
+        android:layout_gravity="bottom|center"
+        android:layout_margin="16dp"
+        app:fabSize="mini"
+        android:visibility="invisible"
+        android:contentDescription="@string/users_MenuAdmin"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnFinance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_admin_finance"
+        app:backgroundTint="@color/colorPrimary"
+        android:layout_gravity="bottom|center"
+        android:layout_margin="16dp"
+        app:fabSize="mini"
+        android:visibility="invisible"
+        android:contentDescription="@string/finance_MenuAdmin"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnSettings"
@@ -52,15 +64,4 @@
         android:visibility="invisible"
         android:contentDescription="@string/settings_MenuClient"/>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnHelp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
-        android:layout_margin="16dp"
-        android:contentDescription="@string/help_MenuClient"
-        android:src="@drawable/ic_menu_help"
-        android:visibility="invisible"
-        app:backgroundTint="@color/colorPrimary"
-        app:fabSize="mini" />
 </FrameLayout>

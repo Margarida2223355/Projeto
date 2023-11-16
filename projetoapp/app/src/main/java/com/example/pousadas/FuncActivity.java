@@ -4,8 +4,6 @@ import static java.lang.Math.PI;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -13,24 +11,26 @@ import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class HomeActivity extends AppCompatActivity {
+public class FuncActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
     private FloatingActionButton menuButton;
     private boolean menuOpen = false; //Menu começa fechado
-    private FloatingActionButton btnRoom, btnFood, btnExtra, btnSettings, btnHelp; //Botões Menu Client
+    private FloatingActionButton btnRoom, btnTasks, btnSettings, btnHelp; //Botões Menu Funcionario
     private View.OnClickListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_func);
 
         /* Desativar item do meio do menu */
         bottomNavigationView = findViewById(R.id.bottomNavView);
@@ -44,15 +44,14 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 btnRoom = findViewById(R.id.btnRoom);
-                btnFood = findViewById(R.id.btnFood);
-                btnExtra = findViewById(R.id.btnExtra);
+                btnTasks = findViewById(R.id.btnTasks);
                 btnSettings = findViewById(R.id.btnSettings);
                 btnHelp = findViewById(R.id.btnHelp);
 
                 /* Enviar lista de botões para a função de mostrar o menu */
                 toogleMenu(new ArrayList<FloatingActionButton>(
                         //Arrays.asList(new FloatingActionButton[]{btnRoom, btnFood, btnExtra, btnSettings, btnHelp})
-                        Arrays.asList(new FloatingActionButton[]{btnRoom, btnFood, btnExtra, btnSettings, btnHelp})
+                        Arrays.asList(new FloatingActionButton[]{btnRoom, btnTasks, btnSettings, btnHelp})
                 ));
             }
 
@@ -79,7 +78,6 @@ public class HomeActivity extends AppCompatActivity {
 
                         /* Criar animação do tipo Translate:
                          *
-                         * RELATIVE_TO_SELF - valor é multiplicado pelo Width/Height do objeto
                          * ABSOLUTE - valor absoluto em pixels
                          *
                          * fromXValue / fromYValue - ponto inicial em x / y
@@ -121,7 +119,6 @@ public class HomeActivity extends AppCompatActivity {
 
                         /* Criar animação do tipo Translate:
                          *
-                         * RELATIVE_TO_SELF - valor é multiplicado pelo Width/Height do objeto
                          * ABSOLUTE - valor absoluto em pixels
                          *
                          * fromXValue / fromYValue - ponto inicial em x / y
