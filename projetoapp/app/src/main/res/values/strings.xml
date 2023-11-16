@@ -13,5 +13,6 @@
     <string name="userInfo_MenuClient">Utilizador</string>
 
     <string name="buy_MenuClient">Compras</string>
+    <string name="menu">Menu</string>
 
 </resources>

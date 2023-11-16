@@ -1,22 +1,17 @@
 package com.example.pousadas;
 
-import static android.view.animation.AnimationUtils.loadAnimation;
 import static java.lang.Math.PI;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.animation.AnimatorSet;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
-import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -63,11 +58,11 @@ public class HomeActivity extends AppCompatActivity {
 
             /* Método para abrir ou fechar o menu */
             private void toogleMenu(ArrayList<FloatingActionButton> buttons) {
-                //Definir coordenada inicial (inicia no botão Menu)
-                float x = menuButton.getX(), y = menuButton.getY();
+                //Definir coordenada do botão Menu
+                float y = menuButton.getY();
 
                 //Definir raio de círculo onde ficarão os botões
-                float r = (btnRoom.getWidth() * buttons.size()) / 2.5F;
+                float r = 1.5F * menuButton.getWidth();
 
                 //Se o menu estiver fechado
                 if (!menuOpen) {
@@ -76,6 +71,11 @@ public class HomeActivity extends AppCompatActivity {
                     for (FloatingActionButton btn : buttons) {
                         //Definir ângulo inicial - 180/nº de botões
                         float angle = (float) (PI / (buttons.size() + 1)) * (i + 1);
+
+                        /* Definir posição inicial de cada botão com base na posição do botão Menu
+                         * Apenas alterou-se no Y pois os botões estão abaixo do centro do botão Menu
+                         */
+                        btn.setY(y);
 
                         /* Criar animação do tipo Translate:
                          *
