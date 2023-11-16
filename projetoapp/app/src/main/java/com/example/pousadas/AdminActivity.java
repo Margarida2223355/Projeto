@@ -13,6 +13,7 @@ import android.view.animation.TranslateAnimation;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.pousadas.models.Geral;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -25,7 +26,6 @@ public class AdminActivity extends AppCompatActivity {
     private FloatingActionButton menuButton;
     private boolean menuOpen = false; //Menu começa fechado
     private FloatingActionButton btnRoom, btnReservation, btnUsers, btnFinance,btnSettings; //Botões Menu Admin
-    private View.OnClickListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +37,9 @@ public class AdminActivity extends AppCompatActivity {
         bottomNavigationView.getMenu().getItem(1).setEnabled(false);
 
         menuButton = findViewById(R.id.menuButton);
+
+        // Classe com método comum às classes ClientActivity, AdminActivity e FuncActivity.
+        Geral geral = new Geral(menuButton, getBaseContext());
 
         /* Ao clicar no botão do menu irão ser apresentados 5 floating buttons com as opções */
         menuButton.setOnClickListener(new View.OnClickListener() {
@@ -50,106 +53,15 @@ public class AdminActivity extends AppCompatActivity {
                 btnSettings = findViewById(R.id.btnSettings);
 
                 /* Enviar lista de botões para a função de mostrar o menu */
+                /*
                 toogleMenu(new ArrayList<FloatingActionButton>(
                         //Arrays.asList(new FloatingActionButton[]{btnRoom, btnFood, btnExtra, btnSettings, btnHelp})
                         Arrays.asList(new FloatingActionButton[]{btnRoom, btnReservation, btnUsers, btnFinance, btnSettings})
+                ));*/
+                geral.toogleMenu(new ArrayList<FloatingActionButton>(
+                        Arrays.asList(new FloatingActionButton[]{btnRoom, btnReservation, btnUsers, btnFinance, btnSettings})
                 ));
             }
-
-            /* Método para abrir ou fechar o menu */
-            private void toogleMenu(ArrayList<FloatingActionButton> buttons) {
-                //Definir coordenada do botão Menu
-                float y = menuButton.getY();
-
-                //Definir raio de círculo onde ficarão os botões
-                float r = 1.5F * menuButton.getWidth();
-
-                //Se o menu estiver fechado
-                if (!menuOpen) {
-                    int i = 0;
-
-                    for (FloatingActionButton btn : buttons) {
-                        //Definir ângulo inicial - 180/nº de botões
-                        float angle = (float) (PI / (buttons.size() + 1)) * (i + 1);
-
-                        /* Definir posição inicial de cada botão com base na posição do botão Menu
-                         * Apenas alterou-se no Y pois os botões estão abaixo do centro do botão Menu
-                         */
-                        btn.setY(y);
-
-                        /* Criar animação do tipo Translate:
-                         *
-                         * ABSOLUTE - valor absoluto em pixels
-                         *
-                         * fromXValue / fromYValue - ponto inicial em x / y
-                         * toXValue / toYValue - ponto final em x / y
-                         */
-                        TranslateAnimation move = new TranslateAnimation(
-                                Animation.ABSOLUTE, 0.0F,
-                                Animation.ABSOLUTE, (float) -(r * cos(angle)),
-                                Animation.ABSOLUTE, 0.0F,
-                                Animation.ABSOLUTE, (float) -(r * sin(angle))
-                        );
-
-                        //Definir duração da animação - 1s
-                        move.setDuration(1000);
-
-                        AnimationSet animation = new AnimationSet(false);
-
-                        animation.addAnimation(move);
-                        animation.addAnimation(AnimationUtils.loadAnimation(getBaseContext(), R.anim.fab1_show));
-
-                        //Para que a transformação da animação se mantenha após esta terminar
-                        animation.setFillAfter(true);
-
-                        //Colocar o botão visível e habilitar a opção de clicar no mesmo
-                        btn.setVisibility(View.VISIBLE);
-                        btn.setClickable(true);
-
-                        //Iniciar animação
-                        btn.startAnimation(animation);
-
-                        i++;
-                    }
-                } else {
-                    int i = 0;
-
-                    for (FloatingActionButton btn : buttons) {
-                        //Definir ângulo inicial - 180/nº de botões
-                        float angle = (float) (PI / (buttons.size() + 1)) * (i + 1);
-
-                        /* Criar animação do tipo Translate:
-                         *
-                         * ABSOLUTE - valor absoluto em pixels
-                         *
-                         * fromXValue / fromYValue - ponto inicial em x / y
-                         * toXValue / toYValue - ponto final em x / y
-                         */
-                        TranslateAnimation move = new TranslateAnimation(
-                                Animation.ABSOLUTE, (float) -(r * cos(angle)),
-                                Animation.ABSOLUTE, 0.0F,
-                                Animation.ABSOLUTE, (float) -(r * sin(angle)),
-                                Animation.ABSOLUTE, 0.0F
-                        );
-
-                        //Definir duração da animação - 1s
-                        move.setDuration(1000);
-
-                        //Colocar o botão visível e habilitar a opção de clicar no mesmo
-                        btn.setVisibility(View.INVISIBLE);
-                        btn.setClickable(false);
-
-                        //Iniciar animação
-                        btn.startAnimation(move);
-
-                        i++;
-                    }
-                }
-
-                //Toogle menu status
-                menuOpen = !menuOpen;
-            }
         });
-
     }
 }
