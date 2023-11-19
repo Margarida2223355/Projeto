@@ -22,6 +22,8 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'preco_total')->textInput() ?>
 
+    <?= $form->field($model, 'status')->dropDownList([ 'carrinho' => 'Carrinho', 'pago' => 'Pago', 'cancelada' => 'Cancelada', ], ['prompt' => '']) ?>
+
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>

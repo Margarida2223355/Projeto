@@ -45,7 +45,7 @@ class m231030_205507_init_rbac extends Migration
         //Criar role e atribuir permissões
         $role_cliente = $auth->createRole('cliente');
         $auth->add($role_cliente);
-        $auth->addChild($role_cliente, $permission_crud_cliente, $permission_crud_reserva);
+        $auth->addChild($role_cliente, $permission_crud_cliente);
 
         $role_funcionario = $auth->createRole('funcionario');
         $auth->add($role_funcionario);

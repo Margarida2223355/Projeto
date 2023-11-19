@@ -1,9 +1,10 @@
 <?php
 
-namespace backend\Controllers;
+namespace backend\controllers;
 
 use common\models\infUser;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -21,6 +22,16 @@ class InfUserController extends Controller
         return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::class,
+                    'rules' => [
+                        [
+                            'actions' => ['index','view','create','update','delete'],
+                            'allow' => true,
+                            'roles' => ['gestor','funcionario'],
+                        ],
+                    ],
+                ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [

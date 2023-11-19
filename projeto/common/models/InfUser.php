@@ -69,4 +69,15 @@ class InfUser extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::class, ['id' => 'id']);
     }
+    public function getRole(){
+        $auth = Yii::$app->authManager;
+        $roles = $auth->getRolesByUser($this->id);
+        $roleUser = "null";
+        foreach ($roles as $role) {
+            //Type 1 = Roles, Type 2 = Permission (documentaçao do YII2)
+            if($role->type == 1)
+                $roleUser = $role->name;
+        }
+        return $roleUser;
+    }
 }

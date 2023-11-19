@@ -4,14 +4,14 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
-/** @var common\models\Reserva $model */
+/** @var common\models\infUser $model */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Reservas', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Inf Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="reserva-view">
+<div class="inf-user-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -30,12 +30,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'quarto_id',
-            'cliente_id',
-            'data_inicial',
-            'data_final',
-            'preco_total',
-            'status',
+            'nome_completo',
+            'morada',
+            'pais',
+            'telefone',
+            'salario',
+            'nif',
+            'role',
         ],
     ]) ?>
 

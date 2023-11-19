@@ -3,7 +3,6 @@
 namespace common\models;
 
 use Yii;
-use backend\models\Quarto;
 
 /**
  * This is the model class for table "reserva".
@@ -14,6 +13,7 @@ use backend\models\Quarto;
  * @property string $data_inicial
  * @property string $data_final
  * @property float $preco_total
+ * @property string $status
  *
  * @property User $cliente
  * @property LinhaFatura[] $linhaFaturas
@@ -35,10 +35,11 @@ class Reserva extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['quarto_id', 'cliente_id', 'data_inicial', 'data_final', 'preco_total'], 'required'],
+            [['quarto_id', 'cliente_id', 'data_inicial', 'data_final', 'preco_total', 'status'], 'required'],
             [['quarto_id', 'cliente_id'], 'integer'],
             [['data_inicial', 'data_final'], 'safe'],
             [['preco_total'], 'number'],
+            [['status'], 'string'],
             [['quarto_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quarto::class, 'targetAttribute' => ['quarto_id' => 'id']],
             [['cliente_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['cliente_id' => 'id']],
         ];
@@ -56,6 +57,7 @@ class Reserva extends \yii\db\ActiveRecord
             'data_inicial' => 'Data Inicial',
             'data_final' => 'Data Final',
             'preco_total' => 'Preco Total',
+            'status' => 'Status',
         ];
     }
 

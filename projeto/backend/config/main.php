@@ -37,14 +37,20 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
+        
         'urlManager' => [
-            'enablePrettyUrl' => true,
+            'enablePrettyUrl' => false,
             'showScriptName' => false,
             'rules' => [
             ],
         ],
-        */
+        // 'view' => [
+        //         'theme' => [
+        //             'pathMap' => [
+        //             '@app/views' => '@vendor/hail812/yii2-adminlte3/src/views'
+        //             ],
+        //         ],
+        // ],
     ],
     'params' => $params,
 ];
