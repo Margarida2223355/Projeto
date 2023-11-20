@@ -25,7 +25,7 @@ public class FuncActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private FloatingActionButton menuButton;
     private boolean menuOpen = false; //Menu começa fechado
-    private FloatingActionButton btnRoom, btnTasks, btnSettings, btnHelp; //Botões Menu Funcionario
+    private FloatingActionButton btnRoom, btnTasks, btnSettings; //Botões Menu Funcionario
     private View.OnClickListener listener;
 
     @Override
@@ -50,12 +50,11 @@ public class FuncActivity extends AppCompatActivity {
                 btnRoom = findViewById(R.id.btnRoom);
                 btnTasks = findViewById(R.id.btnTasks);
                 btnSettings = findViewById(R.id.btnSettings);
-                btnHelp = findViewById(R.id.btnHelp);
 
                 /* Enviar lista de botões para a função de mostrar o menu */
                 geral.toogleMenu(new ArrayList<FloatingActionButton>(
                         //Arrays.asList(new FloatingActionButton[]{btnRoom, btnFood, btnExtra, btnSettings, btnHelp})
-                        Arrays.asList(new FloatingActionButton[]{btnRoom, btnTasks, btnSettings, btnHelp})
+                        Arrays.asList(new FloatingActionButton[]{btnRoom, btnTasks, btnSettings})
                 ));
             }
         });

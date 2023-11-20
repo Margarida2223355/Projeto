@@ -29,37 +29,25 @@
         android:contentDescription="@string/food_MenuClient"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnExtra"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_client_extra"
-        app:backgroundTint="@color/colorPrimary"
-        android:layout_gravity="bottom|center"
-        android:layout_margin="16dp"
-        app:fabSize="mini"
-        android:visibility="invisible"
-        android:contentDescription="@string/extra_MenuClient"/>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_menu_settings"
-        app:backgroundTint="@color/colorPrimary"
         android:layout_gravity="bottom|center"
         android:layout_margin="16dp"
-        app:fabSize="mini"
+        android:contentDescription="@string/settings_MenuClient"
+        android:src="@drawable/ic_menu_settings"
         android:visibility="invisible"
-        android:contentDescription="@string/settings_MenuClient"/>
+        app:backgroundTint="@color/colorPrimary"
+        app:fabSize="mini" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnHelp"
+        android:id="@+id/btnShop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:layout_margin="16dp"
-        android:contentDescription="@string/help_MenuClient"
-        android:src="@drawable/ic_menu_help"
+        android:contentDescription="@string/shop_MenuClient"
+        android:src="@drawable/ic_menu_shop"
         android:visibility="invisible"
         app:backgroundTint="@color/colorPrimary"
         app:fabSize="mini" />
