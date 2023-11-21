@@ -13,12 +13,17 @@ class m231030_205507_init_rbac extends Migration
     public function safeUp()
     {
         // *****ATENÇÃO PRECISO SEPARAR O READ DO CRUD PARA O CLIENTE*****
-        // QUANDO A FUNÇAO VAI SER USADA POR TODOS INCLUSIVE SEM UTILIZADOR LOGADO NAO DEVO FAZER PERMISSAO RBAC
         
         $auth = Yii::$app->authManager;
         //Criar permissões
+        $permission_aceder_backend = $auth->createPermission('acederBackend');
+        $auth->add($permission_aceder_backend);
+
         $permission_crud_cliente = $auth->createPermission('crudCliente');
         $auth->add($permission_crud_cliente);
+        
+        $permission_self = $auth->createPermission('permission_self_operations');
+        $auth->add($permission_self);
 
         $permission_crud_funcionario = $auth->createPermission('crudFuncionario');
         $auth->add($permission_crud_funcionario);
@@ -45,16 +50,23 @@ class m231030_205507_init_rbac extends Migration
         //Criar role e atribuir permissões
         $role_cliente = $auth->createRole('cliente');
         $auth->add($role_cliente);
-        $auth->addChild($role_cliente, $permission_crud_cliente);
+        $auth->addChild($role_cliente, $permission_crud_reserva);
+        $auth->addChild($role_cliente, $permission_self);
 
         $role_funcionario = $auth->createRole('funcionario');
         $auth->add($role_funcionario);
-        $auth->addChild($role_funcionario, $permission_crud_servico, $permission_crud_refeicao);
+        $auth->addChild($role_funcionario, $permission_crud_cliente);
+        $auth->addChild($role_funcionario, $permission_crud_servico);
+        $auth->addChild($role_funcionario, $permission_crud_refeicao);
+        $auth->addChild($role_funcionario, $permission_aceder_backend);
         $auth->addChild($role_funcionario, $role_cliente);
 
         $role_gestor = $auth->createRole('gestor');
         $auth->add($role_gestor);
-        $auth->addChild($role_gestor, $permission_crud_funcionario, $permission_crud_quarto, $permission_crud_custo, $permission_crud_tarefa);
+        $auth->addChild($role_gestor, $permission_crud_funcionario);
+        $auth->addChild($role_gestor, $permission_crud_custo);
+        $auth->addChild($role_gestor, $permission_crud_quarto);
+        $auth->addChild($role_gestor, $permission_crud_tarefa);
         $auth->addChild($role_gestor, $role_funcionario);
 
         $auth->assign($role_gestor, 1);

@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\models\LoginForm;
+use backend\models\SignupForm;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -31,7 +32,7 @@ class SiteController extends Controller
                     [
                         'actions' => ['index'],
                         'allow' => true,
-                        'roles' => ['gestor','funcionario'],
+                        'roles' => ['acederBackend'],
                     ],
                     [
                         'actions' => ['logout'],
@@ -87,7 +88,13 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-             return $this->goBack();
+            if(Yii::$app->user->can('acederBackend')){
+                return $this->goHome();
+            }
+            else{
+                //Caso nao tenha permissao para aceder ao backend é forçado o logout
+                Yii::$app->user->logout();
+            }
         }
 
         $model->password = '';
@@ -107,5 +114,17 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
+    }
+    public function actionSignup()
+    {
+        $model = new SignupForm();
+        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
+            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
+            return $this->goHome();
+        }
+
+        return $this->render('signup', [
+            'model' => $model,
+        ]);
     }
 }

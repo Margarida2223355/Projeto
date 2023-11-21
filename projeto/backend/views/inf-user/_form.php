@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
+
 
 /** @var yii\web\View $this */
 /** @var common\models\infUser $model */
@@ -25,9 +27,9 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'salario')->textInput() ?>
 
     <?= $form->field($model, 'nif')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'role')->textInput(['value' => $model->getRole(), 'disabled' => true]) ?>
-
+    
+    <?= $form->field($model, 'role')->dropDownList(ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'name'),['disabled' => !Yii::$app->user->can('gestor'),]) ?>
+   
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>

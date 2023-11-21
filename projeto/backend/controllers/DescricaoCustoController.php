@@ -28,7 +28,7 @@ class DescricaoCustoController extends Controller
                     [
                         'actions' => ['index','view','create','update','delete'],
                             'allow' => true,
-                            'roles' => ['gestor','funcionario'],
+                            'roles' => ['acederBackend'],
                     ],
                 ],
             ],

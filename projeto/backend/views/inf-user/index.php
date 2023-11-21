@@ -9,6 +9,7 @@ use yii\grid\GridView;
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
+
 $this->title = 'Inf Users';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -20,8 +21,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Inf User', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-
-    <?= GridView::widget([
+    <?php if(Yii::$app->user->can('crudCliente') && !Yii::$app->user->can('crudFuncionario') ){?>
+    <?=
+        GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
@@ -30,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'nome_completo',
             'morada',
             'pais',
-            'telefone',
+            //'telefone',
             //'salario',
             //'nif',
             [
@@ -40,7 +42,34 @@ $this->params['breadcrumbs'][] = $this->title;
                  }
             ],
         ],
-    ]); ?>
+        'rowOptions' => function ($model) {
+            return ['style' => $model->getRole() !== 'cliente' ? 'display:none;' : ''];
+        },
+    ]); }?>
+
+    <?php if(Yii::$app->user->can('crudFuncionario')){?>
+    <?=
+        GridView::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+
+            'id',
+            'nome_completo',
+            'morada',
+            'pais',
+            'role',
+            //'telefone',
+            //'salario',
+            //'nif',
+            [
+                'class' => ActionColumn::className(),
+                'urlCreator' => function ($action, infUser $model, $key, $index, $column) {
+                    return Url::toRoute([$action, 'id' => $model->id]);
+                 }
+            ],
+        ],
+    ]); }?>
 
 
 </div>

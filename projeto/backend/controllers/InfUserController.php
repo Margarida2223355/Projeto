@@ -3,6 +3,9 @@
 namespace backend\controllers;
 
 use common\models\infUser;
+use backend\models\SignupForm;
+use Yii;
+use yii\db\Query;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -28,7 +31,7 @@ class InfUserController extends Controller
                         [
                             'actions' => ['index','view','create','update','delete'],
                             'allow' => true,
-                            'roles' => ['gestor','funcionario'],
+                            'roles' => ['acederBackend'],
                         ],
                     ],
                 ],
@@ -49,7 +52,7 @@ class InfUserController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
+              $dataProvider = new ActiveDataProvider([
             'query' => infUser::find(),
             /*
             'pagination' => [
@@ -62,7 +65,6 @@ class InfUserController extends Controller
             ],
             */
         ]);
-
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);
@@ -88,14 +90,11 @@ class InfUserController extends Controller
      */
     public function actionCreate()
     {
-        $model = new infUser();
-
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        } else {
-            $model->loadDefaultValues();
+        $model = new SignupForm();
+        $model->role = Yii::$app->authManager->getRole('cliente')->name;
+        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
+            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
+            return $this->goHome();
         }
 
         return $this->render('create', [
@@ -115,6 +114,18 @@ class InfUserController extends Controller
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            $auth = Yii::$app->authManager;
+            
+            // Pega a role diretamente dos dados POST (quando tentei buscar a role do $model->role ele mostrava a role que estava salva na db ao inves da nova)
+            $roleFromPost = $this->request->post('InfUser')['role'];
+            
+            // Remove todas as roles existentes do usuário
+            $auth->revokeAll($model->id);
+
+            // Atribui a nova role ao usuário com base no valor do formulário
+            $newRole = $auth->getRole($roleFromPost);
+            $auth->assign($newRole, $model->id);
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

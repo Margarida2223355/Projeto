@@ -34,7 +34,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'morada',
             'pais',
             'telefone',
-            'salario',
+            [
+                'attribute' => 'salario',
+                'visible' => $model->getRole() === 'funcionario',
+            ],
             'nif',
             'role',
         ],

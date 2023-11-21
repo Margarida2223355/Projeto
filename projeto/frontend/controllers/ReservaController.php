@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\Controllers;
+namespace frontend\controllers;
 
 use common\models\Reserva;
 use yii\data\ActiveDataProvider;
