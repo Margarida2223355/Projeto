@@ -16,6 +16,8 @@ use yii\helpers\ArrayHelper;
 
     <?= $form->field($model, 'id')->textInput() ?>
 
+    <?= $form->field($model, 'username')->textInput() ?>
+
     <?= $form->field($model, 'nome_completo')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'morada')->textInput(['maxlength' => true]) ?>
@@ -27,6 +29,8 @@ use yii\helpers\ArrayHelper;
     <?= $form->field($model, 'salario')->textInput() ?>
 
     <?= $form->field($model, 'nif')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'status')->textInput() ?>
     
     <?= $form->field($model, 'role')->dropDownList(ArrayHelper::map(Yii::$app->authManager->getRoles(), 'name', 'name'),['disabled' => !Yii::$app->user->can('gestor'),]) ?>
    

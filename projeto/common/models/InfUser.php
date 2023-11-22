@@ -80,4 +80,18 @@ class InfUser extends \yii\db\ActiveRecord
         }
         return $roleUser;
     }
+    public function getUserName(){
+        $user = User::findOne($this->id);
+        return $user->username;
+    }
+    public function getStatus(){
+        $user = User::findOne($this->id);
+        if($user->status == 10)
+            return "ativo";
+        if($user->status == 9) 
+            return "inativo";
+        else{
+            return "apagado";
+        }
+    }
 }

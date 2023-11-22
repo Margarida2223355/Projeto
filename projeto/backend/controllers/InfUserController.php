@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use common\models\infUser;
 use backend\models\SignupForm;
+use common\models\User;
 use Yii;
 use yii\db\Query;
 use yii\data\ActiveDataProvider;
@@ -17,6 +18,7 @@ use yii\filters\VerbFilter;
  */
 class InfUserController extends Controller
 {
+
     /**
      * @inheritDoc
      */
@@ -29,7 +31,7 @@ class InfUserController extends Controller
                     'class' => AccessControl::class,
                     'rules' => [
                         [
-                            'actions' => ['index','view','create','update','delete'],
+                            'actions' => ['index','view','create','update','delete','set-status'],
                             'allow' => true,
                             'roles' => ['acederBackend'],
                         ],
@@ -146,6 +148,17 @@ class InfUserController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionSetStatus($id){
+        $user = User::findOne($id);
+        $user->status = ($user->status == 10) ? 9 : 10;
+        $user->save();        
+        $dataProvider = new ActiveDataProvider([
+            'query' => infUser::find(),]);
+        return $this->render('index', [
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**

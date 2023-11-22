@@ -35,12 +35,13 @@ AppAsset::register($this);
         ],
     ]);
     $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
         ['label' => 'Reserva', 'url' => ['/reserva/index']],
-        ['label' => 'Conta', 'url' => ['/inf-user/view', 'id' => Yii::$app->user->id]],
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
     ];
+    if (!Yii::$app->user->isGuest) {
+        $menuItems[] = ['label' => 'Conta', 'url' => ['/inf-user/view', 'id' => Yii::$app->user->id]];
+    }
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
     }

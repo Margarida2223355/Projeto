@@ -59,6 +59,27 @@ $this->params['breadcrumbs'][] = $this->title;
             'morada',
             'pais',
             'role',
+            'status',
+            [
+                'header' => 'Ações',
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{setStatus}',
+                'buttons' => [
+                    'setStatus' => function ($url, $model, $key) {
+                        return Html::a(
+                            'Set Status',
+                            ['set-status', 'id' => $model->id],
+                            [
+                                'class' => 'btn btn-success',
+                                'data' => [
+                                    //'confirm' => 'Tem certeza de que deseja definir o status?',
+                                    'method' => 'post',
+                                ],
+                            ]
+                        );
+                    },
+                ],
+            ],
             //'telefone',
             //'salario',
             //'nif',
