@@ -1,6 +1,6 @@
 <?php
 
-use common\models\Quarto;
+use common\models\LinhaFatura;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
@@ -9,15 +9,15 @@ use yii\grid\GridView;
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Quartos';
+$this->title = 'Linha Faturas';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="quarto-index">
+<div class="linha-fatura-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Quarto', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Linha Fatura', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
 
@@ -27,11 +27,16 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'descricao',
-            'preco',
+            'quantidade',
+            'servico_id',
+            'refeicao_id',
+            'sub_total',
+            //'preco_unitario',
+            //'reserva_id',
+            //'status',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Quarto $model, $key, $index, $column) {
+                'urlCreator' => function ($action, LinhaFatura $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
             ],

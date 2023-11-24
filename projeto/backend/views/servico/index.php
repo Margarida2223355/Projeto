@@ -1,6 +1,6 @@
 <?php
 
-use common\models\Quarto;
+use common\models\Servico;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
@@ -9,15 +9,15 @@ use yii\grid\GridView;
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Quartos';
+$this->title = 'Servicos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="quarto-index">
+<div class="servico-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Quarto', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Servico', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
 
@@ -27,11 +27,12 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
+            'nome',
             'descricao',
             'preco',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Quarto $model, $key, $index, $column) {
+                'urlCreator' => function ($action, Servico $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
             ],

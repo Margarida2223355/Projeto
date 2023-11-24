@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
+
 /** @var yii\web\View $this */
 /** @var common\models\Reserva $model */
 /** @var yii\widgets\ActiveForm $form */
@@ -16,9 +17,9 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'cliente_id')->textInput() ?>
 
-    <?= $form->field($model, 'data_inicial')->textInput() ?>
+    <?= $form->field($model, 'data_inicial')->input('date', ['class' => 'form-control']) ?>
 
-    <?= $form->field($model, 'data_final')->textInput() ?>
+    <?= $form->field($model, 'data_final')->input('date', ['class' => 'form-control']) ?>
 
     <?= $form->field($model, 'preco_total')->textInput() ?>
 

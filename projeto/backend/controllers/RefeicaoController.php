@@ -1,19 +1,17 @@
 <?php
 
-namespace frontend\controllers;
+namespace backend\controllers;
 
-use common\models\Reserva;
+use common\models\Refeicao;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
-
 
 /**
- * ReservaController implements the CRUD actions for Reserva model.
+ * RefeicaoController implements the CRUD actions for Refeicao model.
  */
-class ReservaController extends Controller
+class RefeicaoController extends Controller
 {
     /**
      * @inheritDoc
@@ -23,16 +21,6 @@ class ReservaController extends Controller
         return array_merge(
             parent::behaviors(),
             [
-                'access' => [
-                    'class' => AccessControl::class,
-                    'rules' => [
-                        [
-                            'actions' => [],
-                            'allow' => true,
-                            'roles' => ['@'],
-                        ],
-                    ],
-                ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
@@ -44,14 +32,14 @@ class ReservaController extends Controller
     }
 
     /**
-     * Lists all Reserva models.
+     * Lists all Refeicao models.
      *
      * @return string
      */
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Reserva::find(),
+            'query' => Refeicao::find(),
             /*
             'pagination' => [
                 'pageSize' => 50
@@ -70,7 +58,7 @@ class ReservaController extends Controller
     }
 
     /**
-     * Displays a single Reserva model.
+     * Displays a single Refeicao model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -83,13 +71,13 @@ class ReservaController extends Controller
     }
 
     /**
-     * Creates a new Reserva model.
+     * Creates a new Refeicao model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new Reserva();
+        $model = new Refeicao();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -105,7 +93,7 @@ class ReservaController extends Controller
     }
 
     /**
-     * Updates an existing Reserva model.
+     * Updates an existing Refeicao model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -125,7 +113,7 @@ class ReservaController extends Controller
     }
 
     /**
-     * Deletes an existing Reserva model.
+     * Deletes an existing Refeicao model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
@@ -139,15 +127,15 @@ class ReservaController extends Controller
     }
 
     /**
-     * Finds the Reserva model based on its primary key value.
+     * Finds the Refeicao model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return Reserva the loaded model
+     * @return Refeicao the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Reserva::findOne(['id' => $id])) !== null) {
+        if (($model = Refeicao::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

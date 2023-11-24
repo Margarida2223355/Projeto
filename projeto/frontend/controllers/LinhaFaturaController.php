@@ -2,18 +2,16 @@
 
 namespace frontend\controllers;
 
-use common\models\Reserva;
+use common\models\LinhaFatura;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
-
 
 /**
- * ReservaController implements the CRUD actions for Reserva model.
+ * LinhaFaturaController implements the CRUD actions for LinhaFatura model.
  */
-class ReservaController extends Controller
+class LinhaFaturaController extends Controller
 {
     /**
      * @inheritDoc
@@ -44,14 +42,14 @@ class ReservaController extends Controller
     }
 
     /**
-     * Lists all Reserva models.
+     * Lists all LinhaFatura models.
      *
      * @return string
      */
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Reserva::find(),
+            'query' => LinhaFatura::find(),
             /*
             'pagination' => [
                 'pageSize' => 50
@@ -70,7 +68,7 @@ class ReservaController extends Controller
     }
 
     /**
-     * Displays a single Reserva model.
+     * Displays a single LinhaFatura model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -83,13 +81,13 @@ class ReservaController extends Controller
     }
 
     /**
-     * Creates a new Reserva model.
+     * Creates a new LinhaFatura model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
     public function actionCreate()
     {
-        $model = new Reserva();
+        $model = new LinhaFatura();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -105,7 +103,7 @@ class ReservaController extends Controller
     }
 
     /**
-     * Updates an existing Reserva model.
+     * Updates an existing LinhaFatura model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -125,7 +123,7 @@ class ReservaController extends Controller
     }
 
     /**
-     * Deletes an existing Reserva model.
+     * Deletes an existing LinhaFatura model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
@@ -139,15 +137,15 @@ class ReservaController extends Controller
     }
 
     /**
-     * Finds the Reserva model based on its primary key value.
+     * Finds the LinhaFatura model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return Reserva the loaded model
+     * @return LinhaFatura the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Reserva::findOne(['id' => $id])) !== null) {
+        if (($model = LinhaFatura::findOne(['id' => $id])) !== null) {
             return $model;
         }
 

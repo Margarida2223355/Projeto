@@ -11,6 +11,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
+use common\models\Quarto;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
@@ -254,6 +255,14 @@ class SiteController extends Controller
 
         return $this->render('resendVerificationEmail', [
             'model' => $model
+        ]);
+    }
+    public function actionQuartos()
+    {
+        $quartos = Quarto::find()->all();
+
+        return $this->render('quartos', [
+            'quartos' => $quartos,
         ]);
     }
 }

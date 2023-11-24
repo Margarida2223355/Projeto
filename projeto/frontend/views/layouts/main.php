@@ -28,7 +28,7 @@ AppAsset::register($this);
 <header>
     <?php
     NavBar::begin([
-        'brandLabel' => Yii::$app->name,
+        'brandLabel' => 'Home',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar navbar-expand-md navbar-dark bg-dark fixed-top',
@@ -36,6 +36,7 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Reserva', 'url' => ['/reserva/index']],
+        ['label' => 'Quartos', 'url' => ['/site/quartos']],
         ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
     ];

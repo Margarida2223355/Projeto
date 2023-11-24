@@ -2,7 +2,7 @@
 
 namespace backend\controllers;
 
-use backend\models\Quarto;
+use common\models\Quarto;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
