@@ -38,6 +38,7 @@ class Reserva extends \yii\db\ActiveRecord
             [['quarto_id', 'cliente_id', 'data_inicial', 'data_final', 'preco_total', 'status'], 'required'],
             [['quarto_id', 'cliente_id'], 'integer'],
             [['data_inicial', 'data_final'], 'safe'],
+            [['data_final'], 'compare', 'compareAttribute' => 'data_inicial', 'operator' => '>=', 'message' => 'A data final deve ser igual ou posterior à data inicial.'],
             [['preco_total'], 'number'],
             [['status'], 'string'],
             [['quarto_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quarto::class, 'targetAttribute' => ['quarto_id' => 'id']],

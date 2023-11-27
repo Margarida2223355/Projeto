@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Reserva;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -50,8 +51,9 @@ class ReservaController extends Controller
      */
     public function actionIndex()
     {
+        $userId = Yii::$app->user->id;
         $dataProvider = new ActiveDataProvider([
-            'query' => Reserva::find(),
+            'query' => Reserva::find()->where(['cliente_id'=>$userId]),
             /*
             'pagination' => [
                 'pageSize' => 50
@@ -133,7 +135,7 @@ class ReservaController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        //$this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
