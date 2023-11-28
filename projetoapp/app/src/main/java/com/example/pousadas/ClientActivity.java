@@ -5,6 +5,7 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 import android.view.View;
@@ -27,6 +28,8 @@ public class ClientActivity extends AppCompatActivity {
     private boolean menuOpen = false; //Menu começa fechado
     private FloatingActionButton btnRoom, btnFood, btnShop, btnSettings; //Botões Menu Client
     private View.OnClickListener listener;
+
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,5 +62,9 @@ public class ClientActivity extends AppCompatActivity {
                 ));
             }
         });
+
+        /* Substituir fragment */
+        fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.fragmentClient, new RoomClientFragment()).commit();
     }
 }

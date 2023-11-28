@@ -18,4 +18,14 @@
     <string name="users_MenuAdmin">Utilizadores</string>
     <string name="finance_MenuAdmin">Finanças</string>
 
+    <!-- TexViews na página da reserva -->
+    <string name="txtClientReservation">Reserva:</string>
+    <string name="txtClientRoom">Quarto:</string>
+    <string name="txtClientInit">Data Início:</string>
+    <string name="txtClientEnd">Data Fim:</string>
+    <string name="txtClientDay">Valor Diário:</string>
+    <string name="txtClientTotal">Valor Total:</string>
+    <string name="txtWelcome">Bem vindo/a</string>
+
+
 </resources>

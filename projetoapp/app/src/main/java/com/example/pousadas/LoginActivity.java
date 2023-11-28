@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         /* Abrir atividade consoante o role do user que fez login */
-        user.setRole(Role.ADMIN); //Para teste
+        user.setRole(Role.CLIENT); //Para teste
         switch (user.getRole()) {
             case ADMIN:
                 startActivity(new Intent(getApplicationContext(), AdminActivity.class));
