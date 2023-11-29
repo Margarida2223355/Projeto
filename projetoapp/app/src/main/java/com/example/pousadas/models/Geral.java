@@ -125,8 +125,4 @@ public class Geral {
         //Toogle menu status
         menuOpen = !menuOpen;
     }
-
-    /* */
-
-
 }
