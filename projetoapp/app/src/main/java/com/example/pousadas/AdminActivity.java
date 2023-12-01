@@ -49,13 +49,15 @@ public class AdminActivity extends AppCompatActivity {
         // Classe com método comum às classes ClientActivity, AdminActivity e FuncActivity.
         Geral geral = new Geral(menuButton, getBaseContext());
 
+
+
         /* Ao clicar no botão do menu irão ser apresentados 5 floating buttons com as opções */
         menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 /* Enviar lista de botões para a função de mostrar o menu */
-                geral.toogleMenu(buttons);
+                //geral.toggleMenu(buttons);
 
                 /* Substituir fragment */
                 //fragmentManager = getSupportFragmentManager();

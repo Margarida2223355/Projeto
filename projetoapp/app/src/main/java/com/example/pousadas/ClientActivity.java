@@ -1,31 +1,18 @@
 package com.example.pousadas;
 
-import static java.lang.Math.PI;
-import static java.lang.Math.cos;
-import static java.lang.Math.sin;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
-import android.content.res.ColorStateList;
+import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
 import android.widget.Toast;
 
-import com.example.pousadas.fragments.RoomClientFragment;
 import com.example.pousadas.models.Geral;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -62,9 +49,21 @@ public class ClientActivity extends AppCompatActivity {
                 //fragmentManager.beginTransaction().replace(R.id.fragmentClient, new RoomClientFragment()).commit();
 
                 /* Enviar lista de botões para a função de mostrar o menu */
-                geral.toogleMenu(buttons);
+                geral.toggleMenu(buttons);
+
+                FloatingActionButton btn = findViewById(R.id.btnRoom);
+                btn.setVisibility(View.VISIBLE);
+                btn.setY(menuButton.getY() - 500);
+                btn.setClickable(true);
             }
+
         });
+
+        FloatingActionButton btn = findViewById(R.id.btnRoom);
+        btn.setVisibility(View.VISIBLE);
+        btn.setY(menuButton.getY() - 500);
+        btn.setClickable(true);
+
     }
 
     private void defineButtons() {

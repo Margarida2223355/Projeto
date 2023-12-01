@@ -35,7 +35,7 @@ public class Geral {
 
     /* Floating Menus */
     // Método para abrir floating menus nas activities
-    public void toogleMenu(LinkedHashMap<String, FloatingActionButton> buttons) {
+    public void toggleMenu(LinkedHashMap<String, FloatingActionButton> buttons) {
         //Definir coordenada do botão Menu
         float y = menuButton.getY();
 
@@ -77,15 +77,15 @@ public class Geral {
                 animation.addAnimation(move);
                 animation.addAnimation(AnimationUtils.loadAnimation(baseContext, R.anim.fab1_show));
 
-                //Para que a transformação da animação se mantenha após esta terminar
-                animation.setFillAfter(true);
-
-                //Colocar o botão visível e habilitar a opção de clicar no mesmo
-                btn.getValue().setVisibility(View.VISIBLE);
-                btn.getValue().setClickable(true);
-
                 //Iniciar animação
                 btn.getValue().startAnimation(animation);
+
+                //Colocar o botão visível e habilitar a opção de clicar no mesmo
+                //btn.getValue().setVisibility(View.VISIBLE);
+                btn.getValue().setClickable(true);
+
+                //Para que a transformação da animação se mantenha após esta terminar
+                animation.setFillAfter(true);
 
                 i++;
             }

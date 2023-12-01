@@ -56,7 +56,7 @@ public class FuncActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 /* Enviar lista de botões para a função de mostrar o menu */
-                geral.toogleMenu(buttons);
+                geral.toggleMenu(buttons);
 
                 /* Substituir fragment */
                 //fragmentManager = getSupportFragmentManager();
