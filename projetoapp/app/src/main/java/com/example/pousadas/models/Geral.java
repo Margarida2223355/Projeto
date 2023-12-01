@@ -15,6 +15,9 @@ import com.example.pousadas.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /* Classe para utilizar o mesmo método em várias classes do projeto */
 public class Geral {
@@ -32,7 +35,7 @@ public class Geral {
 
     /* Floating Menus */
     // Método para abrir floating menus nas activities
-    public void toogleMenu(ArrayList<FloatingActionButton> buttons) {
+    public void toogleMenu(LinkedHashMap<String, FloatingActionButton> buttons) {
         //Definir coordenada do botão Menu
         float y = menuButton.getY();
 
@@ -43,14 +46,14 @@ public class Geral {
         if (!menuOpen) {
             int i = 0;
 
-            for (FloatingActionButton btn : buttons) {
+            for (Map.Entry<String, FloatingActionButton> btn : buttons.entrySet()) {
                 //Definir ângulo inicial - 180/nº de botões
                 float angle = (float) (PI / (buttons.size() + 1)) * (i + 1);
 
                 /* Definir posição inicial de cada botão com base na posição do botão Menu
                  * Apenas alterou-se no Y pois os botões estão abaixo do centro do botão Menu
                  */
-                btn.setY(y);
+                btn.getValue().setY(y);
 
                 /* Criar animação do tipo Translate:
                  *
@@ -78,11 +81,11 @@ public class Geral {
                 animation.setFillAfter(true);
 
                 //Colocar o botão visível e habilitar a opção de clicar no mesmo
-                btn.setVisibility(View.VISIBLE);
-                btn.setClickable(true);
+                btn.getValue().setVisibility(View.VISIBLE);
+                btn.getValue().setClickable(true);
 
                 //Iniciar animação
-                btn.startAnimation(animation);
+                btn.getValue().startAnimation(animation);
 
                 i++;
             }
@@ -91,7 +94,7 @@ public class Geral {
         else {
             int i = 0;
 
-            for (FloatingActionButton btn : buttons) {
+            for (Map.Entry<String, FloatingActionButton> btn : buttons.entrySet()) {
                 //Definir ângulo inicial - 180/nº de botões
                 float angle = (float) (PI / (buttons.size() + 1)) * (i + 1);
 
@@ -113,11 +116,11 @@ public class Geral {
                 move.setDuration(1000);
 
                 //Colocar o botão visível e habilitar a opção de clicar no mesmo
-                btn.setVisibility(View.INVISIBLE);
-                btn.setClickable(false);
+                btn.getValue().setVisibility(View.INVISIBLE);
+                btn.getValue().setClickable(false);
 
                 //Iniciar animação
-                btn.startAnimation(move);
+                btn.getValue().startAnimation(move);
 
                 i++;
             }

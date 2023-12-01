@@ -10,23 +10,30 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
+import com.example.pousadas.fragments.RoomClientFragment;
 import com.example.pousadas.models.Geral;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class FuncActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
     private FloatingActionButton menuButton;
     private boolean menuOpen = false; //Menu começa fechado
-    private FloatingActionButton btnRoom, btnTasks, btnSettings; //Botões Menu Funcionario
-    private View.OnClickListener listener;
+    private LinkedHashMap<String, FloatingActionButton> buttons = new LinkedHashMap<>(); //Botões Menu Funcionário
+    private FragmentManager fragmentManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +44,8 @@ public class FuncActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomNavView);
         bottomNavigationView.getMenu().getItem(1).setEnabled(false);
 
-        menuButton = findViewById(R.id.menuButton);
+        /* Função para definir botões */
+        defineButtons();
 
         // Classe com método comum às classes ClientActivity, AdminActivity e FuncActivity.
         Geral geral = new Geral(menuButton, getBaseContext());
@@ -47,16 +55,32 @@ public class FuncActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                btnRoom = findViewById(R.id.btnRoom);
-                btnTasks = findViewById(R.id.btnTasks);
-                btnSettings = findViewById(R.id.btnSettings);
-
                 /* Enviar lista de botões para a função de mostrar o menu */
-                geral.toogleMenu(new ArrayList<FloatingActionButton>(
-                        //Arrays.asList(new FloatingActionButton[]{btnRoom, btnFood, btnExtra, btnSettings, btnHelp})
-                        Arrays.asList(new FloatingActionButton[]{btnRoom, btnTasks, btnSettings})
-                ));
+                geral.toogleMenu(buttons);
+
+                /* Substituir fragment */
+                //fragmentManager = getSupportFragmentManager();
+                //fragmentManager.beginTransaction().replace(R.id.fragmentClient, new RoomClientFragment()).commit();
             }
         });
     }
+
+    private void defineButtons() {
+        menuButton = findViewById(R.id.menuButton);
+
+        buttons.put("btnRoom", findViewById(R.id.btnRoom));
+        buttons.put("btnTasks", findViewById(R.id.btnTasks));
+        buttons.put("btnSettings", findViewById(R.id.btnSettings));
+        buttons.put("btnShop", findViewById(R.id.btnShop));
+
+        for (Map.Entry<String, FloatingActionButton> button : buttons.entrySet()) {
+            button.getValue().setOnClickListener(clickListener);
+        }
+    }
+
+    private View.OnClickListener clickListener = new  View.OnClickListener() {
+        public void onClick(View v) {
+            Toast.makeText(FuncActivity.this, Integer.toString(v.getId()), Toast.LENGTH_SHORT).show();
+        }
+    };
 }
