@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.pousadas.databinding.ActivityAdminBinding;
 import com.example.pousadas.fragments.RoomClientFragment;
 import com.example.pousadas.models.Geral;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -33,23 +34,22 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
     private boolean menuOpen = false; //Menu começa fechado
     private LinkedHashMap<String, FloatingActionButton> buttons = new LinkedHashMap<>(); //Botões Menu Admin
     private FragmentManager fragmentManager;
+    private ActivityAdminBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin);
+        binding = ActivityAdminBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        /* Função para definir botões e navbar */
+        defineButtons();
 
         /* Desativar item do meio do menu */
-        bottomNavigationView = findViewById(R.id.bottomNavView);
         bottomNavigationView.getMenu().getItem(1).setEnabled(false);
-
-        /* Função para definir botões */
-        defineButtons();
 
         // Classe com método comum às classes ClientActivity, AdminActivity e FuncActivity.
         Geral geral = new Geral(menuButton, getBaseContext());
-
-
 
         /* Ao clicar no botão do menu irão ser apresentados 5 floating buttons com as opções */
         menuButton.setOnClickListener(new View.OnClickListener() {
@@ -67,13 +67,16 @@ public class AdminActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void defineButtons() {
-        menuButton = findViewById(R.id.menuButton);
 
-        buttons.put("btnRoom", findViewById(R.id.btnRoom));
-        buttons.put("btnReservation", findViewById(R.id.btnReservation));
-        buttons.put("btnUsers", findViewById(R.id.btnUsers));
-        buttons.put("btnFinance", findViewById(R.id.btnFinance));
-        buttons.put("btnSettings", findViewById(R.id.btnSettings));
+        bottomNavigationView = binding.appbarHome.bottomNavView;
+
+        menuButton = binding.appbarHome.menuButton;
+
+        buttons.put("btnRoom", binding.menuAdmin.btnRoom);
+        buttons.put("btnReservation", binding.menuAdmin.btnReservation);
+        buttons.put("btnUsers", binding.menuAdmin.btnUsers);
+        buttons.put("btnFinance", binding.menuAdmin.btnFinance);
+        buttons.put("btnSettings", binding.menuAdmin.btnSettings);
 
         for (Map.Entry<String, FloatingActionButton> button : buttons.entrySet()) {
             button.getValue().setOnClickListener(this);

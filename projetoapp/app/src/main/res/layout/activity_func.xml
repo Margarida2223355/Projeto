@@ -8,10 +8,12 @@
     tools:context=".FuncActivity">
 
     <include
+        android:id="@+id/menu_func"
         layout="@layout/menu_func"
         app:layout_anchorGravity="center" />
 
     <include
+        android:id="@+id/appbar_home"
         layout="@layout/appbar_home">
     </include>
 

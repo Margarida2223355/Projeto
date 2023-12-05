@@ -8,10 +8,12 @@
     tools:context=".AdminActivity">
 
     <include
+        android:id="@+id/menu_admin"
         layout="@layout/menu_admin"
         app:layout_anchorGravity="center" />
 
     <include
+        android:id="@+id/appbar_home"
         layout="@layout/appbar_home">
     </include>
 

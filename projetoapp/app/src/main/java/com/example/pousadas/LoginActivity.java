@@ -6,22 +6,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.pousadas.databinding.ActivityLoginBinding;
 import com.example.pousadas.enums.Role;
 import com.example.pousadas.models.User;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class LoginActivity extends AppCompatActivity {
 
-    TextInputEditText txtUsername, txtPassword;
-    User user = new User();
+    private TextInputEditText txtUsername, txtPassword;
+    private User user = new User();
+    private ActivityLoginBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        txtUsername = findViewById(R.id.txtUsername);
-        txtPassword = findViewById(R.id.txtPassword);
+        txtUsername = binding.txtUsername;
+        txtPassword = binding.txtPassword;
 
         login_aut();
     }

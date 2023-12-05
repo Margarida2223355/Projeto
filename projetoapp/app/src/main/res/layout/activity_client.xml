@@ -13,10 +13,12 @@
         android:layout_height="wrap_content" />
 
     <include
+        android:id="@+id/menu_client"
         layout="@layout/menu_client"
         app:layout_anchorGravity="center" />
 
     <include
+        android:id="@+id/appbar_home"
         layout="@layout/appbar_home">
     </include>
 
