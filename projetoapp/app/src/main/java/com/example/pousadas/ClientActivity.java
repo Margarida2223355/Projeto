@@ -16,13 +16,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class ClientActivity extends AppCompatActivity {
+public class ClientActivity extends AppCompatActivity implements View.OnClickListener{
 
     private BottomNavigationView bottomNavigationView;
     private FloatingActionButton menuButton;
     private boolean menuOpen = false; //Menu começa fechado
     private LinkedHashMap<String, FloatingActionButton> buttons = new LinkedHashMap<>(); //Botões Menu Client
     private FragmentManager fragmentManager;
+    private Geral geral_;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,7 @@ public class ClientActivity extends AppCompatActivity {
         defineButtons();
 
         // Classe com método comum às classes ClientActivity, AdminActivity e FuncActivity.
-        Geral geral = new Geral(menuButton, getBaseContext());
+        geral_ = new Geral(menuButton, getBaseContext());
 
         /* Ao clicar no botão do menu irão ser apresentados 5 floating buttons com as opções */
         menuButton.setOnClickListener(new OnClickListener() {
@@ -49,21 +50,9 @@ public class ClientActivity extends AppCompatActivity {
                 //fragmentManager.beginTransaction().replace(R.id.fragmentClient, new RoomClientFragment()).commit();
 
                 /* Enviar lista de botões para a função de mostrar o menu */
-                geral.toggleMenu(buttons);
-
-                FloatingActionButton btn = findViewById(R.id.btnRoom);
-                btn.setVisibility(View.VISIBLE);
-                btn.setY(menuButton.getY() - 500);
-                btn.setClickable(true);
+                geral_.toggleMenu(buttons);
             }
-
         });
-
-        FloatingActionButton btn = findViewById(R.id.btnRoom);
-        btn.setVisibility(View.VISIBLE);
-        btn.setY(menuButton.getY() - 500);
-        btn.setClickable(true);
-
     }
 
     private void defineButtons() {
@@ -75,14 +64,27 @@ public class ClientActivity extends AppCompatActivity {
         buttons.put("btnShop", findViewById(R.id.btnShop));
 
         for (Map.Entry<String, FloatingActionButton> button : buttons.entrySet()) {
-            button.getValue().setOnClickListener(clickListener);
+            button.getValue().setOnClickListener(this);
         }
     }
 
-    private OnClickListener clickListener = v -> {
-        Toast.makeText(ClientActivity.this, "jhgjyg", Toast.LENGTH_SHORT).show();
+    @Override
+    public void onClick(View v) {
+
         if (v.getId() == R.id.btnFood) {
-            Toast.makeText(ClientActivity.this, "Room", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Food", Toast.LENGTH_SHORT).show();
         }
-    };
+
+        else if (v.getId() == R.id.btnRoom) {
+            Toast.makeText(this, "Room", Toast.LENGTH_SHORT).show();
+        }
+
+        else if (v.getId() == R.id.btnSettings) {
+            Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+        }
+
+        else if (v.getId() == R.id.btnShop) {
+            Toast.makeText(this, "Shop", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

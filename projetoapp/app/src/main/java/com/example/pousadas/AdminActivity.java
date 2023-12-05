@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class AdminActivity extends AppCompatActivity {
+public class AdminActivity extends AppCompatActivity implements View.OnClickListener {
 
     private BottomNavigationView bottomNavigationView;
     private FloatingActionButton menuButton;
@@ -76,13 +76,30 @@ public class AdminActivity extends AppCompatActivity {
         buttons.put("btnSettings", findViewById(R.id.btnSettings));
 
         for (Map.Entry<String, FloatingActionButton> button : buttons.entrySet()) {
-            button.getValue().setOnClickListener(clickListener);
+            button.getValue().setOnClickListener(this);
         }
     }
 
-    private View.OnClickListener clickListener = new  View.OnClickListener() {
-        public void onClick(View v) {
-            Toast.makeText(AdminActivity.this, Integer.toString(v.getId()), Toast.LENGTH_SHORT).show();
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btnRoom) {
+            Toast.makeText(this, "Room", Toast.LENGTH_SHORT).show();
         }
-    };
+
+        else if (v.getId() == R.id.btnReservation) {
+            Toast.makeText(this, "Reservation", Toast.LENGTH_SHORT).show();
+        }
+
+        else if (v.getId() == R.id.btnUsers) {
+            Toast.makeText(this, "Users", Toast.LENGTH_SHORT).show();
+        }
+
+        else if (v.getId() == R.id.btnFinance) {
+            Toast.makeText(this, "Finance", Toast.LENGTH_SHORT).show();
+        }
+
+        else if (v.getId() == R.id.btnSettings) {
+            Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

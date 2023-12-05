@@ -36,7 +36,7 @@ public class Geral {
     /* Floating Menus */
     // Método para abrir floating menus nas activities
     public void toggleMenu(LinkedHashMap<String, FloatingActionButton> buttons) {
-        //Definir coordenada do botão Menu
+        //Definir coordenadas do botão Menu
         float y = menuButton.getY();
 
         //Definir raio de círculo onde ficarão os botões
@@ -62,30 +62,19 @@ public class Geral {
                  * fromXValue / fromYValue - ponto inicial em x / y
                  * toXValue / toYValue - ponto final em x / y
                  */
-                TranslateAnimation move = new TranslateAnimation(
-                        Animation.ABSOLUTE, 0.0F,
-                        Animation.ABSOLUTE, (float) -(r * cos(angle)),
-                        Animation.ABSOLUTE, 0.0F,
-                        Animation.ABSOLUTE, (float) -(r * sin(angle))
-                );
+                btn.getValue().animate()
+                        .xBy((float) -(r * cos(angle)))
+                        .yBy((float) -(r * sin(angle)))
+                        .setDuration(1000)
+                        .start();
 
-                //Definir duração da animação - 1s
-                move.setDuration(1000);
-
-                AnimationSet animation = new AnimationSet(false);
-
-                animation.addAnimation(move);
-                animation.addAnimation(AnimationUtils.loadAnimation(baseContext, R.anim.fab1_show));
-
-                //Iniciar animação
-                btn.getValue().startAnimation(animation);
-
-                //Colocar o botão visível e habilitar a opção de clicar no mesmo
-                //btn.getValue().setVisibility(View.VISIBLE);
-                btn.getValue().setClickable(true);
+                Animation animation = AnimationUtils.loadAnimation(baseContext, R.anim.fab1_show);
 
                 //Para que a transformação da animação se mantenha após esta terminar
                 animation.setFillAfter(true);
+                
+                //Iniciar animação
+                btn.getValue().startAnimation(animation);
 
                 i++;
             }
@@ -105,22 +94,11 @@ public class Geral {
                  * fromXValue / fromYValue - ponto inicial em x / y
                  * toXValue / toYValue - ponto final em x / y
                  */
-                TranslateAnimation move = new TranslateAnimation(
-                        Animation.ABSOLUTE, (float) -(r * cos(angle)),
-                        Animation.ABSOLUTE, 0.0F,
-                        Animation.ABSOLUTE, (float) -(r * sin(angle)),
-                        Animation.ABSOLUTE, 0.0F
-                );
-
-                //Definir duração da animação - 1s
-                move.setDuration(1000);
-
-                //Colocar o botão visível e habilitar a opção de clicar no mesmo
-                btn.getValue().setVisibility(View.INVISIBLE);
-                btn.getValue().setClickable(false);
-
-                //Iniciar animação
-                btn.getValue().startAnimation(move);
+                btn.getValue().animate()
+                        .xBy((float) (r * cos(angle)))
+                        .yBy((float) (r * sin(angle)))
+                        .setDuration(1000)
+                        .start();
 
                 i++;
             }

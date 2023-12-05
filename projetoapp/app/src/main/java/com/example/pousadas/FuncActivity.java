@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class FuncActivity extends AppCompatActivity {
+public class FuncActivity extends AppCompatActivity implements View.OnClickListener{
 
     private BottomNavigationView bottomNavigationView;
     private FloatingActionButton menuButton;
@@ -71,16 +71,24 @@ public class FuncActivity extends AppCompatActivity {
         buttons.put("btnRoom", findViewById(R.id.btnRoom));
         buttons.put("btnTasks", findViewById(R.id.btnTasks));
         buttons.put("btnSettings", findViewById(R.id.btnSettings));
-        buttons.put("btnShop", findViewById(R.id.btnShop));
 
         for (Map.Entry<String, FloatingActionButton> button : buttons.entrySet()) {
-            button.getValue().setOnClickListener(clickListener);
+            button.getValue().setOnClickListener(this);
         }
     }
 
-    private View.OnClickListener clickListener = new  View.OnClickListener() {
-        public void onClick(View v) {
-            Toast.makeText(FuncActivity.this, Integer.toString(v.getId()), Toast.LENGTH_SHORT).show();
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btnRoom) {
+            Toast.makeText(this, "Room", Toast.LENGTH_SHORT).show();
         }
-    };
+
+        else if (v.getId() == R.id.btnTasks) {
+            Toast.makeText(this, "Tasks", Toast.LENGTH_SHORT).show();
+        }
+
+        else if (v.getId() == R.id.btnSettings) {
+            Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
