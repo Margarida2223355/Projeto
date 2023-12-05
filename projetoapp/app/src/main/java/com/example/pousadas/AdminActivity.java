@@ -111,6 +111,7 @@ public class AdminActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     setFragmentByView(v);
+                    geral_.toggleMenu(buttons);
                 }
             });
         }
