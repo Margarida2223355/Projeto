@@ -1,39 +1,33 @@
 package com.example.pousadas;
 
-import static java.lang.Math.PI;
-import static java.lang.Math.cos;
-import static java.lang.Math.sin;
 
 import android.os.Bundle;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
+import android.view.View.OnClickListener;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.pousadas.databinding.ActivityFuncBinding;
+import com.example.pousadas.fragments.FoodClientFragment;
 import com.example.pousadas.fragments.RoomClientFragment;
 import com.example.pousadas.models.Geral;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class FuncActivity extends AppCompatActivity implements View.OnClickListener{
+public class FuncActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
     private FloatingActionButton menuButton;
     private boolean menuOpen = false; //Menu começa fechado
     private LinkedHashMap<String, FloatingActionButton> buttons = new LinkedHashMap<>(); //Botões Menu Funcionário
     private FragmentManager fragmentManager;
+    private Geral geral_;
     private ActivityFuncBinding binding;
 
     @Override
@@ -49,7 +43,11 @@ public class FuncActivity extends AppCompatActivity implements View.OnClickListe
         bottomNavigationView.getMenu().getItem(1).setEnabled(false);
 
         // Classe com método comum às classes ClientActivity, AdminActivity e FuncActivity.
-        Geral geral = new Geral(menuButton, getBaseContext());
+        geral_= new Geral(menuButton, getBaseContext());
+
+        /* Definir fragmento inicial - room */
+        fragmentManager = getSupportFragmentManager();
+        setFragmentByView(binding.menuFunc.btnRoom);
 
         /* Ao clicar no botão do menu irão ser apresentados 4 floating buttons com as opções */
         menuButton.setOnClickListener(new View.OnClickListener() {
@@ -57,13 +55,34 @@ public class FuncActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(View v) {
 
                 /* Enviar lista de botões para a função de mostrar o menu */
-                geral.toggleMenu(buttons);
+                geral_.toggleMenu(buttons);
 
-                /* Substituir fragment */
-                //fragmentManager = getSupportFragmentManager();
-                //fragmentManager.beginTransaction().replace(R.id.fragmentClient, new RoomClientFragment()).commit();
             }
         });
+    }
+
+    /* Método que recebe o botão e abre o fragmento consoante o botão selecionado */
+    private void setFragmentByView(View view) {
+        Fragment fragment = null;
+
+        if (view.getId() == R.id.btnRoom) {
+            fragment = new RoomClientFragment();
+            Toast.makeText(this, "Room", Toast.LENGTH_SHORT).show();
+        }
+
+        else if (view.getId() == R.id.btnTasks) {
+            fragment = new FoodClientFragment();
+            Toast.makeText(this, "Tasks", Toast.LENGTH_SHORT).show();
+        }
+
+        else if (view.getId() == R.id.btnSettings) {
+            //fragment = new FoodClientFragment();
+            Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+        }
+
+        if (fragment != null) {
+            fragmentManager.beginTransaction().replace(R.id.fragmentClient,fragment).commit();
+        }
     }
 
     private void defineButtons() {
@@ -76,22 +95,12 @@ public class FuncActivity extends AppCompatActivity implements View.OnClickListe
         buttons.put("btnSettings", binding.menuFunc.btnSettings);
 
         for (Map.Entry<String, FloatingActionButton> button : buttons.entrySet()) {
-            button.getValue().setOnClickListener(this);
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.btnRoom) {
-            Toast.makeText(this, "Room", Toast.LENGTH_SHORT).show();
-        }
-
-        else if (v.getId() == R.id.btnTasks) {
-            Toast.makeText(this, "Tasks", Toast.LENGTH_SHORT).show();
-        }
-
-        else if (v.getId() == R.id.btnSettings) {
-            Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+            button.getValue().setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setFragmentByView(v);
+                }
+            });
         }
     }
 }

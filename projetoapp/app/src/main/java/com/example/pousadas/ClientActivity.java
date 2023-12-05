@@ -1,17 +1,17 @@
 package com.example.pousadas;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 
 import com.example.pousadas.databinding.ActivityClientBinding;
-import com.example.pousadas.databinding.AppbarHomeBinding;
+import com.example.pousadas.fragments.FoodClientFragment;
+import com.example.pousadas.fragments.RoomClientFragment;
 import com.example.pousadas.models.Geral;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -19,7 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class ClientActivity extends AppCompatActivity implements View.OnClickListener{
+public class ClientActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
     private FloatingActionButton menuButton;
@@ -44,19 +44,49 @@ public class ClientActivity extends AppCompatActivity implements View.OnClickLis
         // Classe com método comum às classes ClientActivity, AdminActivity e FuncActivity.
         geral_ = new Geral(menuButton, getBaseContext());
 
+        /* Definir fragmento inicial - room */
+        fragmentManager = getSupportFragmentManager();
+        setFragmentByView(binding.menuClient.btnRoom);
+
         /* Ao clicar no botão do menu irão ser apresentados 5 floating buttons com as opções */
         menuButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                /* Substituir fragment */
-                //fragmentManager = getSupportFragmentManager();
-                //fragmentManager.beginTransaction().replace(R.id.fragmentClient, new RoomClientFragment()).commit();
-
                 /* Enviar lista de botões para a função de mostrar o menu */
                 geral_.toggleMenu(buttons);
+
             }
         });
+    }
+
+    /* Método que recebe o botão e abre o fragmento consoante o botão selecionado */
+    private void setFragmentByView(View view) {
+        Fragment fragment = null;
+
+        if (view.getId() == R.id.btnRoom) {
+            fragment = new RoomClientFragment();
+            Toast.makeText(this, "Room", Toast.LENGTH_SHORT).show();
+        }
+
+        else if (view.getId() == R.id.btnFood) {
+            fragment = new FoodClientFragment();
+            Toast.makeText(this, "Food", Toast.LENGTH_SHORT).show();
+        }
+
+        else if (view.getId() == R.id.btnSettings) {
+            //fragment = new FoodClientFragment();
+            Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+        }
+
+        else if (view.getId() == R.id.btnShop) {
+            //fragment = new FoodClientFragment();
+            Toast.makeText(this, "Shop", Toast.LENGTH_SHORT).show();
+        }
+
+        if (fragment != null) {
+            fragmentManager.beginTransaction().replace(R.id.fragmentClient,fragment).commit();
+        }
     }
 
     private void defineButtons() {
@@ -70,27 +100,13 @@ public class ClientActivity extends AppCompatActivity implements View.OnClickLis
         buttons.put("btnShop", binding.menuClient.btnShop);
 
         for (Map.Entry<String, FloatingActionButton> button : buttons.entrySet()) {
-            button.getValue().setOnClickListener(this);
-        }
-    }
-
-    @Override
-    public void onClick(View v) {
-
-        if (v.getId() == R.id.btnFood) {
-            Toast.makeText(this, "Food", Toast.LENGTH_SHORT).show();
-        }
-
-        else if (v.getId() == R.id.btnRoom) {
-            Toast.makeText(this, "Room", Toast.LENGTH_SHORT).show();
-        }
-
-        else if (v.getId() == R.id.btnSettings) {
-            Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
-        }
-
-        else if (v.getId() == R.id.btnShop) {
-            Toast.makeText(this, "Shop", Toast.LENGTH_SHORT).show();
+            button.getValue().setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setFragmentByView(v);
+                    geral_.toggleMenu(buttons);
+                }
+            });
         }
     }
 }
