@@ -1,4 +1,4 @@
-package com.example.pousadas;
+package com.example.pousadas.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
