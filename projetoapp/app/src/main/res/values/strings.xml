@@ -7,7 +7,7 @@
     <!-- Botões Menu Cliente -->
     <string name="room_MenuClient">Quartos</string>
     <string name="food_MenuClient">Refeições</string>
-    <string name="extra_MenuClient">Serviços Adicionais</string>
+    <string name="service_MenuClient">Serviços Adicionais</string>
     <string name="shop_MenuClient">Carrinho de Compras</string>
     <string name="settings_MenuClient">Servidor</string>
     <string name="userInfo_MenuClient">Utilizador</string>
@@ -31,6 +31,5 @@
     <string name="txtFood">Refeição</string>
     <string name="txtDate">Data</string>
     <string name="txtTime">Horário</string>
-
 
 </resources>
