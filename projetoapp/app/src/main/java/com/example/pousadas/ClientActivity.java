@@ -12,6 +12,8 @@ import android.widget.Toast;
 import com.example.pousadas.databinding.ActivityClientBinding;
 import com.example.pousadas.fragments.FoodClientFragment;
 import com.example.pousadas.fragments.RoomClientFragment;
+import com.example.pousadas.fragments.ServicesClientFragment;
+import com.example.pousadas.fragments.ShopClientFragment;
 import com.example.pousadas.models.Geral;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -66,22 +68,18 @@ public class ClientActivity extends AppCompatActivity {
 
         if (view.getId() == R.id.btnRoom) {
             fragment = new RoomClientFragment();
-            Toast.makeText(this, "Room", Toast.LENGTH_SHORT).show();
         }
 
         else if (view.getId() == R.id.btnFood) {
             fragment = new FoodClientFragment();
-            Toast.makeText(this, "Food", Toast.LENGTH_SHORT).show();
         }
 
-        else if (view.getId() == R.id.btnSettings) {
-            //fragment = new FoodClientFragment();
-            Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+        else if (view.getId() == R.id.btnServices) {
+            fragment = new ServicesClientFragment();
         }
 
         else if (view.getId() == R.id.btnShop) {
-            //fragment = new FoodClientFragment();
-            Toast.makeText(this, "Shop", Toast.LENGTH_SHORT).show();
+            fragment = new ShopClientFragment();
         }
 
         if (fragment != null) {
@@ -96,7 +94,7 @@ public class ClientActivity extends AppCompatActivity {
 
         buttons.put("btnFood", binding.menuClient.btnFood);
         buttons.put("btnRoom", binding.menuClient.btnRoom);
-        buttons.put("btnSettings", binding.menuClient.btnSettings);
+        buttons.put("btnServices", binding.menuClient.btnServices);
         buttons.put("btnShop", binding.menuClient.btnShop);
 
         for (Map.Entry<String, FloatingActionButton> button : buttons.entrySet()) {
