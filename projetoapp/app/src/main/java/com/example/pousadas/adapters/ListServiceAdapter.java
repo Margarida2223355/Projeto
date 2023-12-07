@@ -9,33 +9,34 @@ import android.widget.BaseAdapter;
 import com.example.pousadas.R;
 import com.example.pousadas.databinding.ItemListBinding;
 import com.example.pousadas.models.Food;
+import com.example.pousadas.models.Service;
 
 import java.util.ArrayList;
 
-public class ListFoodAdapter extends BaseAdapter {
+public class ListServiceAdapter extends BaseAdapter {
 
     private Context context;
     private LayoutInflater inflater;
-    private ArrayList<Food> foods;
+    private ArrayList<Service> services;
 
-    public ListFoodAdapter(Context context, ArrayList<Food> foods) {
+    public ListServiceAdapter(Context context, ArrayList<Service> services) {
         this.context = context;
-        this.foods = foods;
+        this.services = services;
     }
 
     @Override
     public int getCount() {
-        return foods.size();
+        return services.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return foods.get(position);
+        return services.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return foods.get(position).getId();
+        return services.get(position).getId();
     }
 
     @Override
@@ -59,7 +60,7 @@ public class ListFoodAdapter extends BaseAdapter {
         }
 
         /* Atualizar a viewHolder */
-        viewHolderList.update(foods.get(position));
+        viewHolderList.update(services.get(position));
 
         return convertView;
     }
@@ -81,8 +82,8 @@ public class ListFoodAdapter extends BaseAdapter {
         }
 
         /* Método para atualizar os valores */
-        public void update(Food food) {
-            binding.description.setText(food.getName());
+        public void update(Service service) {
+            binding.description.setText(service.getName());
         }
     }
 }

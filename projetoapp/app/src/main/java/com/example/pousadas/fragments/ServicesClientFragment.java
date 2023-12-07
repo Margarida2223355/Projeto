@@ -10,15 +10,23 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.example.pousadas.R;
+import com.example.pousadas.adapters.ListFoodAdapter;
+import com.example.pousadas.adapters.ListServiceAdapter;
+import com.example.pousadas.databinding.FragmentFoodClientBinding;
 import com.example.pousadas.databinding.FragmentServicesClientBinding;
+import com.example.pousadas.models.Food;
+import com.example.pousadas.models.Service;
+import com.example.pousadas.models.Singleton;
+
+import java.util.ArrayList;
 
 public class ServicesClientFragment extends Fragment {
 
-    /* Lista de Serviços */
-    private ListView servicesList;
+    /* Lista Food */
+    // private ListView listServices;
+    private ArrayList<Service> services;
 
     private FragmentServicesClientBinding binding;
-
 
     public ServicesClientFragment() {
         // Required empty public constructor
@@ -28,12 +36,14 @@ public class ServicesClientFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_services_client, container, false);
-
         binding = FragmentServicesClientBinding.inflate(getLayoutInflater());
-        binding.getRoot();
+        View view = binding.getRoot();
 
-        servicesList = binding.listFood;
+        /* Ir buscar lista de serviços criada na classe Singleton */
+        services = Singleton.getInstance().getServices();
+
+        /* Enviar lista para o adaptador */
+        binding.listService.setAdapter(new ListServiceAdapter(getContext(), services));
 
         return view;
     }
