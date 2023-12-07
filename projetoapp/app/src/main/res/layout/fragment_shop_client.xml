@@ -3,48 +3,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".fragments.ShopClientFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/shop_MenuClient"
-        android:textColor="@color/colorPrimary"
-        android:layout_gravity="center_horizontal"
-        android:textSize="30dp"
-        android:layout_marginVertical="40dp"/>
-
-    <com.google.android.material.card.MaterialCardView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="150dp"
-        android:layout_marginHorizontal="30dp"
-        android:focusable="true">
+        android:layout_height="0dp"
+        android:layout_weight=".8"
+        android:layout_marginHorizontal="50dp"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <TextView
+            style="@style/Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginVertical="50dp"
+            android:text="@string/shop_MenuClient"/>
+
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            app:cardCornerRadius="20dp"
+            style="@style/CardView">
 
-            <ListView
-                style="@style/ListFood"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight=".8"
-                android:layout_marginTop="20dp" />
+        <ListView
+            android:id="@+id/listShop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@null">
+        </ListView>
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"
-                android:clickable="true"
-                android:contentDescription="@string/shop_MenuClient"
-                android:src="@drawable/ic_client_buy" />
+        </com.google.android.material.card.MaterialCardView>
 
-        </LinearLayout>
+    </LinearLayout>
 
-    </com.google.android.material.card.MaterialCardView>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_weight=".2"
+        android:clickable="true"
+        android:contentDescription="@string/shop_MenuClient"
+        android:src="@drawable/ic_client_buy" />
 
 </LinearLayout>

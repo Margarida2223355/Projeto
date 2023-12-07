@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".fragments.FoodClientFragment">
 
@@ -11,6 +12,7 @@
         android:layout_height="0dp"
         android:layout_weight=".8"
         android:layout_marginHorizontal="50dp"
+        android:layout_marginTop="20dp"
         android:orientation="vertical">
 
         <com.google.android.material.textfield.TextInputLayout
@@ -53,11 +55,20 @@
                 tools:ignore="SpeakableTextPresentCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <ListView
-            android:id="@+id/listFood"
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="20dp"
+            app:cardCornerRadius="20dp"
+            style="@style/CardView">
+
+            <ListView
+                android:id="@+id/listFood"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@null">
+            </ListView>
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 
