@@ -7,7 +7,6 @@ import androidx.fragment.app.FragmentManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Toast;
 
 import com.example.pousadas.R;
 import com.example.pousadas.databinding.ActivityClientBinding;
