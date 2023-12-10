@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /** @var yii\web\View $this */
-/** @var app\models\Quarto $model */
+/** @var common\models\Quarto $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
@@ -13,6 +13,14 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'descricao')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'camas_solteiro')->textInput() ?>
+
+    <?= $form->field($model, 'camas_casal')->textInput() ?>
+
+    <?= $form->field($model, 'arcondicionado')->dropDownList(['1' => 'Disponivel', '0' => 'Indisponivel']) ?>
+
+    <?= $form->field($model, 'aquecedor')->dropDownList(['1' => 'Disponivel', '0' => 'Indisponivel']) ?>
 
     <?= $form->field($model, 'preco')->textInput() ?>
 

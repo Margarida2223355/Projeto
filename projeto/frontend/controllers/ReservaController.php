@@ -28,10 +28,31 @@ class ReservaController extends Controller
                     'class' => AccessControl::class,
                     'rules' => [
                         [
-                            'actions' => [],
+                            'actions' => ['create','index'],
                             'allow' => true,
                             'roles' => ['@'],
                         ],
+                        [
+                            'actions' => ['update','delete','view'],
+                            'allow' => true,
+                            'roles' => ['@'],
+                        ],
+                        // [
+                        //     'actions' => ['update','delete','view'],
+                        //     'allow' => true,
+                        //     'roles' => ['@'],
+                        //     'matchCallback' => function ($rule, $action) {
+                        //         // Verificar se o user está tentando acessar ou modificar sua própria reserva
+                        //         $userId = Yii::$app->user->id;
+                        //         $reservaId = Yii::$app->request->getQueryParam('id');
+                        //         $reserva = Reserva::findOne($reservaId);
+                                
+                        //         if($reserva == null){
+                        //             return false;
+                        //         }
+                        //         return $userId == $reserva->cliente_id;
+                        //     }
+                        // ],
                     ],
                 ],
                 'verbs' => [
@@ -79,9 +100,18 @@ class ReservaController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        $reserva = $this->findModel($id);
+        
+        if (\Yii::$app->user->can('permission_self_operations', ['reserva' => $reserva])) {
+            // update post
+            return $this->render('view', [
+                'model' => $reserva,
+            ]);
+        }
+        else{
+            throw new \yii\web\ForbiddenHttpException('Você não tem permissão para acessar esta página.');
+        }
+        
     }
 
     /**
@@ -117,13 +147,19 @@ class ReservaController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if (\Yii::$app->user->can('permission_self_operations', ['reserva' => $model])) {
+            if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+        }
+        else{
+            throw new \yii\web\ForbiddenHttpException('Você não tem permissão para acessar esta página.');
         }
 
-        return $this->render('update', [
-            'model' => $model,
-        ]);
     }
 
     /**
@@ -135,8 +171,15 @@ class ReservaController extends Controller
      */
     public function actionDelete($id)
     {
-        //$this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        if (\Yii::$app->user->can('permission_self_operations', ['reserva' => $model])) {
+            
+            // alterar a reserva para cancelada
 
+        }
+        else{
+            throw new \yii\web\ForbiddenHttpException('Você não tem permissão para acessar esta página.');
+        }
         return $this->redirect(['index']);
     }
 

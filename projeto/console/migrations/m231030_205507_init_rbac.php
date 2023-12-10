@@ -1,6 +1,7 @@
 <?php
 
 use yii\db\Migration;
+use console\models\ReservaRule;
 
 /**
  * Class m231030_205507_init_rbac
@@ -12,9 +13,12 @@ class m231030_205507_init_rbac extends Migration
      */
     public function safeUp()
     {
-        // *****ATENÇÃO PRECISO SEPARAR O READ DO CRUD PARA O CLIENTE*****
         
         $auth = Yii::$app->authManager;
+
+        $rule = new ReservaRule;
+        $auth->add($rule);
+
         //Criar permissões
         $permission_aceder_backend = $auth->createPermission('acederBackend');
         $auth->add($permission_aceder_backend);
@@ -23,6 +27,7 @@ class m231030_205507_init_rbac extends Migration
         $auth->add($permission_crud_cliente);
         
         $permission_self = $auth->createPermission('permission_self_operations');
+        $permission_self->ruleName = $rule->name;
         $auth->add($permission_self);
 
         $permission_crud_funcionario = $auth->createPermission('crudFuncionario');

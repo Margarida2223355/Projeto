@@ -3,10 +3,13 @@
 namespace frontend\controllers;
 
 use common\models\LinhaFatura;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+
 
 /**
  * LinhaFaturaController implements the CRUD actions for LinhaFatura model.
@@ -25,9 +28,25 @@ class LinhaFaturaController extends Controller
                     'class' => AccessControl::class,
                     'rules' => [
                         [
-                            'actions' => [],
+                            'actions' => ['create','index'],
                             'allow' => true,
                             'roles' => ['@'],
+                        ],
+                        [
+                            'actions' => ['update','delete','view'],
+                            'allow' => true,
+                            'roles' => ['@'],
+                            'matchCallback' => function ($rule, $action) {
+                                // Verificar se o user está tentando acessar ou modificar sua própria linhaFatura
+                                $userId = Yii::$app->user->id;
+                                $linhaFaturaId = Yii::$app->request->getQueryParam('id');
+                                $linhaFatura = LinhaFatura::findOne($linhaFaturaId);
+                                
+                                if($linhaFatura == null){
+                                    return false;
+                                }
+                                return $userId == $linhaFatura->reserva->cliente_id;
+                            }
                         ],
                     ],
                 ],

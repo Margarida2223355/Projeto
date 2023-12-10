@@ -3,11 +3,16 @@
 namespace backend\controllers;
 
 use common\models\Quarto;
+use common\models\Img;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
+use yii\web\UploadedFile;
 
 /**
  * QuartoController implements the CRUD actions for Quarto model.
@@ -26,7 +31,7 @@ class QuartoController extends Controller
                     'class' => AccessControl::class,
                     'rules' => [
                         [
-                            'actions' => ['index','view','create','update','delete'],
+                            'actions' => ['index','view','create','update','delete','upload'],
                             'allow' => true,
                             'roles' => ['acederBackend'],
                         ],
@@ -40,6 +45,44 @@ class QuartoController extends Controller
                 ],
             ]
         );
+    }
+
+    public function actionUpload(){
+
+        $upload = new Img();
+        $quartos = Quarto::find()->all();
+
+        if($upload->load(Yii::$app->request->post())){
+            $upload->image = UploadedFile::getInstances($upload,'image');
+
+            if($upload->image && $upload->validate()){
+                $pathBackEnd = Yii::getAlias('img/quartos/');
+                $pathFrontEnd = Yii::getAlias('@frontend/web/img/quartos/');
+
+                if(!file_exists($pathBackEnd)){
+                    mkdir($pathBackEnd,0777,true);
+                }
+                if(!file_exists($pathFrontEnd)){
+                    mkdir($pathFrontEnd,0777,true);
+                }
+                foreach ($upload->image as $image){
+                    $model = new Img();
+                    $model->quarto_id = $upload->quarto_id;
+                    $model->descricao = $upload->descricao;
+                    $model->image = time().rand(100,999).'.'. $image->extension;
+                    if($model->save(false)){
+                        $imagePath = $pathBackEnd . $model->image;
+                        $image->saveAs($imagePath);
+                    
+                        // Copia o arquivo para o diretório do frontend
+                        copy($imagePath, $pathFrontEnd . $model->image);
+                    }
+                }
+                return $this->redirect(['index']);
+            }
+        }
+
+        return $this->render('upload',['upload'=>$upload,'quartos'=>ArrayHelper::map($quartos,'id','descricao')]);
     }
 
     /**

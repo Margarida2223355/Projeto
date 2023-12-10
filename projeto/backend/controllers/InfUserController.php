@@ -118,15 +118,20 @@ class InfUserController extends Controller
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             $auth = Yii::$app->authManager;
             
-            // Pega a role diretamente dos dados POST (quando tentei buscar a role do $model->role ele mostrava a role que estava salva na db ao inves da nova)
-            $roleFromPost = $this->request->post('InfUser')['role'];
+            if (Yii::$app->user->can('gestor')) {
+                 // Pega a role diretamente dos dados POST (quando tentei buscar a role do $model->role ele mostrava a role que estava salva na db ao inves da nova)
+                 $roleFromPost = $this->request->post('InfUser')['role'];
             
-            // Remove todas as roles existentes do usuário
-            $auth->revokeAll($model->id);
+                // Remove todas as roles existentes do usuário
+                $auth->revokeAll($model->id);
 
-            // Atribui a nova role ao usuário com base no valor do formulário
-            $newRole = $auth->getRole($roleFromPost);
-            $auth->assign($newRole, $model->id);
+                // Atribui a nova role ao usuário com base no valor do formulário
+                $newRole = $auth->getRole($roleFromPost);
+                $auth->assign($newRole, $model->id);
+            }
+            $model->user->username = $this->request->post('InfUser')['username'];
+            $model->user->email = $this->request->post('InfUser')['email'];
+            $model->user->save();
 
             return $this->redirect(['view', 'id' => $model->id]);
         }

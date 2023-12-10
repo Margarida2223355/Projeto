@@ -2,9 +2,12 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\widgets\ListView;
+use yii\bootstrap4\Carousel;
+
 
 /** @var yii\web\View $this */
-/** @var app\models\Quarto $model */
+/** @var common\models\Quarto $model */
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Quartos', 'url' => ['index']];
@@ -31,8 +34,43 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'descricao',
+            'camas_solteiro',
+            'camas_casal',
+            [
+                'attribute' => 'arcondicionado',
+                'value' => $model->getArcondicionado(),
+            ],
+            [
+                'attribute' => 'aquecedor',
+                'value' => $model->getAquecedor(),
+            ],
             'preco',
         ],
     ]) ?>
+
+    <h2>Imagens do Quarto</h2>
+
+    <?php
+    $items = [];
+    foreach ($model->getImgs()->all() as $imagem) {
+        $items[] = [
+            'content' => Html::img('img/quartos/' . $imagem->image, ['class' => 'd-block w-100', 'alt' => 'Imagem do Quarto']),
+        ];
+    }
+    echo Carousel::widget([
+        'items' => $items,
+        'options' => [
+            'class' => 'carousel slide', // adiciona a classe do Bootstrap Carousel
+            'data' => [
+                'ride' => 'carousel',
+            ],
+        ],
+        'controls' => [
+            '<span class="carousel-control-prev-icon" aria-hidden="true"></span>',
+            '<span class="carousel-control-next-icon" aria-hidden="true"></span>',
+        ],
+        'showIndicators' => true, // exibe indicadores de navegação
+    ]);
+    ?>
 
 </div>
