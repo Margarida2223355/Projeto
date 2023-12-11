@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Create Quarto', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Upload', ['upload'], ['class' => 'btn btn-primary']) ?>
     </p>
 
 
@@ -28,7 +29,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'descricao',
-            'preco',
+            'camas_solteiro',
+            'camas_casal',
+            'arcondicionado',
+            //'aquecedor',
+            //'preco',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Quarto $model, $key, $index, $column) {

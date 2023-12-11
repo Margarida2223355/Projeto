@@ -79,11 +79,10 @@ class SignupForm extends Model
         $infUser->telefone = $this->telefone;
         $infUser->nif = $this->nif;
         $infUser->salario = $this->salario;
+
         
         if ($user->save() && $this->sendEmail($user) && ($infUser->id = $user->id) !== null && $infUser->save()) {
             $auth = Yii::$app->authManager;
-
-            //$roleFromPost = $this->request->post('InfUser')['role'];
 
             $newRole = $auth->getRole($this->role);
             $auth->assign($newRole, $user->id);

@@ -36,7 +36,7 @@ class LinhaFatura extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['quantidade', 'servico_id', 'refeicao_id', 'sub_total', 'preco_unitario', 'reserva_id', 'status'], 'required'],
+            [['quantidade', 'sub_total', 'preco_unitario', 'reserva_id', 'status'], 'required'],
             [['quantidade', 'servico_id', 'refeicao_id', 'reserva_id'], 'integer'],
             [['sub_total', 'preco_unitario'], 'number'],
             [['status'], 'string'],

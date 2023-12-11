@@ -65,7 +65,7 @@ class InfUser extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getId0()
+    public function getUser()
     {
         return $this->hasOne(User::class, ['id' => 'id']);
     }
@@ -93,5 +93,9 @@ class InfUser extends \yii\db\ActiveRecord
         else{
             return "apagado";
         }
+    }
+    public function getEmail()
+    {
+        return $this->user->email;
     }
 }

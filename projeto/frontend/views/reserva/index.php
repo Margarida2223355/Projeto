@@ -20,7 +20,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Reserva', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
