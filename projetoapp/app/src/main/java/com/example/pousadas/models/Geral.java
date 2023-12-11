@@ -14,6 +14,7 @@ import android.view.animation.TranslateAnimation;
 import com.example.pousadas.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -25,6 +26,8 @@ public class Geral {
     private FloatingActionButton menuButton;
     private Context baseContext;
     private boolean menuOpen;
+
+    public Geral(){};
 
     /* Floating Menus */
     public Geral(FloatingActionButton menuButton, Context baseContext) {
@@ -105,5 +108,14 @@ public class Geral {
         }
         //Toogle menu status
         menuOpen = !menuOpen;
+    }
+
+    /* Função para converter milis em data */
+    public String getDate(Object date) {
+        /* Definir formato da data*/
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+        /* Devolve data em String com o formato definido */
+        return format.format(date);
     }
 }

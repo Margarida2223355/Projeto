@@ -150,7 +150,7 @@
                             android:layout_weight=".7"
                             android:ems="10"
                             android:inputType="text"
-                            tools:ignore="SpeakableTextPresentCheck" />
+                            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
                     </LinearLayout>
 
                     <com.google.android.material.divider.MaterialDivider
