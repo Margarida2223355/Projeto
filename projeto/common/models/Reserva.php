@@ -69,7 +69,7 @@ class Reserva extends \yii\db\ActiveRecord
      */
     public function getCliente()
     {
-        return $this->hasOne(User::class, ['id' => 'cliente_id']);
+        return $this->hasOne(Infuser::class, ['id' => 'cliente_id']);
     }
 
     /**

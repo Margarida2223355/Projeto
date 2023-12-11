@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use yii\jui\DatePicker;
 
 /** @var yii\web\View $this */
 /** @var common\models\Reserva $model */
@@ -16,6 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
+        'quartos' =>$quartos,
     ]) ?>
     
 </div>
