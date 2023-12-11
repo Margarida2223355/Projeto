@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.RoomClientFragment">
 
     <LinearLayout
@@ -25,15 +26,13 @@
                 android:src="@drawable/ic_launcher_background" />
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight=".4"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight=".7"
+                    android:layout_height="wrap_content"
                     android:text="@string/txtWelcome"
                     android:textColor="@color/colorPrimary"
                     android:textSize="25dp"
@@ -42,171 +41,180 @@
                 <TextView
                     android:id="@+id/txtName"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_gravity="bottom"
-                    android:layout_weight=".3"
+                    android:layout_height="match_parent"
+                    android:gravity="bottom"
                     android:text="Client Name" />
             </LinearLayout>
-
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_marginHorizontal="50dp"
             android:orientation="vertical">
 
-            <LinearLayout
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight=".7"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                style="@style/CardView">
 
-                <TextView
-                    android:id="@+id/txtClientReservation"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".4"
-                    android:gravity="end"
-                    android:text="@string/txtClientReservation" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/eClientReservation"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".7"
-                    android:ems="10"
-                    android:inputType="text"
-                    tools:ignore="SpeakableTextPresentCheck" />
-            </LinearLayout>
+                    <TextView
+                        style="@style/Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="50dp"
+                        android:text="@string/reservation_MenuAdmin" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight=".7"
-                android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight=".8"
+                        android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/txtClientRoom"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".4"
-                    android:gravity="end"
-                    android:text="@string/txtClientRoom" />
+                        <TextView
+                            android:id="@+id/txtClientReservation"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".4"
+                            android:gravity="end"
+                            android:text="@string/txtClientReservation" />
 
-                <EditText
-                    android:id="@+id/eClientRoom"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".7"
-                    android:ems="10"
-                    android:inputType="text"
-                    tools:ignore="SpeakableTextPresentCheck" />
-            </LinearLayout>
+                        <EditText
+                            android:id="@+id/eClientReservation"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".7"
+                            android:ems="10"
+                            android:inputType="text"
+                            tools:ignore="SpeakableTextPresentCheck" />
+                    </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight=".7"
-                android:orientation="horizontal">
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
-                <TextView
-                    android:id="@+id/txtClientInit"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".4"
-                    android:gravity="end"
-                    android:text="@string/txtClientInit" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight=".8"
+                        android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/eClientInit"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".7"
-                    android:ems="10"
-                    android:inputType="text"
-                    tools:ignore="SpeakableTextPresentCheck" />
-            </LinearLayout>
+                        <TextView
+                            android:id="@+id/txtClientRoom"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".4"
+                            android:gravity="end"
+                            android:text="@string/txtClientRoom" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight=".7"
-                android:orientation="horizontal">
+                        <EditText
+                            android:id="@+id/eClientRoom"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".7"
+                            android:ems="10"
+                            android:inputType="text"
+                            tools:ignore="SpeakableTextPresentCheck" />
+                    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/txtClientEnd"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".4"
-                    android:gravity="end"
-                    android:text="@string/txtClientEnd" />
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
-                <EditText
-                    android:id="@+id/eClientEnd"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".7"
-                    android:ems="10"
-                    android:inputType="text"
-                    tools:ignore="SpeakableTextPresentCheck" />
-            </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight=".8"
+                        android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight=".7"
-                android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/txtClientInit"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".4"
+                            android:gravity="end"
+                            android:text="@string/txtClientInit" />
 
-                <TextView
-                    android:id="@+id/txtClientDay"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".4"
-                    android:gravity="end"
-                    android:text="@string/txtClientDay" />
+                        <EditText
+                            android:id="@+id/eClientInit"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".7"
+                            android:ems="10"
+                            android:inputType="text"
+                            tools:ignore="SpeakableTextPresentCheck" />
+                    </LinearLayout>
 
-                <EditText
-                    android:id="@+id/eClientDay"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".7"
-                    android:ems="10"
-                    android:inputType="text"
-                    tools:ignore="SpeakableTextPresentCheck" />
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
-            </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight=".8"
+                        android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight=".7"
-                android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/txtClientEnd"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".4"
+                            android:gravity="end"
+                            android:text="@string/txtClientEnd" />
 
-                <TextView
-                    android:id="@+id/txtClientTotal"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".4"
-                    android:gravity="end"
-                    android:text="@string/txtClientTotal"
-                    android:textStyle="bold" />
+                        <EditText
+                            android:id="@+id/eClientEnd"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".7"
+                            android:ems="10"
+                            android:inputType="text"
+                            tools:ignore="SpeakableTextPresentCheck" />
+                    </LinearLayout>
 
-                <EditText
-                    android:id="@+id/eClientTotal"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight=".7"
-                    android:ems="10"
-                    android:inputType="text"
-                    android:textStyle="bold"
-                    tools:ignore="SpeakableTextPresentCheck" />
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
-            </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight=".8"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/txtClientTotal"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".4"
+                            android:gravity="end"
+                            android:text="@string/txtClientTotal"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/eClientTotal"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".7"
+                            android:ems="10"
+                            android:inputType="text"
+                            android:textStyle="bold"
+                            tools:ignore="SpeakableTextPresentCheck" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
-
     </LinearLayout>
-
 </FrameLayout>
