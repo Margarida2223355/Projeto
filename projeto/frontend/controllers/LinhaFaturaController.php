@@ -65,10 +65,10 @@ class LinhaFaturaController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex($reserva_id)
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => LinhaFatura::find(),
+            'query' => LinhaFatura::find()->where(['reserva_id' => $reserva_id]),
             /*
             'pagination' => [
                 'pageSize' => 50

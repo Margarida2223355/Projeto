@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use yii\helpers\ArrayHelper;
 use common\models\Img;
 use Yii;
 
@@ -82,4 +83,26 @@ class Quarto extends \yii\db\ActiveRecord
     {
         return $this->aquecedor ? 'Disponivel' : 'Indisponivel';
     }
+
+    public static function quartosDisponiveis($dataInicial, $dataFinal)
+    {
+        // Consulta para obter os IDs de quartos reservados entre as datas fornecidas
+        $quartosReservados = Reserva::find()
+            ->select('quarto_id')
+            ->where(['between', 'data_inicial', $dataInicial, $dataFinal])
+            ->orWhere(['between', 'data_final', $dataInicial, $dataFinal])
+            ->asArray()
+            ->column();
+
+        // Consulta para obter todos os quartos que não estão na lista de quartos reservados
+        $quartosDisponiveis = Quarto::find()
+            ->where(['not in', 'id', $quartosReservados])
+            ->all();
+
+        // Formata os dados para o uso no dropDownList
+        //$listaQuartos = ArrayHelper::map($quartosDisponiveis, 'id', 'descricao');
+
+        return $quartosDisponiveis;
+    }
+
 }

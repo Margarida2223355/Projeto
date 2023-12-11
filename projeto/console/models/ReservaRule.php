@@ -19,6 +19,6 @@ class ReservaRule extends Rule
      */
     public function execute($user, $item, $params)
     {
-        return isset($params['reserva']) ? $params['reserva']->id == $user : false;
+        return isset($params['reserva']) ? $params['reserva']->cliente_id == $user : false;
     }
 }

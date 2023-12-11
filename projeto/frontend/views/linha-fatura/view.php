@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /** @var common\models\LinhaFatura $model */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Linha Faturas', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Linha Faturas', 'url' => ['index','reserva_id' => $model->reserva_id]];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>

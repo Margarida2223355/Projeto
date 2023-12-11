@@ -3,7 +3,10 @@
 namespace frontend\controllers;
 
 use common\models\Reserva;
+use common\models\Quarto;
+use DateTime;
 use Yii;
+use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -28,7 +31,7 @@ class ReservaController extends Controller
                     'class' => AccessControl::class,
                     'rules' => [
                         [
-                            'actions' => ['create','index'],
+                            'actions' => ['create','index','quartos-disponiveis'],
                             'allow' => true,
                             'roles' => ['@'],
                         ],
@@ -73,6 +76,7 @@ class ReservaController extends Controller
     public function actionIndex()
     {
         $userId = Yii::$app->user->id;
+        $model = new Reserva();
         $dataProvider = new ActiveDataProvider([
             'query' => Reserva::find()->where(['cliente_id'=>$userId]),
             /*
@@ -89,6 +93,7 @@ class ReservaController extends Controller
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
+            'model' =>$model,
         ]);
     }
 
@@ -114,14 +119,64 @@ class ReservaController extends Controller
         
     }
 
+    public function actionQuartosDisponiveis($dataInicial, $dataFinal){
+       
+        //verifica se as datas estao vazias
+        if (!empty($dataInicial) && !empty($dataFinal)) {
+            $listaQuartosDisponiveis = Quarto::quartosDisponiveis($dataInicial, $dataFinal);
+            return $this->render('quartos', [
+                'quartos' => $listaQuartosDisponiveis,
+                'dataInicial'=>$dataInicial,
+                'dataFinal'=>$dataFinal,
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', 'Por favor, as datas que deseja reservar.');
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+        
+    }
     /**
      * Creates a new Reserva model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate()
+    public function actionCreate($quarto_id,$dataInicial,$dataFinal)
     {
+        $quartos = Quarto::find()->all();
+
         $model = new Reserva();
+        $model->cliente_id = Yii::$app->user->id;
+        $model->quarto_id = $quarto_id;
+        $model->data_inicial = $dataInicial;
+        $model->data_final = $dataFinal;
+        $model->status = "carrinho";
+
+        // Verificar se ja existe uma reserva para o mesmo quarto com datas sobrepostas
+        $reservaSobreposta = Reserva::find()
+        ->andWhere(['quarto_id' => $quarto_id])
+        ->andWhere(['or',
+            ['and', ['>=', 'data_inicial', $dataInicial], ['<=', 'data_inicial', $dataFinal]],
+            ['and', ['>=', 'data_final', $dataInicial], ['<=', 'data_final', $dataFinal]],
+            ['and', ['<=', 'data_inicial', $dataInicial], ['>=', 'data_final', $dataFinal]],
+        ])
+        ->one();
+
+        if ($reservaSobreposta) {
+            Yii::$app->session->setFlash('error', 'Já existe uma reserva para este quarto nesse período.');
+            return $this->redirect(['index']);
+        }
+
+        // Converta as strings de data para objetos DateTime
+        $dataInicialDT = new DateTime($dataInicial);
+        $dataFinalDT = new DateTime($dataFinal);
+        // Calcule a diferença entre as duas datas
+        $diferenca = $dataInicialDT->diff($dataFinalDT);
+        // Acesse o número de dias a partir do objeto DateInterval
+        $numDias = $diferenca->days;
+
+        $model->preco_total = $numDias * $model->quarto->preco;
+
+
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -133,6 +188,7 @@ class ReservaController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'quartos'=>$quartos,
         ]);
     }
 
@@ -146,9 +202,25 @@ class ReservaController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        //$quartos = Quarto::find()->all();
 
         if (\Yii::$app->user->can('permission_self_operations', ['reserva' => $model])) {
-            if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+            if ($this->request->isPost && $model->load($this->request->post())) {
+                // Verificar se ja existe uma reserva para o mesmo quarto com datas sobrepostas
+                $reservaSobreposta = Reserva::find()
+                ->andWhere(['quarto_id' => $model->quarto_id])
+                ->andWhere(['or',
+                    ['and', ['>=', 'data_inicial', $model->data_inicial], ['<=', 'data_inicial', $model->data_final]],
+                    ['and', ['>=', 'data_final', $model->data_inicial], ['<=', 'data_final', $model->data_final]],
+                    ['and', ['<=', 'data_inicial', $model->data_inicial], ['>=', 'data_final', $model->data_final]],
+                ])
+                ->one();
+
+                if ($reservaSobreposta) {
+                    Yii::$app->session->setFlash('error', 'Já existe uma reserva para este quarto nesse período.');
+                    return $this->redirect(['index']);
+                }
+                $model->save();
                 return $this->redirect(['view', 'id' => $model->id]);
             }
 

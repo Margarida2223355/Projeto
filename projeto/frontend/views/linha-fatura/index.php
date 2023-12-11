@@ -9,7 +9,8 @@ use yii\grid\GridView;
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Linha Faturas';
+$this->title = 'Linhas Fatura Reserva ' . $dataProvider->models[0]->reserva_id;
+$this->params['breadcrumbs'][] = ['label' => 'Reserva', 'url' => ['reserva/view','id' => $dataProvider->models[0]->reserva_id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="linha-fatura-index">
