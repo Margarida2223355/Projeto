@@ -1,5 +1,7 @@
 package com.example.pousadas.fragments;
 
+import static com.example.pousadas.R.layout.fragment_food_client;
+
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,7 +9,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 
+import com.example.pousadas.R;
 import com.example.pousadas.adapters.ListFoodAdapter;
 import com.example.pousadas.databinding.FragmentFoodClientBinding;
 import com.example.pousadas.models.Food;
@@ -17,6 +22,7 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class FoodClientFragment extends Fragment {
 
@@ -38,7 +44,7 @@ public class FoodClientFragment extends Fragment {
         View view = binding.getRoot();
 
         /* Ao clicar no text field, abre o date picker */
-        binding.txtFoodDate.setOnClickListener(new View.OnClickListener() {
+        binding.calendar.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /* Criar o datepicker*/
@@ -59,6 +65,9 @@ public class FoodClientFragment extends Fragment {
                 });
             }
         });
+
+        /* Dropdown de horário - Almoço ou Jantar */
+        binding.txtFoodTime.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.dropdown_item, new String[] {"Almoço", "Jantar"}));
 
         /* Ir buscar lista de refeições criada na classe Singleton */
         foods = Singleton.getInstance().getFoods();
