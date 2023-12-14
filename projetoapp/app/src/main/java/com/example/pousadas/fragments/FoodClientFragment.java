@@ -30,8 +30,6 @@ import java.util.Collections;
 
 public class FoodClientFragment extends Fragment {
 
-    /* Lista Food */
-   // private ListView listFood;
     private ArrayList<Food> foods;
     private FragmentFoodClientBinding binding;
     private Geral geral_ = new Geral();
@@ -47,6 +45,11 @@ public class FoodClientFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentFoodClientBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
+
+        /* *************************************** */
+        binding.txtFoodDate.setText("18/12/2023");
+        binding.txtFoodTime.setText("Jantar");
+        /* *************************************** */
 
         /* Criar a mensagem de alert */
         alert = new MaterialAlertDialogBuilder(requireContext())
@@ -83,21 +86,17 @@ public class FoodClientFragment extends Fragment {
         binding.search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("TAG", "-->" + binding.txtFoodDate.getText().toString());
+                //Log.i("TAG", "-->" + binding.txtFoodDate.getText().toString());
 
-                /* Verificar se a data está preenchida */
-                if (TextUtils.isEmpty(binding.txtFoodDate.getText())) {
-                    alert.setMessage("Falta inserir data")
+                /* Verificar se a data e horário estão preenchidos */
+                if (TextUtils.isEmpty(binding.txtFoodDate.getText())
+                    ||
+                    TextUtils.isEmpty(binding.txtFoodTime.getText())) {
+
+                    alert.setMessage("Falta inserir data/horário")
                             .create()
                             .show();
 
-                    return;
-                }
-
-                /* Verificar se o horário foi selecionado */
-                if (binding.txtFoodTime.getText() == null) {
-                    alert.setMessage("Falta escolher o horário")
-                            .show();
                 }
 
                 else {

@@ -10,13 +10,14 @@ public class Food {
      */
     private float price;
     private String name;
-    private int id;
+    private int id, qty;
 
     /* Construtor desta classe - é necessário ter todas as propriedades */
     public Food(float price, String name, int id) {
         this.price = price;
         this.name = name;
         this.id = id;
+        qty = 1;
     }
 
     /* Get e Post
@@ -24,6 +25,7 @@ public class Food {
      * Price - get e post
      * Name - get e post
      * Id - get
+     * Qty - get e post
      */
 
     public float getPrice() {
@@ -44,5 +46,13 @@ public class Food {
 
     public int getId() {
         return id;
+    }
+
+    public int getQty() {
+        return qty;
+    }
+
+    public void setQty(int qty) {
+        this.qty = qty;
     }
 }

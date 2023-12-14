@@ -1,10 +1,13 @@
 package com.example.pousadas.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.pousadas.R;
 import com.example.pousadas.databinding.ItemListBinding;
@@ -17,6 +20,7 @@ public class ListFoodAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater;
     private ArrayList<Food> foods;
+    private ItemListBinding binding;
 
     public ListFoodAdapter(Context context, ArrayList<Food> foods) {
         this.context = context;
@@ -47,42 +51,57 @@ public class ListFoodAdapter extends BaseAdapter {
 
         /* Se não existir convertView - view com a holderView atualizada */
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.item_list, null);
+            binding = ItemListBinding.inflate(inflater);
+            convertView = binding.getRoot();
+
+            /* Definir listener para botões "increment" e "decrement" */
+            binding.increment.setOnClickListener(onIncrementClick);
+            binding.decrement.setOnClickListener(onDecrementClick);
+
+            convertView.setTag(binding);
         }
 
-        ViewHolderList viewHolderList = (ViewHolderList) convertView.getTag();
-
-        /* Se for nula, instanciar a classe */
-        if (viewHolderList == null) {
-            viewHolderList = new ViewHolderList(convertView);
-            convertView.setTag(viewHolderList);
+        else {
+            binding = (ItemListBinding) convertView.getTag();
         }
 
         /* Atualizar a viewHolder */
-        viewHolderList.update(foods.get(position));
+        update(foods.get(position));
 
         return convertView;
     }
 
-    /* Classe privada onde serão declarados e atualizados os componentes da view
-     * de cada item da lista.
+    /* Método listener do botão Increment
+     *
+     * Incrementar na quantidade.
+     * Quantidade inicial de 1un
+     *
      */
-    private class ViewHolderList {
-        private ItemListBinding binding;
+    public View.OnClickListener onIncrementClick = new View.OnClickListener() {
 
-        /* Método para definir objetos da vista (construtor)
-         *
-         * Text view - descrição da comida
-         * Switch - Botão de adicionar ou remover da lista
-         */
-        public ViewHolderList(View view) {
-            binding = ItemListBinding.inflate(inflater);
-            binding.getRoot();
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(context, "Increment", Toast.LENGTH_SHORT).show();
         }
+    };
 
-        /* Método para atualizar os valores */
-        public void update(Food food) {
-            binding.description.setText(food.getName());
+    /* Método listener do botão Decrement
+     *
+     * Decrementar na quantidade.
+     * Quantidade inicial de 1un
+     *
+     */
+    public View.OnClickListener onDecrementClick = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(context, "Decrement", Toast.LENGTH_SHORT).show();
         }
+    };
+
+    /* Método para atualizar os valores */
+    public void update(Food food) {
+        binding.description.setText(food.getName());
+        binding.qty.setText(Integer.toString(food.getQty()));
     }
 }
