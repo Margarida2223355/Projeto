@@ -44,6 +44,7 @@ public class ListFoodAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         /* Se não existir inflater */
         if (inflater == null) {
             inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -54,11 +55,36 @@ public class ListFoodAdapter extends BaseAdapter {
             binding = ItemListBinding.inflate(inflater);
             convertView = binding.getRoot();
 
-            /* Definir listener para botões "increment" e "decrement" */
-            binding.increment.setOnClickListener(onIncrementClick);
-            binding.decrement.setOnClickListener(onDecrementClick);
+            convertView.setTag(position);
 
-            convertView.setTag(binding);
+            /* Propriedade para guardar a convertView
+             *
+             * Depois no método onClick
+             * vamos buscar o tag (getItemId(position))
+             *
+             * Deste modo, conseguimos ter acesso ao item escolhido.
+             * Ou seja, se clicarmos no botão do primeiro item
+             * será a quantidade desse a ser alterado.
+             *
+             */
+            View finalConvertView = convertView;
+
+            /* Definir listener para botões "increment" e "decrement" */
+            binding.increment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Food food = foods.get(Integer.parseInt(finalConvertView.getTag().toString()));
+                    Log.i("TAG", "--> " + food.getName() + " - id " + food.getId());
+                    Toast.makeText(context, "Increment", Toast.LENGTH_SHORT).show();
+                }
+            });
+            binding.decrement.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "Decrement", Toast.LENGTH_SHORT).show();
+                }
+            });
+
         }
 
         else {
@@ -70,34 +96,6 @@ public class ListFoodAdapter extends BaseAdapter {
 
         return convertView;
     }
-
-    /* Método listener do botão Increment
-     *
-     * Incrementar na quantidade.
-     * Quantidade inicial de 1un
-     *
-     */
-    public View.OnClickListener onIncrementClick = new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(context, "Increment", Toast.LENGTH_SHORT).show();
-        }
-    };
-
-    /* Método listener do botão Decrement
-     *
-     * Decrementar na quantidade.
-     * Quantidade inicial de 1un
-     *
-     */
-    public View.OnClickListener onDecrementClick = new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(context, "Decrement", Toast.LENGTH_SHORT).show();
-        }
-    };
 
     /* Método para atualizar os valores */
     public void update(Food food) {

@@ -105,6 +105,7 @@ public class FoodClientFragment extends Fragment {
 
                     /* Enviar lista para o adaptador */
                     binding.listFood.setAdapter(new ListFoodAdapter(getContext(), foods));
+
                 }
             }
         });

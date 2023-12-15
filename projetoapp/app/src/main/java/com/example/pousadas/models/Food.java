@@ -25,7 +25,7 @@ public class Food {
      * Price - get e post
      * Name - get e post
      * Id - get
-     * Qty - get e post
+     * Qty - get
      */
 
     public float getPrice() {
@@ -52,7 +52,12 @@ public class Food {
         return qty;
     }
 
-    public void setQty(int qty) {
-        this.qty = qty;
+    /* Métodos para Incrementar ou Decrementar quantidades */
+    public void addQty() {
+        qty++;
+    }
+
+    public void remQty() {
+        if (qty > 1) qty--;
     }
 }
