@@ -14,8 +14,10 @@ import android.view.animation.TranslateAnimation;
 import com.example.pousadas.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -110,12 +112,24 @@ public class Geral {
         menuOpen = !menuOpen;
     }
 
-    /* Função para converter milis em data */
+    /* Função para converter milis em data (string) */
     public String getDate(Object date) {
         /* Definir formato da data*/
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
         /* Devolve data em String com o formato definido */
         return format.format(date);
+    }
+
+    /* Função para converter string em data */
+    public Date getDateFromString(String data) {
+
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+        try {
+            return format.parse(data);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

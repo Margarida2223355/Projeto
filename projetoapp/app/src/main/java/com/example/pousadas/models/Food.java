@@ -1,22 +1,29 @@
 package com.example.pousadas.models;
 
+import java.util.Date;
+
 public class Food {
 
     /* Propriedades da classe Food:
      *
      * Preço - float
      * Nome - String
-     * id - Int
+     * Id - Int
+     * Date - Date
+     * Hour - String (enum - "Jantar" ou "Almoço")
      */
-    private float price;
-    private String name;
     private int id, qty;
+    private String name, hour;
+    private float price;
+    private Date date;
 
     /* Construtor desta classe - é necessário ter todas as propriedades */
-    public Food(float price, String name, int id) {
-        this.price = price;
-        this.name = name;
+    public Food(int id, String name, float price, Date date, String hour) {
         this.id = id;
+        this.name = name;
+        this.price = price;
+        this.date = date;
+        this.hour = hour;
         qty = 1;
     }
 
@@ -26,6 +33,8 @@ public class Food {
      * Name - get e post
      * Id - get
      * Qty - get
+     * Date - get
+     * Hour - get
      */
 
     public float getPrice() {
@@ -50,6 +59,14 @@ public class Food {
 
     public int getQty() {
         return qty;
+    }
+
+    public String getHour() {
+        return hour;
+    }
+
+    public Date getDate() {
+        return date;
     }
 
     /* Métodos para Incrementar ou Decrementar quantidades */

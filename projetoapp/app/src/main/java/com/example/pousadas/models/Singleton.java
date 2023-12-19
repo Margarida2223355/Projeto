@@ -1,57 +1,37 @@
 package com.example.pousadas.models;
 
+import android.content.Context;
+
+import com.example.pousadas.db.FoodDBHelper;
+
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Singleton {
     private ArrayList<Food> foods;
-    private ArrayList<Service> services;
+    private FoodDBHelper foodDBHelper = null;
     private static Singleton instance = null;
-    private Singleton() { gerarDadosDinamicos(); }
 
-    public static Singleton getInstance() {
+    public static Singleton getInstance(Context context) {
         if (instance == null) {
-            instance = new Singleton();
+            instance = new Singleton(context);
         }
 
         return instance;
     }
 
-    private void gerarDadosDinamicos() {
-        foods = new ArrayList<Food>();
-
-        foods.add(new Food(10.5F, "Descrição 1", 1));
-        foods.add(new Food(10.5F, "Descrição 2", 2));
-        foods.add(new Food(10.5F, "Descrição 3", 3));
-        foods.add(new Food(10.5F, "Descrição 4", 4));
-        foods.add(new Food(10.5F, "Descrição 5", 5));
-        foods.add(new Food(10.5F, "Descrição 6", 6));
-
-        services = new ArrayList<Service>();
-
-        services.add(new Service(10.5F, "Descrição 1", "Nome 1", 1));
-        services.add(new Service(10.5F, "Descrição 2", "Nome 2", 2));
-        services.add(new Service(10.5F, "Descrição 3", "Nome 3", 3));
-        services.add(new Service(10.5F, "Descrição 4", "Nome 4", 4));
-        services.add(new Service(10.5F, "Descrição 5", "Nome 5", 5));
-        services.add(new Service(10.5F, "Descrição 6", "Nome 6", 6));
-
+    private Singleton(Context context) {
+        foods = new ArrayList<>();
+        foodDBHelper = new FoodDBHelper(context);
     }
 
-    public ArrayList<Food> getFoods() { return foods; }
+    public ArrayList<Food> getFoodsBD() {
+        return new ArrayList<>(foodDBHelper.getAllFoods());
+    }
 
     public Food getFood(int id) {
         for (Food food : foods) {
             if (food.getId() == id) return food;
-        }
-
-        return null;
-    }
-
-    public ArrayList<Service> getServices() { return services; }
-
-    public Service getService(int id) {
-        for (Service service : services) {
-            if (service.getId() == id) return service;
         }
 
         return null;

@@ -101,7 +101,7 @@ public class FoodClientFragment extends Fragment {
 
                 else {
                     /* Ir buscar lista de refeições criada na classe Singleton */
-                    foods = Singleton.getInstance().getFoods();
+                    foods = Singleton.getInstance(getContext()).getFoodsBD();
 
                     /* Enviar lista para o adaptador */
                     binding.listFood.setAdapter(new ListFoodAdapter(getContext(), foods));
