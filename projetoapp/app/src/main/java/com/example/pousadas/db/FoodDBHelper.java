@@ -19,10 +19,10 @@ public class FoodDBHelper extends SQLiteOpenHelper {
     private static final String DB_TABLE = "refeicao";
     private static final int DB_VERSION = 1;
     private static final String ID = "id";
-    private static final String NOME = "nome";
-    private static final String PRECO = "preco";
-    private static final String DATA = "data";
-    private static final String HORARIO = "horario";
+    private static final String NAME = "nome";
+    private static final String PRICE = "preco";
+    private static final String DATE = "data";
+    private static final String HOUR = "horario";
     private Geral geral__;
 
     private static final String CREATE_REFEICAO_TABLE =
@@ -30,10 +30,10 @@ public class FoodDBHelper extends SQLiteOpenHelper {
                     + DB_TABLE
                     + "("
                     + ID + " INTEGER PRIMARY KEY, "
-                    + NOME + " TEXT NOT NULL, "
-                    + PRECO + " FLOAT NOT NULL, "
-                    + DATA + " DATE NOT NULL, "
-                    + HORARIO + " TEXT NOT NULL"
+                    + NAME + " TEXT NOT NULL, "
+                    + PRICE + " FLOAT NOT NULL, "
+                    + DATE + " DATE NOT NULL, "
+                    + HOUR + " TEXT NOT NULL"
                     + ");";
 
     private final SQLiteDatabase db;
@@ -58,9 +58,21 @@ public class FoodDBHelper extends SQLiteOpenHelper {
         this.onCreate(db);
     }
 
+    public void addFoodDB(Food food){
+        ContentValues values = new ContentValues();
+
+        values.put(NAME, food.getName());
+        values.put(PRICE, food.getPrice());
+        values.put(DATE, geral__.getDate(food.getDate()));
+        values.put(HOUR, food.getHour());
+
+        this.db.insert(DB_TABLE, null, values);
+
+    }
+
     public ArrayList<Food> getAllFoods() {
         ArrayList<Food> foods = new ArrayList<>();
-        Cursor cursor = this.db.query(DB_TABLE, new String[]{ID, NOME, PRECO, DATA, HORARIO}, null, null, null, null, null);
+        Cursor cursor = this.db.query(DB_TABLE, new String[]{ID, NAME, PRICE, DATE, HOUR}, null, null, null, null, null);
 
         if (cursor.moveToFirst()) {
             do {
@@ -79,5 +91,9 @@ public class FoodDBHelper extends SQLiteOpenHelper {
         }
 
         return foods;
+    }
+
+    public void removeAllFoodsBD() {
+        this.db.delete(DB_TABLE, null, null);
     }
 }

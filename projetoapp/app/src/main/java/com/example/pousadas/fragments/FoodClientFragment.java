@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.pousadas.R;
 import com.example.pousadas.adapters.ListFoodAdapter;
 import com.example.pousadas.databinding.FragmentFoodClientBinding;
+import com.example.pousadas.listeners.FoodsListener;
 import com.example.pousadas.models.Food;
 import com.example.pousadas.models.Geral;
 import com.example.pousadas.models.Singleton;
@@ -100,11 +101,15 @@ public class FoodClientFragment extends Fragment {
                 }
 
                 else {
-                    /* Ir buscar lista de refeições criada na classe Singleton */
-                    foods = Singleton.getInstance(getContext()).getFoodsBD();
-
-                    /* Enviar lista para o adaptador */
-                    binding.listFood.setAdapter(new ListFoodAdapter(getContext(), foods));
+                    Singleton.getInstance(getContext()).setBooksListener(new FoodsListener() {
+                        @Override
+                        public void onRefreshFoodsList(ArrayList<Food> foods) {
+                            if (foods != null) {
+                                binding.listFood.setAdapter(new ListFoodAdapter(getContext(), foods));
+                            }
+                        }
+                    });
+                    Singleton.getInstance(getContext()).getAllFoods(getContext());
                 }
             }
         });
