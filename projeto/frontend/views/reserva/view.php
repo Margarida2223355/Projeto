@@ -19,6 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Gerar Fatura', ['fatura/create', 'reserva_id' => $model->id], ['class' => 'btn btn-success']) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->id], ['class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -38,16 +39,19 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'data_inicial',
             'data_final',
-            'preco_total',
+            [
+                'attribute' => 'preco_total',
+                'label' => 'Preço Total Diarias',
+            ],
             'status',
             [
                 'attribute' => 'linhaFaturas',
-                'label' => 'Subtotal',
+                'label' => 'Total',
                 'value' => function ($model) {
                     $subTotals = array_map(function ($linhaFatura) {
                         return $linhaFatura->sub_total;
                     }, $model->linhaFaturas);
-                    return implode(', ', $subTotals);
+                    return array_sum($subTotals) + $model->preco_total;
                 },
             ],
         ],

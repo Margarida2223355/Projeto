@@ -66,24 +66,36 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'id',
+            [
+                'attribute' => 'id',
+                'label' => 'Reserva',
+            ],
             'quarto_id',
             'data_inicial',
             'data_final',
             //'preco_total',
             //'status',
+            // [
+            //     'class' => ActionColumn::className(),
+            //     'urlCreator' => function ($action, Reserva $model, $key, $index, $column) {
+            //         return Url::toRoute([$action, 'id' => $model->id]);
+            //     },
+            // ],
+            // [
+            //     'header' => 'Adicionais',
+            //     'format' => 'raw',
+            //     'value' => function ($model) {
+            //         return Html::a('<i class="fas fa-shopping-cart"></i>', ['linha-fatura/index', 'reserva_id' => $model->id]);
+            //     },
+            // ],
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Reserva $model, $key, $index, $column) {
-                    return Url::toRoute([$action, 'id' => $model->id]);
-                },
-            ],
-            [
-                'header' => 'Adicionais',
-                'format' => 'raw',
-                'value' => function ($model) {
-                    return Html::a('<i class="fas fa-shopping-cart"></i>', ['linha-fatura/index', 'reserva_id' => $model->id]);
-                },
+                'template' => '{view} {update} {delete} {customButton}',
+                'buttons' => [
+                    'customButton' => function ($url, $model, $key) {
+                        return Html::a('<i class="fas fa-plus"></i>', ['linha-fatura/index', 'reserva_id' => $model->id]);
+                    },
+                ],
             ],
         ],
     ]); ?>

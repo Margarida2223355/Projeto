@@ -150,6 +150,7 @@ class ReservaController extends Controller
         $model->data_inicial = $dataInicial;
         $model->data_final = $dataFinal;
         $model->status = "carrinho";
+        $model->imposto_id = 1;
 
         // Verificar se ja existe uma reserva para o mesmo quarto com datas sobrepostas
         $reservaSobreposta = Reserva::find()

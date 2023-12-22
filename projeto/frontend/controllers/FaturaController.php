@@ -2,21 +2,19 @@
 
 namespace frontend\controllers;
 
-use common\models\LinhaFatura;
-use common\models\Refeicao;
-use common\models\Servico;
+use common\models\Fatura;
+use DateTime;
 use Yii;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
-
 
 /**
- * LinhaFaturaController implements the CRUD actions for LinhaFatura model.
+ * FaturaController implements the CRUD actions for Fatura model.
  */
-class LinhaFaturaController extends Controller
+class FaturaController extends Controller
 {
     /**
      * @inheritDoc
@@ -28,26 +26,35 @@ class LinhaFaturaController extends Controller
             [
                 'access' => [
                     'class' => AccessControl::class,
+                    'only' => ['view','update','create','index'],
                     'rules' => [
                         [
-                            'actions' => ['create','index'],
-                            'allow' => true,
-                            'roles' => ['@'],
-                        ],
-                        [
-                            'actions' => ['update','delete','view'],
+                            'actions' => ['view','update','create'],
                             'allow' => true,
                             'roles' => ['@'],
                             'matchCallback' => function ($rule, $action) {
-                                // Verificar se o user está tentando acessar ou modificar sua própria linhaFatura
+                                // Verificar se o user está tentando acessar ou modificar sua própria view
                                 $userId = Yii::$app->user->id;
-                                $linhaFaturaId = Yii::$app->request->getQueryParam('id');
-                                $linhaFatura = LinhaFatura::findOne($linhaFaturaId);
+                                $faturaId = Yii::$app->request->getQueryParam('id');
+                                $faturaId = Fatura::findOne($faturaId);
                                 
-                                if($linhaFatura == null){
+                                if($faturaId == null){
                                     return false;
                                 }
-                                return $userId == $linhaFatura->reserva->cliente_id;
+                                return $userId == $faturaId->reserva->cliente_id;
+                            }
+                        ],
+                    ],
+                    'rules' => [
+                        [
+                            'actions' => ['index'],
+                            'allow' => true,
+                            'roles' => ['@'],
+                            'matchCallback' => function ($rule, $action) {
+                                // Verificar se o user está tentando acessar ou modificar sua própria view
+                                $userId = Yii::$app->user->id;
+                                $requestedUserId = Yii::$app->request->getQueryParam('userId');
+                                return $userId == $requestedUserId;
                             }
                         ],
                     ],
@@ -63,14 +70,15 @@ class LinhaFaturaController extends Controller
     }
 
     /**
-     * Lists all LinhaFatura models.
+     * Lists all Fatura models.
      *
      * @return string
      */
-    public function actionIndex($reserva_id)
+    public function actionIndex($userId)
     {
+
         $dataProvider = new ActiveDataProvider([
-            'query' => LinhaFatura::find()->where(['reserva_id' => $reserva_id]),
+            'query' => Fatura::find()->joinWith('reserva')->andWhere(['reserva.cliente_id' => $userId]),
             /*
             'pagination' => [
                 'pageSize' => 50
@@ -89,7 +97,7 @@ class LinhaFaturaController extends Controller
     }
 
     /**
-     * Displays a single LinhaFatura model.
+     * Displays a single Fatura model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -102,30 +110,24 @@ class LinhaFaturaController extends Controller
     }
 
     /**
-     * Creates a new LinhaFatura model.
+     * Creates a new Fatura model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate($reserva_id,$tipo)
+    public function actionCreate($reserva_id)
     {
-        $model = new LinhaFatura();
+        $model = new Fatura();
         $model->reserva_id = $reserva_id;
-        $model->status = 'carrinho';
-        
+        $model->preco_total = $model->reserva->calcularTotal();
+        $model->total_sem_imposto = 0;
+        $model->denominacao_social = "Empresa x";
+        $model->morada_empresa = "Rua x";
+        $model->data_pagamento = date('Y-m-d');
+        $model->nif = "2222222";
 
-        if ($tipo === 'refeicao') {
-            $refeicoes = Refeicao::find()->all();
-            $servicos = null;
-        } elseif ($tipo === 'servico') {
-            $servicos = Servico::find()->all();
-            $refeicoes = null;
-        }   
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post())) {
-                $model->preco_unitario = $tipo === 'refeicao' ? $model->refeicao->preco : $model->servico->preco;
-                $model->sub_total = $model->preco_unitario * $model->quantidade;
-                $model->save();
+            if ($model->load($this->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -134,13 +136,11 @@ class LinhaFaturaController extends Controller
 
         return $this->render('create', [
             'model' => $model,
-            'refeicoes' => $refeicoes,
-            'servicos' => $servicos,
         ]);
     }
 
     /**
-     * Updates an existing LinhaFatura model.
+     * Updates an existing Fatura model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -160,7 +160,7 @@ class LinhaFaturaController extends Controller
     }
 
     /**
-     * Deletes an existing LinhaFatura model.
+     * Deletes an existing Fatura model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
@@ -174,19 +174,18 @@ class LinhaFaturaController extends Controller
     }
 
     /**
-     * Finds the LinhaFatura model based on its primary key value.
+     * Finds the Fatura model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return LinhaFatura the loaded model
+     * @return Fatura the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = LinhaFatura::findOne(['id' => $id])) !== null) {
+        if (($model = Fatura::findOne(['id' => $id])) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-    
 }

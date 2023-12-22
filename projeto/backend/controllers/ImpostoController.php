@@ -1,22 +1,17 @@
 <?php
 
-namespace frontend\controllers;
+namespace backend\controllers;
 
-use common\models\LinhaFatura;
-use common\models\Refeicao;
-use common\models\Servico;
-use Yii;
+use backend\models\Imposto;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
-
 
 /**
- * LinhaFaturaController implements the CRUD actions for LinhaFatura model.
+ * ImpostoController implements the CRUD actions for Imposto model.
  */
-class LinhaFaturaController extends Controller
+class ImpostoController extends Controller
 {
     /**
      * @inheritDoc
@@ -26,32 +21,6 @@ class LinhaFaturaController extends Controller
         return array_merge(
             parent::behaviors(),
             [
-                'access' => [
-                    'class' => AccessControl::class,
-                    'rules' => [
-                        [
-                            'actions' => ['create','index'],
-                            'allow' => true,
-                            'roles' => ['@'],
-                        ],
-                        [
-                            'actions' => ['update','delete','view'],
-                            'allow' => true,
-                            'roles' => ['@'],
-                            'matchCallback' => function ($rule, $action) {
-                                // Verificar se o user está tentando acessar ou modificar sua própria linhaFatura
-                                $userId = Yii::$app->user->id;
-                                $linhaFaturaId = Yii::$app->request->getQueryParam('id');
-                                $linhaFatura = LinhaFatura::findOne($linhaFaturaId);
-                                
-                                if($linhaFatura == null){
-                                    return false;
-                                }
-                                return $userId == $linhaFatura->reserva->cliente_id;
-                            }
-                        ],
-                    ],
-                ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
@@ -63,14 +32,14 @@ class LinhaFaturaController extends Controller
     }
 
     /**
-     * Lists all LinhaFatura models.
+     * Lists all Imposto models.
      *
      * @return string
      */
-    public function actionIndex($reserva_id)
+    public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => LinhaFatura::find()->where(['reserva_id' => $reserva_id]),
+            'query' => Imposto::find(),
             /*
             'pagination' => [
                 'pageSize' => 50
@@ -89,7 +58,7 @@ class LinhaFaturaController extends Controller
     }
 
     /**
-     * Displays a single LinhaFatura model.
+     * Displays a single Imposto model.
      * @param int $id ID
      * @return string
      * @throws NotFoundHttpException if the model cannot be found
@@ -102,30 +71,16 @@ class LinhaFaturaController extends Controller
     }
 
     /**
-     * Creates a new LinhaFatura model.
+     * Creates a new Imposto model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate($reserva_id,$tipo)
+    public function actionCreate()
     {
-        $model = new LinhaFatura();
-        $model->reserva_id = $reserva_id;
-        $model->status = 'carrinho';
-        
-
-        if ($tipo === 'refeicao') {
-            $refeicoes = Refeicao::find()->all();
-            $servicos = null;
-        } elseif ($tipo === 'servico') {
-            $servicos = Servico::find()->all();
-            $refeicoes = null;
-        }   
+        $model = new Imposto();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post())) {
-                $model->preco_unitario = $tipo === 'refeicao' ? $model->refeicao->preco : $model->servico->preco;
-                $model->sub_total = $model->preco_unitario * $model->quantidade;
-                $model->save();
+            if ($model->load($this->request->post()) && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -134,13 +89,11 @@ class LinhaFaturaController extends Controller
 
         return $this->render('create', [
             'model' => $model,
-            'refeicoes' => $refeicoes,
-            'servicos' => $servicos,
         ]);
     }
 
     /**
-     * Updates an existing LinhaFatura model.
+     * Updates an existing Imposto model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return string|\yii\web\Response
@@ -160,7 +113,7 @@ class LinhaFaturaController extends Controller
     }
 
     /**
-     * Deletes an existing LinhaFatura model.
+     * Deletes an existing Imposto model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param int $id ID
      * @return \yii\web\Response
@@ -174,19 +127,18 @@ class LinhaFaturaController extends Controller
     }
 
     /**
-     * Finds the LinhaFatura model based on its primary key value.
+     * Finds the Imposto model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return LinhaFatura the loaded model
+     * @return Imposto the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = LinhaFatura::findOne(['id' => $id])) !== null) {
+        if (($model = Imposto::findOne(['id' => $id])) !== null) {
             return $model;
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-    
 }

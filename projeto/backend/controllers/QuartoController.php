@@ -57,14 +57,11 @@ class QuartoController extends Controller
 
             if($upload->image && $upload->validate()){
                 $pathBackEnd = Yii::getAlias('img/quartos/');
-                $pathFrontEnd = Yii::getAlias('@frontend/web/img/quartos/');
 
                 if(!file_exists($pathBackEnd)){
                     mkdir($pathBackEnd,0777,true);
                 }
-                if(!file_exists($pathFrontEnd)){
-                    mkdir($pathFrontEnd,0777,true);
-                }
+
                 foreach ($upload->image as $image){
                     $model = new Img();
                     $model->quarto_id = $upload->quarto_id;
@@ -73,9 +70,6 @@ class QuartoController extends Controller
                     if($model->save(false)){
                         $imagePath = $pathBackEnd . $model->image;
                         $image->saveAs($imagePath);
-                    
-                        // Copia o arquivo para o diretório do frontend
-                        copy($imagePath, $pathFrontEnd . $model->image);
                     }
                 }
                 return $this->redirect(['index']);

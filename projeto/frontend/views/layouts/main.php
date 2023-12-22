@@ -43,6 +43,9 @@ AppAsset::register($this);
         ['label' => 'Contact', 'url' => ['/site/contact']],
     ];
     if (!Yii::$app->user->isGuest) {
+        $menuItems[] = ['label' => 'Faturas', 'url' => ['/fatura/index/', 'userId' => Yii::$app->user->getId()]];
+    }
+    if (!Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Conta', 'url' => ['/inf-user/view', 'id' => Yii::$app->user->id]];
     }
     if (Yii::$app->user->isGuest) {

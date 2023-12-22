@@ -12,19 +12,21 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'quantidade')->textInput() ?>
+    <?= $form->field($model, 'quantidade')->textInput(['type' => 'number', 'min' => 1]) ?>
 
-    <?= $form->field($model, 'servico_id')->textInput() ?>
+    <?php if ($refeicoes !== null): ?>
+        <?= $form->field($model, 'refeicao_id')->dropDownList(
+            \yii\helpers\ArrayHelper::map($refeicoes, 'id', 'nome'),
+            ['prompt' => 'Selecione uma refeição']
+        ) ?>
+    <?php endif; ?>
 
-    <?= $form->field($model, 'refeicao_id')->textInput() ?>
-
-    <?= $form->field($model, 'sub_total')->textInput() ?>
-
-    <?= $form->field($model, 'preco_unitario')->textInput() ?>
-
-    <?= $form->field($model, 'reserva_id')->textInput() ?>
-
-    <?= $form->field($model, 'status')->dropDownList([ 'carrinho' => 'Carrinho', 'confirmado' => 'Confirmado', 'cancelado' => 'Cancelado', ], ['prompt' => '']) ?>
+    <?php if ($servicos !== null): ?>
+        <?= $form->field($model, 'servico_id')->dropDownList(
+            \yii\helpers\ArrayHelper::map($servicos, 'id', 'nome'),
+            ['prompt' => 'Selecione um serviço']
+        ) ?>
+    <?php endif; ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

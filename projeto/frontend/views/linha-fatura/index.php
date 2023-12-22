@@ -9,8 +9,9 @@ use yii\grid\GridView;
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Linhas Fatura Reserva ' . $dataProvider->models[0]->reserva_id;
-$this->params['breadcrumbs'][] = ['label' => 'Reserva', 'url' => ['reserva/view','id' => $dataProvider->models[0]->reserva_id]];
+$reserva_id = Yii::$app->request->get('reserva_id');
+$this->title = 'Linhas Fatura Reserva ' . $reserva_id;
+$this->params['breadcrumbs'][] = ['label' => 'Reserva', 'url' => ['reserva/view','id' => $reserva_id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="linha-fatura-index">
@@ -18,7 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Linha Fatura', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Refeições', ['create', 'reserva_id' => $reserva_id,'tipo' => 'refeicao'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Serviços', ['create', 'reserva_id' => $reserva_id,'tipo' => 'servico'], ['class' => 'btn btn-success']) ?>
     </p>
 
 

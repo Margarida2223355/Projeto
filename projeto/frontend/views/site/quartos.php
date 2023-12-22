@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\bootstrap4\Carousel;
+use frontend\assets\BackendAsset;
+
+$backend = BackendAsset::register($this);
 
 /** @var yii\web\View $this */
 
@@ -22,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         $carouselItems = [];
                         foreach ($quarto->imgs as $imagem) {
                             $carouselItems[] = [
-                                'content' => Html::img('@web/img/quartos/' . $imagem->image, ['class' => 'card-img-top img-fluid rounded', 'alt' => 'Imagem do Quarto']),
+                                'content' => Html::img($backend->baseUrl . '/' . $imagem->image, ['class' => 'card-img-top img-fluid rounded', 'alt' => 'Imagem do Quarto']),
                             ];
                         }
 
@@ -44,9 +47,9 @@ $this->params['breadcrumbs'][] = $this->title;
                             <h5 class="card-title"><?= Html::encode($quarto->descricao) ?></h5>
                             <p class="card-text"><strong>Preço:</strong> <?= $quarto->preco ?></p>
                             <p class="card-text"><strong>Camas de casal:</strong> <?= $quarto->camas_casal ?></p>
-                            <p class="card-text"><strong>Camas de solteiro:</strong> <?= $quarto->getArcondicionado() ?></p>
-                            <p class="card-text"><strong>Ar condicionado:</strong> <?= $quarto->getAquecedor() ?></p>
-                            <p class="card-text"><strong>Aquecedor:</strong> <?= $quarto->aquecedor ?></p>
+                            <p class="card-text"><strong>Camas de solteiro:</strong> <?= $quarto->camas_solteiro ?></p>
+                            <p class="card-text"><strong>Ar condicionado:</strong> <?= $quarto->getArcondicionado() ?></p>
+                            <p class="card-text"><strong>Aquecedor:</strong> <?= $quarto->getAquecedor() ?></p>
                         </div>
                     </div>
                 </div>
