@@ -1,53 +1,50 @@
 package com.example.pousadas.models;
 
-import com.example.pousadas.enums.Schedule;
+public class Service {
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-
-public class Food {
-
-    /* Propriedades da classe Food:
+    /* Propriedades da classe Service:
      *
      * Preço - float
+     * Descrição - String
      * Nome - String
      * id - Int
-     * Data - Date
-     * Horário - Schedule
+     * qty - int
      */
     private float price;
-    private String name;
+    private String description, name;
     private int id, qty;
-    private Date date;
-    private Schedule schedule;
 
     /* Construtor desta classe - é necessário ter todas as propriedades */
-    public Food(int id, String name, Float price, Date date, Schedule schedule) {
-        this.id = id;
-        this.name = name;
+    public Service(float price, String description, String name, int id) {
         this.price = price;
-        this.date = date;
-        this.schedule = schedule;
-        qty = 1;
+        this.description = description;
+        this.name = name;
+        this.id = id;
+        this.qty = 1;
     }
 
     /* Get e Post
      *
      * Price - get e post
+     * Description - get e post
      * Name - get e post
      * Id - get
      * Qty - get
-     * Date - get e post
-     * Schedule - get e post
      */
-
     public float getPrice() {
         return price;
     }
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getName() {
@@ -64,22 +61,6 @@ public class Food {
 
     public int getQty() {
         return qty;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Schedule getSchedule() {
-        return schedule;
-    }
-
-    public void setSchedule(Schedule schedule) {
-        this.schedule = schedule;
     }
 
     /* Métodos para Incrementar ou Decrementar quantidades */

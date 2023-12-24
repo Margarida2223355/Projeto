@@ -17,6 +17,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -112,24 +113,38 @@ public class Geral {
         menuOpen = !menuOpen;
     }
 
-    /* Função para converter milis em data (string) */
-    public String getDate(Object date) {
+    /* Função para converter milis em data */
+    public String convertFromDate(Object date) {
         /* Definir formato da data*/
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
         /* Devolve data em String com o formato definido */
-        return format.format(date);
+        return format.format(getFromDate((Date) date));
     }
 
-    /* Função para converter string em data */
-    public Date getDateFromString(String data) {
-
+    /* Função para converter String em Data */
+    public Date convertToDate(String date) {
+        /* Definir formato da data*/
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
+        /* Devolve data em String com o formato definido */
         try {
-            return format.parse(data);
+            return format.parse(date);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /* Função para obter data sem horas */
+    public Date getFromDate(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        calendar.set(calendar.HOUR_OF_DAY, 0);
+        calendar.set(calendar.MINUTE, 0);
+        calendar.set(calendar.SECOND, 0);
+        calendar.set(calendar.MILLISECOND, 0);
+
+        return calendar.getTime();
     }
 }

@@ -5,13 +5,13 @@ public enum Role {
     FUNC("Funcionario"),
     CLIENT("Cliente");
 
-    private String nome;
+    private String role;
 
-    Role(String nome) {
-        this.nome = nome;
+    Role(String role) {
+        this.role = role;
     }
 
-    public String getNome() {
-        return nome;
+    public String getRole() {
+        return role;
     }
 }
