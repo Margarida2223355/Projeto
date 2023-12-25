@@ -26,7 +26,7 @@ public class Singleton {
         foods.add(new Food(1, "Descrição 1", 10.5F, geral_.convertToDate("20/12/2023"), Schedule.ALMOCO));
         foods.add(new Food(2, "Descrição 2", 10.5F, geral_.convertToDate("19/12/2023"), Schedule.ALMOCO));
         foods.add(new Food(3, "Descrição 3", 10.5F, geral_.getFromDate(new Date()), Schedule.ALMOCO));
-        foods.add(new Food(4, "Descrição 4", 10.5F, geral_.convertToDate("20/12/2023"), Schedule.JANTAR));
+        foods.add(new Food(4, "Descrição 4", 10.5F, geral_.getFromDate(new Date()), Schedule.JANTAR));
         foods.add(new Food(5, "Descrição 5", 10.5F, geral_.convertToDate("19/12/2023"), Schedule.JANTAR));
         foods.add(new Food(6, "Descrição 6", 10.5F, geral_.getFromDate(new Date()), Schedule.JANTAR));
 

@@ -20,7 +20,7 @@ public class Service {
         this.description = description;
         this.name = name;
         this.id = id;
-        this.qty = 1;
+        this.qty = 0;
     }
 
     /* Get e Post
@@ -69,6 +69,6 @@ public class Service {
     }
 
     public void remQty() {
-        if (qty > 1) qty--;
+        if (qty > 0) qty--;
     }
 }

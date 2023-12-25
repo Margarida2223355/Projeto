@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.example.pousadas.R;
 import com.example.pousadas.adapters.ListFoodAdapter;
@@ -103,6 +104,26 @@ public class FoodClientFragment extends Fragment {
                     /* Enviar lista para o adaptador */
                     binding.listFood.setAdapter(new ListFoodAdapter(getContext(), foods));
                 }
+            }
+        });
+
+        /* Método onclicklistener do botão adicionar:
+         *
+         * Para adicionar as refeições ao carrinho.
+         */
+        binding.add.setOnClickListener(new View.OnClickListener() {
+            ArrayList<Food> addFoods;
+            @Override
+            public void onClick(View v) {
+                addFoods = new ArrayList<>();
+
+                for (int i=0; i<binding.listFood.getAdapter().getCount(); i++) {
+                    Food food = (Food) binding.listFood.getAdapter().getItem(i);
+                    if (food.getQty() > 0) {
+                        addFoods.add(food);
+                    }
+                }
+                Toast.makeText(getContext(), "Adicionar " + addFoods.size(), Toast.LENGTH_SHORT).show();
             }
         });
 

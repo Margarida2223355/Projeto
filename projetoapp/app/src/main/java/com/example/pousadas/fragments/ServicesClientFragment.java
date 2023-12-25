@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.pousadas.R;
 import com.example.pousadas.adapters.ListFoodAdapter;
@@ -50,6 +51,26 @@ public class ServicesClientFragment extends Fragment {
 
         /* Enviar lista para o adaptador */
         binding.listService.setAdapter(new ListServiceAdapter(getContext(), services));
+
+        /* Método onclicklistener do botão adicionar:
+         *
+         * Para adicionar os serviços ao carrinho.
+         */
+        binding.add.setOnClickListener(new View.OnClickListener() {
+            ArrayList<Service> addServices;
+            @Override
+            public void onClick(View v) {
+                addServices = new ArrayList<>();
+
+                for (int i=0; i<binding.listService.getAdapter().getCount(); i++) {
+                    Service service = (Service) binding.listService.getAdapter().getItem(i);
+                    if (service.getQty() > 0) {
+                        addServices.add(service);
+                    }
+                }
+                Toast.makeText(getContext(), "Adicionar " + addServices.size(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return view;
     }
