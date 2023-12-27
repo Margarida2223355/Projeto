@@ -45,7 +45,7 @@ public class FoodClientFragment extends Fragment implements FoodsListener {
         View view = binding.getRoot();
 
         /* *************************************** */
-        binding.txtFoodDate.setText(geral_.convertFromDate(new Date()));
+        binding.txtFoodDate.setText("2023-12-20");
         binding.txtFoodTime.setText("Jantar");
         /* *************************************** */
 
@@ -100,7 +100,7 @@ public class FoodClientFragment extends Fragment implements FoodsListener {
                 }
 
                 else {
-                    Singleton.getInstance(getContext()).getAllFoodsAPI(getContext());
+                    Singleton.getInstance(getContext()).getFoodsByDateSchedule(geral_.convertToDate(binding.txtFoodDate.getText().toString()),Schedule.getFromString(binding.txtFoodTime.getText().toString()),getContext());
 
                     /* Enviar lista para o adaptador */
                     //binding.listFood.setAdapter(new ListFoodAdapter(getContext(), foods));

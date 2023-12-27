@@ -40,6 +40,7 @@ public class Singleton {
         foods = new ArrayList<>();
         foodDBHelper = new FoodDBHelper(context);
     }
+
     public void setFoodsListener(FoodsListener foodsListener) {
         this.foodsListener = foodsListener;
     }
@@ -54,19 +55,6 @@ public class Singleton {
         return null;
     }
 
-    /* Obter lista de refeições com base na data e horário selecionados */
-    public ArrayList<Food> getFoodsByDateSchedule(Date date, Schedule schedule) {
-        ArrayList<Food> listFood = new ArrayList<>();
-
-        for (Food food : foods) {
-            if ((geral_.getFromDate(food.getDate()).equals(geral_.getFromDate(date))) && (food.getSchedule() == schedule)) {
-                listFood.add(food);
-            }
-        }
-
-        return listFood;
-    }
-
     public ArrayList<Service> getServices() { return services; }
 
     public Service getService(int id) {
@@ -78,7 +66,10 @@ public class Singleton {
     }
 
     /* API */
-    public void getAllFoodsAPI(final Context context) {
+    /* Obter lista de refeições com base na data e horário selecionados */
+    public void getFoodsByDateSchedule(Date date, Schedule schedule, final Context context) {
+        ArrayList<Food> resultFoods = new ArrayList<>();
+
         if (!FoodJsonParser.isConnectionInternet(context)) {
             Toast.makeText(context, "No internet Connection", Toast.LENGTH_SHORT).show();
 
@@ -94,10 +85,18 @@ public class Singleton {
                     System.out.println("--> " + response);
 
                     foods = FoodJsonParser.jsonFoodsParser(response);
-                    addFoodsDB(foods);
+
+
+                    for (Food food : foods) {
+                        if ((geral_.getFromDate(food.getDate()).equals(geral_.getFromDate(date))) && (food.getSchedule() == schedule)) {
+                            resultFoods.add(food);
+                        }
+                    }
+
+                    addFoodsDB(resultFoods);
 
                     if (foodsListener != null) {
-                        foodsListener.onRefreshFoodsList(foods);
+                        foodsListener.onRefreshFoodsList(resultFoods);
                     }
                 }
             }, new Response.ErrorListener() {
