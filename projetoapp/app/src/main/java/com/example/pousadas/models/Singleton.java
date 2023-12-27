@@ -1,6 +1,19 @@
 package com.example.pousadas.models;
 
+import android.content.Context;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.pousadas.enums.Schedule;
+import com.example.pousadas.listeners.FoodsListener;
+import com.example.pousadas.utils.FoodJsonParser;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,36 +22,26 @@ public class Singleton {
     private Geral geral_ = new Geral();
     private ArrayList<Food> foods;
     private ArrayList<Service> services;
-    private static Singleton instance = null;
-    private Singleton() { gerarDadosDinamicos(); }
+    private static Singleton instance;
+    private FoodsListener foodsListener;
+    private FoodDBHelper foodDBHelper;
+    private static RequestQueue volleyQueue;
+    private static String apiUrl = "http://192.168.1.91/Projeto/projeto/backend/web/api/refeicaos";
 
-    public static Singleton getInstance() {
+    public static synchronized Singleton getInstance(Context context) {
         if (instance == null) {
-            instance = new Singleton();
+            instance = new Singleton(context);
+            volleyQueue = Volley.newRequestQueue(context);
         }
-
         return instance;
     }
 
-    private void gerarDadosDinamicos() {
-        foods = new ArrayList<Food>();
-
-        foods.add(new Food(1, "Descrição 1", 10.5F, geral_.convertToDate("20/12/2023"), Schedule.ALMOCO));
-        foods.add(new Food(2, "Descrição 2", 10.5F, geral_.convertToDate("19/12/2023"), Schedule.ALMOCO));
-        foods.add(new Food(3, "Descrição 3", 10.5F, geral_.getFromDate(new Date()), Schedule.ALMOCO));
-        foods.add(new Food(4, "Descrição 4", 10.5F, geral_.getFromDate(new Date()), Schedule.JANTAR));
-        foods.add(new Food(5, "Descrição 5", 10.5F, geral_.convertToDate("19/12/2023"), Schedule.JANTAR));
-        foods.add(new Food(6, "Descrição 6", 10.5F, geral_.getFromDate(new Date()), Schedule.JANTAR));
-
-        services = new ArrayList<Service>();
-
-        services.add(new Service(10.5F, "Descrição 1", "Nome 1", 1));
-        services.add(new Service(10.5F, "Descrição 2", "Nome 2", 2));
-        services.add(new Service(10.5F, "Descrição 3", "Nome 3", 3));
-        services.add(new Service(10.5F, "Descrição 4", "Nome 4", 4));
-        services.add(new Service(10.5F, "Descrição 5", "Nome 5", 5));
-        services.add(new Service(10.5F, "Descrição 6", "Nome 6", 6));
-
+    private Singleton(Context context) {
+        foods = new ArrayList<>();
+        foodDBHelper = new FoodDBHelper(context);
+    }
+    public void setFoodsListener(FoodsListener foodsListener) {
+        this.foodsListener = foodsListener;
     }
 
     public ArrayList<Food> getFoods() { return foods; }
@@ -72,5 +75,51 @@ public class Singleton {
         }
 
         return null;
+    }
+
+    /* API */
+    public void getAllFoodsAPI(final Context context) {
+        if (!FoodJsonParser.isConnectionInternet(context)) {
+            Toast.makeText(context, "No internet Connection", Toast.LENGTH_SHORT).show();
+
+            if (foodsListener != null) {
+                foodsListener.onRefreshFoodsList(foodDBHelper.getAllFoods());
+            }
+        }
+
+        else {
+            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    System.out.println("--> " + response);
+
+                    foods = FoodJsonParser.jsonFoodsParser(response);
+                    addFoodsDB(foods);
+
+                    if (foodsListener != null) {
+                        foodsListener.onRefreshFoodsList(foods);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("--> " + error);
+                }
+            });
+
+            volleyQueue.add(request);
+        }
+    }
+
+    private void addFoodsDB(ArrayList<Food> foods) {
+        foodDBHelper.removeAllFoodsDB();
+
+        for (Food food : foods) {
+            addFoodDB(food);
+        }
+    }
+
+    private void addFoodDB(Food food) {
+        foodDBHelper.addFoodDB(food);
     }
 }

@@ -15,6 +15,7 @@ import com.example.pousadas.R;
 import com.example.pousadas.adapters.ListFoodAdapter;
 import com.example.pousadas.databinding.FragmentFoodClientBinding;
 import com.example.pousadas.enums.Schedule;
+import com.example.pousadas.listeners.FoodsListener;
 import com.example.pousadas.models.Food;
 import com.example.pousadas.models.Geral;
 import com.example.pousadas.models.Singleton;
@@ -25,7 +26,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class FoodClientFragment extends Fragment {
+public class FoodClientFragment extends Fragment implements FoodsListener {
 
     private ArrayList<Food> foods;
     private FragmentFoodClientBinding binding;
@@ -52,6 +53,8 @@ public class FoodClientFragment extends Fragment {
         alert = new MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Erro")
                 .setPositiveButton("OK", null);
+
+        Singleton.getInstance(getContext()).setFoodsListener(this);
 
         /* Ao clicar no text field, abre o date picker */
         binding.calendar.setEndIconOnClickListener(new View.OnClickListener() {
@@ -97,12 +100,10 @@ public class FoodClientFragment extends Fragment {
                 }
 
                 else {
-                    /* Ir buscar lista de refeições criada na classe Singleton */
-                    //foods = Singleton.getInstance().getFoods();
-                    foods = Singleton.getInstance().getFoodsByDateSchedule(geral_.convertToDate(binding.txtFoodDate.getText().toString()), Schedule.getFromString(binding.txtFoodTime.getText().toString()));
+                    Singleton.getInstance(getContext()).getAllFoodsAPI(getContext());
 
                     /* Enviar lista para o adaptador */
-                    binding.listFood.setAdapter(new ListFoodAdapter(getContext(), foods));
+                    //binding.listFood.setAdapter(new ListFoodAdapter(getContext(), foods));
                 }
             }
         });
@@ -128,5 +129,12 @@ public class FoodClientFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onRefreshFoodsList(ArrayList<Food> foods) {
+        if (foods != null) {
+            binding.listFood.setAdapter(new ListFoodAdapter(getContext(), foods));
+        }
     }
 }

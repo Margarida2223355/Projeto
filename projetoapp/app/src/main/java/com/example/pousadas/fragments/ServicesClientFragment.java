@@ -47,7 +47,7 @@ public class ServicesClientFragment extends Fragment {
         binding = FragmentServicesClientBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
 
-        services = Singleton.getInstance().getServices();
+        //services = Singleton.getInstance().getServices();
 
         /* Enviar lista para o adaptador */
         binding.listService.setAdapter(new ListServiceAdapter(getContext(), services));

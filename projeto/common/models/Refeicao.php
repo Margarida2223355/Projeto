@@ -10,6 +10,8 @@ use Yii;
  * @property int $id
  * @property string $nome
  * @property float $preco
+ * @property string $data
+ * @property string $horario
  *
  * @property LinhaFatura[] $linhaFaturas
  */
@@ -29,8 +31,10 @@ class Refeicao extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nome', 'preco'], 'required'],
+            [['nome', 'preco', 'data', 'horario'], 'required'],
             [['preco'], 'number'],
+            [['data'], 'safe'],
+            [['horario'], 'string'],
             [['nome'], 'string', 'max' => 50],
         ];
     }
@@ -44,6 +48,8 @@ class Refeicao extends \yii\db\ActiveRecord
             'id' => 'ID',
             'nome' => 'Nome',
             'preco' => 'Preco',
+            'data' => 'Data',
+            'horario' => 'Horario',
         ];
     }
 

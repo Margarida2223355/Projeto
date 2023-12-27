@@ -125,7 +125,7 @@ public class Geral {
     /* Função para converter String em Data */
     public Date convertToDate(String date) {
         /* Definir formato da data*/
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
         /* Devolve data em String com o formato definido */
         try {
