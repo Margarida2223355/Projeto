@@ -9,6 +9,14 @@ use yii\widgets\DetailView;
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
+
+$script = <<< JS
+    function printPage() {
+        window.print();
+    }
+JS;
+
+$this->registerJs($script, yii\web\View::POS_HEAD);
 ?>
 <div class="fatura-view">
 
@@ -23,6 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::button('Print', ['class' => 'btn btn-info', 'onclick' => 'printPage()']) ?>
     </p>
 
     <?= DetailView::widget([

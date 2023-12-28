@@ -16,10 +16,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create Pousada', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
+    <?php 
+    if(!$dataProvider){ 
+        Html::a('Create Pousada', ['create'], ['class' => 'btn btn-success']);
+    } ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -32,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'nif',
             [
                 'class' => ActionColumn::className(),
+                'template' => '{view} {update}',
                 'urlCreator' => function ($action, Pousada $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }

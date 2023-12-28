@@ -3,7 +3,9 @@
 namespace backend\controllers;
 
 use common\models\Pousada;
+use Yii;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -21,6 +23,16 @@ class PousadaController extends Controller
         return array_merge(
             parent::behaviors(),
             [
+                'access' => [
+                    'class' => AccessControl::class,
+                    'rules' => [
+                        [
+                            'actions' => ['index','view','create','update'],
+                            'allow' => true,
+                            'roles' => ['acederBackend'],
+                        ],
+                    ],
+                ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
@@ -77,6 +89,16 @@ class PousadaController extends Controller
      */
     public function actionCreate()
     {
+        //Verifica se o utilizador é gestor
+        if(!Yii::$app->user->can('gestor')){
+            return $this->goHome();
+        }
+        //Verifica se existe uma pousada cadastrada na base de dados
+        $pousada = Pousada::find();
+        if($pousada){
+            return $this->goHome();
+        }
+
         $model = new Pousada();
 
         if ($this->request->isPost) {
@@ -101,6 +123,9 @@ class PousadaController extends Controller
      */
     public function actionUpdate($id)
     {
+        if(!Yii::$app->user->can('gestor')){
+            return $this->goHome();
+        }
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
@@ -112,19 +137,6 @@ class PousadaController extends Controller
         ]);
     }
 
-    /**
-     * Deletes an existing Pousada model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id ID
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
 
     /**
      * Finds the Pousada model based on its primary key value.

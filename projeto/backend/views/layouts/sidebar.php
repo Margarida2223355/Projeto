@@ -43,6 +43,7 @@ use yii\helpers\Html;
                     ['label' => 'Users', 'icon' => 'users', 'url' => ['/inf-user/index']],
                     ['label' => 'Serviços', 'icon' => 'hiking', 'url' => ['/servico/index']],
                     ['label' => 'Refeições', 'icon' => 'utensils', 'url' => ['/refeicao/index']],
+                    ['label' => 'Pousada', 'icon' => 'hotel', 'url' => ['/pousada/index']],
                 ],
             ]);
             ?>
