@@ -114,9 +114,17 @@ public class Geral {
     }
 
     /* Função para converter milis em data */
-    public String convertFromDate(Object date) {
+    public String convertFromDateTxt(Object date) {
         /* Definir formato da data*/
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+        /* Devolve data em String com o formato definido */
+        return format.format(getFromDate((Date) date));
+    }
+
+    public String convertFromDate(Object date) {
+        /* Definir formato da data*/
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
         /* Devolve data em String com o formato definido */
         return format.format(getFromDate((Date) date));
@@ -126,6 +134,18 @@ public class Geral {
     public Date convertToDate(String date) {
         /* Definir formato da data*/
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+        /* Devolve data em String com o formato definido */
+        try {
+            return format.parse(date);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Date convertToDateDB(String date) {
+        /* Definir formato da data*/
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
         /* Devolve data em String com o formato definido */
         try {

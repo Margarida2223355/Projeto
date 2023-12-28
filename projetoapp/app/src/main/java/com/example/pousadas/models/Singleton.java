@@ -79,24 +79,17 @@ public class Singleton {
         }
 
         else {
+            apiUrl = "http://192.168.1.91/Projeto/projeto/backend/web/api/refeicaos/" + geral_.convertFromDate(geral_.getFromDate(date)) + "/" + schedule.getSchedule();
             JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     System.out.println("--> " + response);
 
                     foods = FoodJsonParser.jsonFoodsParser(response);
-
-
-                    for (Food food : foods) {
-                        if ((geral_.getFromDate(food.getDate()).equals(geral_.getFromDate(date))) && (food.getSchedule() == schedule)) {
-                            resultFoods.add(food);
-                        }
-                    }
-
-                    addFoodsDB(resultFoods);
+                    addFoodsDB(foods);
 
                     if (foodsListener != null) {
-                        foodsListener.onRefreshFoodsList(resultFoods);
+                        foodsListener.onRefreshFoodsList(foods);
                     }
                 }
             }, new Response.ErrorListener() {

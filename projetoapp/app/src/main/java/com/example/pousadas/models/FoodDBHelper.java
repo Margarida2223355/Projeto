@@ -69,7 +69,7 @@ public class FoodDBHelper extends SQLiteOpenHelper {
                         cursor.getInt(0),
                         cursor.getString(1),
                         cursor.getFloat(2),
-                        geral_.convertToDate(cursor.getString(3)),
+                        geral_.convertToDateDB(cursor.getString(3)),
                         Schedule.getFromString(cursor.getString(4))
                 );
 

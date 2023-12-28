@@ -73,7 +73,7 @@ public class FoodClientFragment extends Fragment implements FoodsListener {
                 picker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
                    @Override
                    public void onPositiveButtonClick(Object selection) {
-                       binding.txtFoodDate.setText(geral_.convertFromDate(picker.getSelection()));
+                       binding.txtFoodDate.setText(geral_.convertFromDateTxt(picker.getSelection()));
                    }
                 });
             }

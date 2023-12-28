@@ -46,7 +46,17 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'api/refeicao'],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/refeicao',
+                    'extraPatterns' => [
+                        'GET {date}/{schedule}' => 'getbydateschedule',
+                    ],
+                    'tokens' => [
+                        '{schedule}' => '<schedule:\w+>',
+                        '{date}' => '<date:\d{4}-\d{2}-\d{2}>',
+                    ]
+                ],
             ],
         ],
         // 'view' => [
