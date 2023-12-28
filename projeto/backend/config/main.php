@@ -57,6 +57,46 @@ return [
                         '{date}' => '<date:\d{4}-\d{2}-\d{2}>',
                     ]
                 ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/reserva',
+                    'extraPatterns' => [
+                        'GET index' => 'index',
+                    ],
+                    'tokens' => [
+
+                    ]
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/quarto',
+                    'extraPatterns' => [
+
+                    ],
+                    'tokens' => [
+
+                    ]
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/servico',
+                    'extraPatterns' => [
+
+                    ],
+                    'tokens' => [
+
+                    ]
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/user',
+                    'extraPatterns' => [
+
+                    ],
+                    'tokens' => [
+
+                    ]
+                ],
             ],
         ],
         // 'view' => [
