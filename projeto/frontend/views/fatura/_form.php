@@ -12,19 +12,15 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'data_pagamento')->textInput() ?>
+    <?= $form->field($model, 'data_pagamento')->textInput(['readonly' => true]) ?>
+   
+    <?= $form->field($model, 'pousada_id')->textInput(['readonly' => true]) ?>
+    
+    <?= $form->field($model, 'reserva_id')->textInput(['readonly' => true]) ?>
 
-    <?= $form->field($model, 'denominacao_social')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'preco_total')->textInput(['readonly' => true]) ?>
 
-    <?= $form->field($model, 'morada_empresa')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'nif')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'reserva_id')->textInput() ?>
-
-    <?= $form->field($model, 'preco_total')->textInput() ?>
-
-    <?= $form->field($model, 'total_sem_imposto')->textInput() ?>
+    <?= $form->field($model, 'total_sem_imposto')->textInput(['readonly' => true]) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

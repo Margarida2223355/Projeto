@@ -28,11 +28,26 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'data_pagamento',
-            'denominacao_social',
-            'morada_empresa',
-            'nif',
-            //'reserva_id',
-            //'preco_total',
+            // [
+            //     'attribute' => 'Pousada',
+            //     'value' => function ($model) {
+            //         return $model->pousada->denominacao_social;
+            //     },
+            // ],
+            // [
+            //     'attribute' => 'NIF',
+            //     'value' => function ($model) {
+            //         return $model->pousada->nif;
+            //     },
+            // ],
+            // [
+            //     'attribute' => 'Morada Empresa',
+            //     'value' => function ($model) {
+            //         return $model->pousada->morada;
+            //     },
+            // ],
+            'reserva_id',
+            'preco_total',
             //'total_sem_imposto',
             [
                 'class' => ActionColumn::className(),

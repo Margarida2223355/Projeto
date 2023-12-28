@@ -4,13 +4,14 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
-/** @var common\models\Fatura $model */
+/** @var common\models\Pousada $model */
 
 $this->title = $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Pousadas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="fatura-view">
+<div class="pousada-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -29,28 +30,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'data_pagamento',
-            [
-                'attribute' => 'Pousada',
-                'value' => function ($model) {
-                    return $model->pousada->denominacao_social;
-                },
-            ],
-            [
-                'attribute' => 'NIF',
-                'value' => function ($model) {
-                    return $model->pousada->nif;
-                },
-            ],
-            [
-                'attribute' => 'Morada Empresa',
-                'value' => function ($model) {
-                    return $model->pousada->morada;
-                },
-            ],
-            'reserva_id',
-            'preco_total',
-            'total_sem_imposto',
+            'denominacao_social',
+            'morada',
+            'nif',
         ],
     ]) ?>
 

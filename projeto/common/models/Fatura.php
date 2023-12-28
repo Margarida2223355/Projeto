@@ -8,14 +8,13 @@ use Yii;
  * This is the model class for table "fatura".
  *
  * @property int $id
+ * @property int $pousada_id
  * @property string|null $data_pagamento
- * @property string $denominacao_social
- * @property string $morada_empresa
- * @property string $nif
  * @property int $reserva_id
  * @property float|null $preco_total
  * @property float|null $total_sem_imposto
  *
+ * @property Pousada $pousada
  * @property Reserva $reserva
  */
 class Fatura extends \yii\db\ActiveRecord
@@ -34,13 +33,12 @@ class Fatura extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['pousada_id', 'reserva_id'], 'required'],
+            [['pousada_id', 'reserva_id'], 'integer'],
             [['data_pagamento'], 'safe'],
-            [['denominacao_social', 'morada_empresa', 'nif', 'reserva_id'], 'required'],
-            [['reserva_id'], 'integer'],
             [['preco_total', 'total_sem_imposto'], 'number'],
-            [['denominacao_social', 'morada_empresa'], 'string', 'max' => 250],
-            [['nif'], 'string', 'max' => 20],
             [['reserva_id'], 'exist', 'skipOnError' => true, 'targetClass' => Reserva::class, 'targetAttribute' => ['reserva_id' => 'id']],
+            [['pousada_id'], 'exist', 'skipOnError' => true, 'targetClass' => Pousada::class, 'targetAttribute' => ['pousada_id' => 'id']],
         ];
     }
 
@@ -51,14 +49,22 @@ class Fatura extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'pousada_id' => 'Pousada ID',
             'data_pagamento' => 'Data Pagamento',
-            'denominacao_social' => 'Denominacao Social',
-            'morada_empresa' => 'Morada Empresa',
-            'nif' => 'Nif',
             'reserva_id' => 'Reserva ID',
             'preco_total' => 'Preco Total',
             'total_sem_imposto' => 'Total Sem Imposto',
         ];
+    }
+
+    /**
+     * Gets query for [[Pousada]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPousada()
+    {
+        return $this->hasOne(Pousada::class, ['id' => 'pousada_id']);
     }
 
     /**
