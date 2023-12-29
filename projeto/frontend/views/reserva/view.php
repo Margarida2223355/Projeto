@@ -13,6 +13,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Reservas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
+
 <div class="reserva-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
