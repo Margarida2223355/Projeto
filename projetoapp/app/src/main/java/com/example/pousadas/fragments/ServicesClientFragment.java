@@ -18,6 +18,7 @@ import com.example.pousadas.adapters.ListServiceAdapter;
 import com.example.pousadas.databinding.FragmentFoodClientBinding;
 import com.example.pousadas.databinding.FragmentServicesClientBinding;
 import com.example.pousadas.enums.Schedule;
+import com.example.pousadas.listeners.ServicesListener;
 import com.example.pousadas.models.Food;
 import com.example.pousadas.models.Geral;
 import com.example.pousadas.models.Service;
@@ -29,12 +30,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ServicesClientFragment extends Fragment {
+public class ServicesClientFragment extends Fragment implements ServicesListener {
 
-    private ArrayList<Service> services;
     private FragmentServicesClientBinding binding;
-    private final Geral geral_ = new Geral();
-    private MaterialAlertDialogBuilder alert;
 
     public ServicesClientFragment() {
         // Required empty public constructor
@@ -47,10 +45,8 @@ public class ServicesClientFragment extends Fragment {
         binding = FragmentServicesClientBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
 
-        //services = Singleton.getInstance().getServices();
-
-        /* Enviar lista para o adaptador */
-        binding.listService.setAdapter(new ListServiceAdapter(getContext(), services));
+        Singleton.getInstance(getContext()).setServicesListener(this);
+        Singleton.getInstance(getContext()).getAllServices(getContext());
 
         /* Método onclicklistener do botão adicionar:
          *
@@ -73,5 +69,12 @@ public class ServicesClientFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onRefreshServicesList(ArrayList<Service> services) {
+        if (services != null) {
+            binding.listService.setAdapter(new ListServiceAdapter(getContext(), services));
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.pousadas.models;
+package com.example.pousadas.db;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.pousadas.enums.Schedule;
+import com.example.pousadas.models.Food;
+import com.example.pousadas.models.Geral;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,7 +18,7 @@ import java.util.Date;
 public class FoodDBHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "projeto";
     private static final String DB_TABLE = "refeicao";
-    private static final  int DB_VERSION = 1;
+    //private static final int DB_VERSION = 1;
     private final SQLiteDatabase db;
     private static final String ID = "id";
     private static final String NAME = "nome";
@@ -25,7 +27,7 @@ public class FoodDBHelper extends SQLiteOpenHelper {
     private static final String SCHEDULE = "horario";
     private Geral geral_ = new Geral();
 
-    public FoodDBHelper(Context context) {
+    public FoodDBHelper(Context context, final int DB_VERSION) {
         super(context, DB_NAME, null, DB_VERSION);
         this.db = this.getWritableDatabase();
     }

@@ -15,7 +15,7 @@ public class Service {
     private int id, qty;
 
     /* Construtor desta classe - é necessário ter todas as propriedades */
-    public Service(float price, String description, String name, int id) {
+    public Service(int id, String name, String description, float price) {
         this.price = price;
         this.description = description;
         this.name = name;

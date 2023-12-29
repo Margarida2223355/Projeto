@@ -28,7 +28,6 @@ import java.util.Date;
 
 public class FoodClientFragment extends Fragment implements FoodsListener {
 
-    private ArrayList<Food> foods;
     private FragmentFoodClientBinding binding;
     private final Geral geral_ = new Geral();
     private MaterialAlertDialogBuilder alert;
