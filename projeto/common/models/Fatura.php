@@ -8,13 +8,13 @@ use Yii;
  * This is the model class for table "fatura".
  *
  * @property int $id
- * @property int $pousada_id
  * @property string|null $data_pagamento
- * @property int $reserva_id
  * @property float|null $preco_total
  * @property float|null $total_sem_imposto
+ * @property int $reserva_id
  *
- * @property Pousada $pousada
+ * @property LinhaFaturaHasFatura[] $linhaFaturaHasFaturas
+ * @property LinhaFatura[] $linhaFaturas
  * @property Reserva $reserva
  */
 class Fatura extends \yii\db\ActiveRecord
@@ -33,12 +33,12 @@ class Fatura extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['pousada_id', 'reserva_id'], 'required'],
-            [['pousada_id', 'reserva_id'], 'integer'],
+            [['id', 'reserva_id'], 'required'],
+            [['id', 'reserva_id'], 'integer'],
             [['data_pagamento'], 'safe'],
             [['preco_total', 'total_sem_imposto'], 'number'],
+            [['id'], 'unique'],
             [['reserva_id'], 'exist', 'skipOnError' => true, 'targetClass' => Reserva::class, 'targetAttribute' => ['reserva_id' => 'id']],
-            [['pousada_id'], 'exist', 'skipOnError' => true, 'targetClass' => Pousada::class, 'targetAttribute' => ['pousada_id' => 'id']],
         ];
     }
 
@@ -49,22 +49,31 @@ class Fatura extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'pousada_id' => 'Pousada ID',
             'data_pagamento' => 'Data Pagamento',
-            'reserva_id' => 'Reserva ID',
             'preco_total' => 'Preco Total',
             'total_sem_imposto' => 'Total Sem Imposto',
+            'reserva_id' => 'Reserva ID',
         ];
     }
 
     /**
-     * Gets query for [[Pousada]].
+     * Gets query for [[LinhaFaturaHasFaturas]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getPousada()
+    public function getLinhaFaturaHasFaturas()
     {
-        return $this->hasOne(Pousada::class, ['id' => 'pousada_id']);
+        return $this->hasMany(LinhaFaturaHasFatura::class, ['fatura_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[LinhaFaturas]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLinhaFaturas()
+    {
+        return $this->hasMany(LinhaFatura::class, ['id' => 'linha_fatura_id'])->viaTable('linha_fatura_has_fatura', ['fatura_id' => 'id']);
     }
 
     /**
