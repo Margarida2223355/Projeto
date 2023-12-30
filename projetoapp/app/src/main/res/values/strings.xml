@@ -5,7 +5,7 @@
     <string name="btnLogin">Login</string>
 
     <!-- Botões Menu Cliente -->
-    <string name="room_MenuClient">Quartos</string>
+    <string name="room_MenuClient">Reservas</string>
     <string name="food_MenuClient">Refeições</string>
     <string name="service_MenuClient">Serviços Adicionais</string>
     <string name="shop_MenuClient">Carrinho de Compras</string>
@@ -31,5 +31,9 @@
     <string name="txtFood">Refeição</string>
     <string name="txtDate">Data</string>
     <string name="txtTime">Horário</string>
+
+    <!-- TextFields na página de reservas -->
+    <string name="txtInitDate">Data Inicial</string>
+    <string name="txtEndDate">Data Final</string>
 
 </resources>

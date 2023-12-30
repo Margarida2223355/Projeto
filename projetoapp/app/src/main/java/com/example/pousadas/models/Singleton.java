@@ -172,4 +172,5 @@ public class Singleton {
     private void addServiceDB(Service service) {
         serviceDBHelper.addServiceDB(service);
     }
+
 }
