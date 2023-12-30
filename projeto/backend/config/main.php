@@ -61,10 +61,11 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/reserva',
                     'extraPatterns' => [
-                        'GET index' => 'index',
+                        'GET {init_date}/{end_date}' => 'getreservationbydates'
                     ],
                     'tokens' => [
-
+                        '{init_date}' => '<init_date:\d{4}-\d{2}-\d{2}>',
+                        '{end_date}' => '<end_date:\d{4}-\d{2}-\d{2}>'
                     ]
                 ],
                 [

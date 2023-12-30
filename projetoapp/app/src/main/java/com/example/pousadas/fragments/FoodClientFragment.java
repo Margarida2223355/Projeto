@@ -100,9 +100,6 @@ public class FoodClientFragment extends Fragment implements FoodsListener {
 
                 else {
                     Singleton.getInstance(getContext()).getFoodsByDateSchedule(geral_.convertToDate(binding.txtFoodDate.getText().toString()),Schedule.getFromString(binding.txtFoodTime.getText().toString()),getContext());
-
-                    /* Enviar lista para o adaptador */
-                    //binding.listFood.setAdapter(new ListFoodAdapter(getContext(), foods));
                 }
             }
         });

@@ -8,19 +8,20 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 
-import com.example.pousadas.R;
+import com.example.pousadas.adapters.ListReservationAdapter;
 import com.example.pousadas.databinding.FragmentRoomClientBinding;
-import com.example.pousadas.enums.Schedule;
+import com.example.pousadas.listeners.ReservationsListener;
 import com.example.pousadas.models.Geral;
+import com.example.pousadas.models.Reservation;
 import com.example.pousadas.models.Singleton;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-public class RoomClientFragment extends Fragment {
+import java.util.ArrayList;
+
+public class RoomClientFragment extends Fragment implements ReservationsListener {
 
     private FragmentRoomClientBinding binding;
     private final Geral geral_ = new Geral();
@@ -39,13 +40,15 @@ public class RoomClientFragment extends Fragment {
 
         /* *************************************** */
         binding.txtInitDate.setText("2023-01-01");
-        binding.txtInitDate.setText("2023-12-31");
+        binding.txtEndDate.setText("2023-12-31");
         /* *************************************** */
 
         /* Criar a mensagem de alert */
         alert = new MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Erro")
                 .setPositiveButton("OK", null);
+
+        Singleton.getInstance(getContext()).setReservationsListener(this);
 
         /* Ao clicar no text field, abre o date picker */
         binding.calendarInits.setEndIconOnClickListener(new View.OnClickListener() {
@@ -110,11 +113,19 @@ public class RoomClientFragment extends Fragment {
                 }
 
                 else {
-                    //Singleton.getInstance(getContext()).getReservationByDates(geral_.convertToDate(binding.txtInitDate.getText().toString()), geral_.convertToDate(binding.txtInitDate.getText().toString()),getContext());
+                    Singleton.getInstance(getContext()).getReservationsByDates(geral_.convertToDate(binding.txtInitDate.getText().toString()), geral_.convertToDate(binding.txtEndDate.getText().toString()),getContext());
                 }
             }
         });
 
         return view;
+    }
+
+    @Override
+    public void onRefreshReservationsList(ArrayList<Reservation> reservations) {
+        if (reservations != null) {
+            binding.listRoom.setAdapter(new ListReservationAdapter(getContext(), reservations));
+        }
+
     }
 }

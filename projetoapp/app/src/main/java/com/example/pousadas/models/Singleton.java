@@ -9,12 +9,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.pousadas.db.FoodDBHelper;
-import com.example.pousadas.db.ServiceDBHelper;
+import com.example.pousadas.db.DBHelper;
 import com.example.pousadas.enums.Schedule;
 import com.example.pousadas.listeners.FoodsListener;
+import com.example.pousadas.listeners.ReservationsListener;
 import com.example.pousadas.listeners.ServicesListener;
 import com.example.pousadas.utils.FoodJsonParser;
+import com.example.pousadas.utils.ReservationJsonParser;
 import com.example.pousadas.utils.ServiceJsonParser;
 
 import org.json.JSONArray;
@@ -26,11 +27,15 @@ public class Singleton {
     private Geral geral_ = new Geral();
     private ArrayList<Food> foods;
     private ArrayList<Service> services;
+    private ArrayList<Reservation> reservations;
     private static Singleton instance;
     private FoodsListener foodsListener;
     private ServicesListener servicesListener;
-    private FoodDBHelper foodDBHelper;
-    private ServiceDBHelper serviceDBHelper;
+    private ReservationsListener reservationsListener;
+    private DBHelper dbHelper;
+    private DBHelper.FoodsTable foodsTable;
+    private DBHelper.ServicesTable servicesTable;
+    private DBHelper.ReservationsTable reservationsTable;
     private static RequestQueue volleyQueue;
     private static String apiUrl;
 
@@ -45,8 +50,11 @@ public class Singleton {
     private Singleton(Context context) {
         foods = new ArrayList<>();
         services = new ArrayList<>();
-        foodDBHelper = new FoodDBHelper(context, 1);
-        serviceDBHelper = new ServiceDBHelper(context, 2);
+        reservations = new ArrayList<>();
+        dbHelper = new DBHelper(context);
+        foodsTable = dbHelper.new FoodsTable();
+        servicesTable = dbHelper.new ServicesTable();
+        reservationsTable = dbHelper.new ReservationsTable();
     }
 
     public void setFoodsListener(FoodsListener foodsListener) {
@@ -55,6 +63,10 @@ public class Singleton {
 
     public void setServicesListener(ServicesListener servicesListener) {
         this.servicesListener = servicesListener;
+    }
+
+    public void setReservationsListener(ReservationsListener reservationsListener) {
+        this.reservationsListener = reservationsListener;
     }
 
     public ArrayList<Food> getFoods() { return foods; }
@@ -80,13 +92,12 @@ public class Singleton {
     /* API */
     /* Obter lista de refeições com base na data e horário selecionados */
     public void getFoodsByDateSchedule(Date date, Schedule schedule, final Context context) {
-        ArrayList<Food> resultFoods = new ArrayList<>();
 
         if (!FoodJsonParser.isConnectionInternet(context)) {
             Toast.makeText(context, "No internet Connection", Toast.LENGTH_SHORT).show();
 
             if (foodsListener != null) {
-                foodsListener.onRefreshFoodsList(foodDBHelper.getAllFoods());
+                foodsListener.onRefreshFoodsList(foodsTable.getAllFoods());
             }
         }
 
@@ -116,7 +127,7 @@ public class Singleton {
     }
 
     private void addFoodsDB(ArrayList<Food> foods) {
-        foodDBHelper.removeAllFoodsDB();
+        foodsTable.removeAllFoodsDB();
 
         for (Food food : foods) {
             addFoodDB(food);
@@ -124,7 +135,7 @@ public class Singleton {
     }
 
     private void addFoodDB(Food food) {
-        foodDBHelper.addFoodDB(food);
+        foodsTable.addFoodDB(food);
     }
 
     public void getAllServices(final Context context) {
@@ -132,7 +143,7 @@ public class Singleton {
             Toast.makeText(context, "No internet Connection", Toast.LENGTH_SHORT).show();
 
             if (servicesListener != null) {
-                servicesListener.onRefreshServicesList(serviceDBHelper.getAllServices());
+                servicesListener.onRefreshServicesList(servicesTable.getAllServices());
             }
         }
 
@@ -162,7 +173,7 @@ public class Singleton {
     }
 
     private void addServicesDB(ArrayList<Service> services) {
-        serviceDBHelper.removeAllServicesDB();
+        servicesTable.removeAllServicesDB();
 
         for (Service service : services) {
             addServiceDB(service);
@@ -170,7 +181,53 @@ public class Singleton {
     }
 
     private void addServiceDB(Service service) {
-        serviceDBHelper.addServiceDB(service);
+        servicesTable.addServiceDB(service);
+    }
+
+    public void getReservationsByDates(Date initDate, Date endDate, final Context context) {
+        if (!ReservationJsonParser.isConnectionInternet(context)) {
+            Toast.makeText(context, "No internet Connection", Toast.LENGTH_SHORT).show();
+
+            if (reservationsListener != null) {
+                reservationsListener.onRefreshReservationsList(reservationsTable.getAllReservations());
+            }
+        }
+
+        else {
+            apiUrl = "http://192.168.1.91/Projeto/projeto/backend/web/api/reservas/" + geral_.convertFromDate(geral_.getFromDate(initDate)) + "/" + geral_.convertFromDate(geral_.getFromDate(endDate));
+            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    System.out.println("--> " + response);
+
+                    reservations = ReservationJsonParser.jsonReservationsParser(response);
+                    addReservationsDB(reservations);
+
+                    if (reservationsListener != null) {
+                        reservationsListener.onRefreshReservationsList(reservations);
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("--> " + error);
+                }
+            });
+
+            volleyQueue.add(request);
+        }
+    }
+
+    private void addReservationsDB(ArrayList<Reservation> reservations) {
+        reservationsTable.removeAllReservationsDB();
+
+        for (Reservation reservation : reservations) {
+            addReservationDB(reservation);
+        }
+    }
+
+    private void addReservationDB(Reservation reservation) {
+        reservationsTable.addReservationDB(reservation);
     }
 
 }

@@ -35,5 +35,6 @@
     <!-- TextFields na página de reservas -->
     <string name="txtInitDate">Data Inicial</string>
     <string name="txtEndDate">Data Final</string>
+    <string name="txtDescription">Descrição</string>
 
 </resources>
