@@ -10,4 +10,83 @@ public class Invoice {
     private Lodge lodge;
     private InvoiceLine_Has_Invoice invoiceLineHasInvoice;
     private Invoice_line invoiceLine;
+
+    public Invoice(int id, Reservation reservation, Lodge lodge, InvoiceLine_Has_Invoice invoiceLineHasInvoice, Invoice_line invoiceLine) {
+        this.id = id;
+        this.reservation = reservation;
+        this.lodge = lodge;
+        this.invoiceLineHasInvoice = invoiceLineHasInvoice;
+        this.invoiceLine = invoiceLine;
+    }
+
+    public Invoice(int id, Date payment_date, float total_price, float total_w_out_tax, Reservation reservation, Lodge lodge, InvoiceLine_Has_Invoice invoiceLineHasInvoice, Invoice_line invoiceLine) {
+        this.id = id;
+        this.payment_date = payment_date;
+        this.total_price = total_price;
+        this.total_w_out_tax = total_w_out_tax;
+        this.reservation = reservation;
+        this.lodge = lodge;
+        this.invoiceLineHasInvoice = invoiceLineHasInvoice;
+        this.invoiceLine = invoiceLine;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public Date getPayment_date() {
+        return payment_date;
+    }
+
+    public void setPayment_date(Date payment_date) {
+        this.payment_date = payment_date;
+    }
+
+    public float getTotal_price() {
+        return total_price;
+    }
+
+    public void setTotal_price(float total_price) {
+        this.total_price = total_price;
+    }
+
+    public float getTotal_w_out_tax() {
+        return total_w_out_tax;
+    }
+
+    public void setTotal_w_out_tax(float total_w_out_tax) {
+        this.total_w_out_tax = total_w_out_tax;
+    }
+
+    public Reservation getReservation() {
+        return reservation;
+    }
+
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
+    }
+
+    public Lodge getLodge() {
+        return lodge;
+    }
+
+    public void setLodge(Lodge lodge) {
+        this.lodge = lodge;
+    }
+
+    public InvoiceLine_Has_Invoice getInvoiceLineHasInvoice() {
+        return invoiceLineHasInvoice;
+    }
+
+    public void setInvoiceLineHasInvoice(InvoiceLine_Has_Invoice invoiceLineHasInvoice) {
+        this.invoiceLineHasInvoice = invoiceLineHasInvoice;
+    }
+
+    public Invoice_line getInvoiceLine() {
+        return invoiceLine;
+    }
+
+    public void setInvoiceLine(Invoice_line invoiceLine) {
+        this.invoiceLine = invoiceLine;
+    }
 }

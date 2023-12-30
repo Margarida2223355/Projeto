@@ -110,8 +110,7 @@ public class RoomClientFragment extends Fragment {
                 }
 
                 else {
-                    Singleton.getInstance(getContext()).getReservationByDates(geral_.convertToDate(binding.txtInitDate.getText().toString()), geral_.convertToDate(binding.txtInitDate.getText().toString()),getContext());
-
+                    //Singleton.getInstance(getContext()).getReservationByDates(geral_.convertToDate(binding.txtInitDate.getText().toString()), geral_.convertToDate(binding.txtInitDate.getText().toString()),getContext());
                 }
             }
         });
