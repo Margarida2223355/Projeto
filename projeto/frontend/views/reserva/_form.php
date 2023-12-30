@@ -22,8 +22,6 @@ use yii\helpers\ArrayHelper;
 
     <?= $form->field($model, 'preco_total')->textInput([ 'readonly' => true]) ?>
 
-    <?= $form->field($model, 'status')->dropDownList([ 'carrinho' => 'Carrinho', 'pago' => 'Pago', 'cancelada' => 'Cancelada', ]) ?>
-
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>

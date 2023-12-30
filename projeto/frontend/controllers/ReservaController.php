@@ -149,7 +149,7 @@ class ReservaController extends Controller
         $model->quarto_id = $quarto_id;
         $model->data_inicial = $dataInicial;
         $model->data_final = $dataFinal;
-        $model->status = "carrinho";
+        $model->status = "inativa";
         $model->imposto_id = 1;
 
         // Verificar se ja existe uma reserva para o mesmo quarto com datas sobrepostas
@@ -203,9 +203,9 @@ class ReservaController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        //$quartos = Quarto::find()->all();
 
         if (\Yii::$app->user->can('permission_self_operations', ['reserva' => $model])) {
+            
             if ($this->request->isPost && $model->load($this->request->post())) {
                 // Verificar se ja existe uma reserva para o mesmo quarto com datas sobrepostas
                 $reservaSobreposta = Reserva::find()
@@ -271,4 +271,5 @@ class ReservaController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+    
 }

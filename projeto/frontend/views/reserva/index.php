@@ -15,6 +15,7 @@ use yii\widgets\ActiveForm;
 $this->title = 'Reservas';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
 <div class="reserva-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
