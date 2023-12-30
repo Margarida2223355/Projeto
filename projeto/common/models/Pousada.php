@@ -30,9 +30,11 @@ class Pousada extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['denominacao_social', 'morada', 'nif'], 'required'],
+            [['id', 'denominacao_social', 'morada', 'nif'], 'required'],
+            [['id'], 'integer'],
             [['denominacao_social', 'morada'], 'string', 'max' => 250],
             [['nif'], 'string', 'max' => 15],
+            [['id'], 'unique'],
         ];
     }
 

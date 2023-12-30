@@ -12,9 +12,11 @@ use Yii;
  * @property float|null $preco_total
  * @property float|null $total_sem_imposto
  * @property int $reserva_id
+ * @property int $pousada_id
  *
  * @property LinhaFaturaHasFatura[] $linhaFaturaHasFaturas
  * @property LinhaFatura[] $linhaFaturas
+ * @property Pousada $pousada
  * @property Reserva $reserva
  */
 class Fatura extends \yii\db\ActiveRecord
@@ -33,11 +35,12 @@ class Fatura extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'reserva_id'], 'required'],
-            [['id', 'reserva_id'], 'integer'],
+            [['id', 'reserva_id', 'pousada_id'], 'required'],
+            [['id', 'reserva_id', 'pousada_id'], 'integer'],
             [['data_pagamento'], 'safe'],
             [['preco_total', 'total_sem_imposto'], 'number'],
             [['id'], 'unique'],
+            [['pousada_id'], 'exist', 'skipOnError' => true, 'targetClass' => Pousada::class, 'targetAttribute' => ['pousada_id' => 'id']],
             [['reserva_id'], 'exist', 'skipOnError' => true, 'targetClass' => Reserva::class, 'targetAttribute' => ['reserva_id' => 'id']],
         ];
     }
@@ -53,6 +56,7 @@ class Fatura extends \yii\db\ActiveRecord
             'preco_total' => 'Preco Total',
             'total_sem_imposto' => 'Total Sem Imposto',
             'reserva_id' => 'Reserva ID',
+            'pousada_id' => 'Pousada ID',
         ];
     }
 
@@ -74,6 +78,16 @@ class Fatura extends \yii\db\ActiveRecord
     public function getLinhaFaturas()
     {
         return $this->hasMany(LinhaFatura::class, ['id' => 'linha_fatura_id'])->viaTable('linha_fatura_has_fatura', ['fatura_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Pousada]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPousada()
+    {
+        return $this->hasOne(Pousada::class, ['id' => 'pousada_id']);
     }
 
     /**
