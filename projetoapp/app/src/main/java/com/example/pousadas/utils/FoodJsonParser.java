@@ -4,7 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.example.pousadas.enums.Schedule;
+import com.example.pousadas.enums.Category;
 import com.example.pousadas.models.Food;
 import com.example.pousadas.models.Geral;
 
@@ -13,7 +13,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class FoodJsonParser {
 
@@ -31,14 +30,14 @@ public class FoodJsonParser {
             for (int i=0; i<response.length(); i++) {
                 JSONObject food = (JSONObject) response.get(i);
 
-                int idFood = food.getInt("id");
-                String nameFood = food.getString("nome");
-                float priceFood = (float) food.getDouble("preco");
-                Date dateFood = geral_.convertToDate(food.getString("data"));
-                Schedule scheduleFood = Schedule.getFromString(food.getString("horario"));
+                Food auxFood = new Food(
+                        food.getInt("id"),
+                        food.getString("nome"),
+                        (float) food.getDouble("preco"),
+                        geral_.convertToDate(food.getString("data")),
+                        Category.getFromString(food.getString("categoria")));
 
-                Food auxFood = new Food(idFood, nameFood, priceFood, dateFood, scheduleFood);
-                foods.add(auxFood);
+                        foods.add(auxFood);
             }
         }
         catch (JSONException e) {

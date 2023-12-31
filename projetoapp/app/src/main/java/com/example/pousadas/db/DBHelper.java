@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.pousadas.enums.Schedule;
+import com.example.pousadas.enums.Category;
 import com.example.pousadas.enums.Status;
 import com.example.pousadas.models.Food;
 import com.example.pousadas.models.Geral;
@@ -51,7 +51,7 @@ public class DBHelper extends SQLiteOpenHelper {
         public ArrayList<Food> getAllFoods() {
             ArrayList<Food> foods = new ArrayList<>();
             Cursor cursor = db.query(MyDatabase.FoodTable.DB_TABLE,
-                    new String[] {MyDatabase.FoodTable.ID, MyDatabase.FoodTable.NAME, MyDatabase.FoodTable.PRICE, MyDatabase.FoodTable.DATE, MyDatabase.FoodTable.SCHEDULE},
+                    new String[] {MyDatabase.FoodTable.ID, MyDatabase.FoodTable.NAME, MyDatabase.FoodTable.PRICE, MyDatabase.FoodTable.DATE, MyDatabase.FoodTable.CATEGORY},
                     null,
                     null,
                     null,
@@ -65,7 +65,7 @@ public class DBHelper extends SQLiteOpenHelper {
                             cursor.getString(1),
                             cursor.getFloat(2),
                             geral_.convertToDateDB(cursor.getString(3)),
-                            Schedule.getFromString(cursor.getString(4))
+                            Category.getFromString(cursor.getString(4))
                     );
 
                     foods.add(auxFood);
@@ -88,7 +88,7 @@ public class DBHelper extends SQLiteOpenHelper {
             values.put(MyDatabase.FoodTable.NAME, food.getName());
             values.put(MyDatabase.FoodTable.PRICE, food.getPrice());
             values.put(MyDatabase.FoodTable.DATE, convertFromDate(food.getDate()));
-            values.put(MyDatabase.FoodTable.SCHEDULE, food.getSchedule().toString());
+            values.put(MyDatabase.FoodTable.CATEGORY, food.getCategory().toString());
 
             db.insert(MyDatabase.FoodTable.DB_TABLE, null, values);
         }

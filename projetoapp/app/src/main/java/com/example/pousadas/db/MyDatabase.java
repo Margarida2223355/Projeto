@@ -13,7 +13,7 @@ public class MyDatabase {
         public static final String NAME = "nome";
         public static final String PRICE = "preco";
         public static final String DATE = "data";
-        public static final String SCHEDULE = "horario";
+        public static final String CATEGORY  = "categoria";
 
         public String createFoodTable() {
             return
@@ -28,10 +28,10 @@ public class MyDatabase {
                             + " DOUBLE NOT NULL, "
                             + DATE
                             + " DATE NOT NULL, "
-                            + SCHEDULE
+                            + CATEGORY
                             + " TEXT CHECK("
-                            + SCHEDULE
-                            + " IN ('Jantar', 'Almoço')) NOT NULL);";
+                            + CATEGORY
+                            + " IN ('Jantar', 'Almoco')) NOT NULL);";
         }
     }
 

@@ -1,8 +1,7 @@
 package com.example.pousadas.models;
 
-import com.example.pousadas.enums.Schedule;
+import com.example.pousadas.enums.Category;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
@@ -14,21 +13,21 @@ public class Food {
      * Nome - String
      * id - Int
      * Data - Date
-     * Horário - Schedule
+     * Horário - Category
      */
     private float price;
     private String name;
     private int id, qty;
     private Date date;
-    private Schedule schedule;
+    private Category category;
 
     /* Construtor desta classe - é necessário ter todas as propriedades */
-    public Food(int id, String name, Float price, Date date, Schedule schedule) {
+    public Food(int id, String name, Float price, Date date, Category category) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.date = date;
-        this.schedule = schedule;
+        this.category = category;
         qty = 0;
     }
 
@@ -39,7 +38,7 @@ public class Food {
      * Id - get
      * Qty - get
      * Date - get e post
-     * Schedule - get e post
+     * Category - get e post
      */
 
     public float getPrice() {
@@ -74,12 +73,12 @@ public class Food {
         this.date = date;
     }
 
-    public Schedule getSchedule() {
-        return schedule;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setSchedule(Schedule schedule) {
-        this.schedule = schedule;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     /* Métodos para Incrementar ou Decrementar quantidades */

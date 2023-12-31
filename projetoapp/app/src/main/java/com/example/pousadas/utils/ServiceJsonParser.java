@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.example.pousadas.enums.Schedule;
 import com.example.pousadas.models.Service;
 import com.example.pousadas.models.Geral;
 
@@ -13,7 +12,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class ServiceJsonParser {
 

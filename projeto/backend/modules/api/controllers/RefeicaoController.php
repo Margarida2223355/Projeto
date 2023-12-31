@@ -13,7 +13,7 @@ class RefeicaoController extends ActiveController
     public function actionGetbydateschedule($date, $schedule) {
         return
             Refeicao::find()
-                -> where(['data' => $date, 'horario' => $schedule])
+                -> where(['data' => $date, 'categoria' => $schedule])
                 -> all();
     }
 }

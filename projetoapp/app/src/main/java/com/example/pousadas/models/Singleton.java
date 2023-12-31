@@ -10,7 +10,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.pousadas.db.DBHelper;
-import com.example.pousadas.enums.Schedule;
+import com.example.pousadas.enums.Category;
 import com.example.pousadas.listeners.FoodsListener;
 import com.example.pousadas.listeners.ReservationsListener;
 import com.example.pousadas.listeners.ServicesListener;
@@ -91,7 +91,7 @@ public class Singleton {
 
     /* API */
     /* Obter lista de refeições com base na data e horário selecionados */
-    public void getFoodsByDateSchedule(Date date, Schedule schedule, final Context context) {
+    public void getFoodsByDateSchedule(Date date, Category category, final Context context) {
 
         if (!FoodJsonParser.isConnectionInternet(context)) {
             Toast.makeText(context, "No internet Connection", Toast.LENGTH_SHORT).show();
@@ -102,7 +102,7 @@ public class Singleton {
         }
 
         else {
-            apiUrl = "http://192.168.1.91/Projeto/projeto/backend/web/api/refeicaos/" + geral_.convertFromDate(geral_.getFromDate(date)) + "/" + schedule.getSchedule();
+            apiUrl = "http://192.168.1.91/Projeto/projeto/backend/web/api/refeicaos/" + geral_.convertFromDate(geral_.getFromDate(date)) + "/" + category.getCategory();
             JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {

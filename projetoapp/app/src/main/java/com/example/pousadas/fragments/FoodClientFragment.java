@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.example.pousadas.R;
 import com.example.pousadas.adapters.ListFoodAdapter;
 import com.example.pousadas.databinding.FragmentFoodClientBinding;
-import com.example.pousadas.enums.Schedule;
+import com.example.pousadas.enums.Category;
 import com.example.pousadas.listeners.FoodsListener;
 import com.example.pousadas.models.Food;
 import com.example.pousadas.models.Geral;
@@ -24,7 +24,6 @@ import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClic
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class FoodClientFragment extends Fragment implements FoodsListener {
 
@@ -44,7 +43,7 @@ public class FoodClientFragment extends Fragment implements FoodsListener {
         View view = binding.getRoot();
 
         /* *************************************** */
-        binding.txtFoodDate.setText("2023-12-20");
+        binding.txtFoodDate.setText("2023-12-31");
         binding.txtFoodTime.setText("Jantar");
         /* *************************************** */
 
@@ -99,7 +98,7 @@ public class FoodClientFragment extends Fragment implements FoodsListener {
                 }
 
                 else {
-                    Singleton.getInstance(getContext()).getFoodsByDateSchedule(geral_.convertToDate(binding.txtFoodDate.getText().toString()),Schedule.getFromString(binding.txtFoodTime.getText().toString()),getContext());
+                    Singleton.getInstance(getContext()).getFoodsByDateSchedule(geral_.convertToDate(binding.txtFoodDate.getText().toString()), Category.getFromString(binding.txtFoodTime.getText().toString()),getContext());
                 }
             }
         });
