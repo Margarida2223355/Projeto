@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.example.pousadas.enums.Status;
+import com.example.pousadas.enums.Status_Res;
 import com.example.pousadas.models.Reservation;
 import com.example.pousadas.models.Geral;
 import com.example.pousadas.models.Room;
@@ -49,6 +50,10 @@ public class ReservationJsonParser {
                 Room auxRoom = new Room(
                         room.getInt("id"),
                         room.getString("descricao"),
+                        room.getInt("camas_solteiro"),
+                        room.getInt("camas_casal"),
+                        room.getInt("arcondicionado"),
+                        room.getInt("aquecedor"),
                         (float) room.getDouble("preco")
                 );
 
@@ -61,7 +66,7 @@ public class ReservationJsonParser {
                         geral_.convertToDate(reservation.getString("data_inicial")),
                         geral_.convertToDate(reservation.getString("data_final")),
                         (float) reservation.getDouble("preco_total"),
-                        Status.getFromString(reservation.getString("status")),
+                        Status_Res.getFromString(reservation.getString("status")),
                         auxUser,
                         auxRoom
                 );

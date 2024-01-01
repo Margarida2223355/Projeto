@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.pousadas.enums.Category;
 import com.example.pousadas.enums.Status;
+import com.example.pousadas.enums.Status_Res;
 import com.example.pousadas.models.Food;
 import com.example.pousadas.models.Geral;
 import com.example.pousadas.models.Reservation;
@@ -177,7 +178,7 @@ public class DBHelper extends SQLiteOpenHelper {
                             geral_.convertToDateDB(cursor.getString(1)),
                             geral_.convertToDateDB(cursor.getString(2)),
                             cursor.getFloat(3),
-                            Status.getFromString(cursor.getString(4)),
+                            Status_Res.getFromString(cursor.getString(4)),
                             getUserDetailsFromDatabase(cursor.getInt(5)),
                             getRoomDetailsFromDatabase(cursor.getInt(6))
                     );
@@ -204,7 +205,11 @@ public class DBHelper extends SQLiteOpenHelper {
                 auxRoom = new Room(
                         anInt,
                         cursor.getString(1),
-                        (float) cursor.getDouble(2)
+                        cursor.getInt(2),
+                        cursor.getInt(3),
+                        cursor.getInt(4),
+                        cursor.getInt(5),
+                        (float) cursor.getDouble(6)
                 );
             }
 

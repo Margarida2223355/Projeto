@@ -8,25 +8,22 @@ public class Invoice {
     private float total_price = .0F, total_w_out_tax= .0F;
     private Reservation reservation;
     private Lodge lodge;
-    private InvoiceLine_Has_Invoice invoiceLineHasInvoice;
     private Invoice_line invoiceLine;
 
-    public Invoice(int id, Reservation reservation, Lodge lodge, InvoiceLine_Has_Invoice invoiceLineHasInvoice, Invoice_line invoiceLine) {
+    public Invoice(int id, Reservation reservation, Lodge lodge, Invoice_line invoiceLine) {
         this.id = id;
         this.reservation = reservation;
         this.lodge = lodge;
-        this.invoiceLineHasInvoice = invoiceLineHasInvoice;
         this.invoiceLine = invoiceLine;
     }
 
-    public Invoice(int id, Date payment_date, float total_price, float total_w_out_tax, Reservation reservation, Lodge lodge, InvoiceLine_Has_Invoice invoiceLineHasInvoice, Invoice_line invoiceLine) {
+    public Invoice(int id, Date payment_date, float total_price, float total_w_out_tax, Reservation reservation, Lodge lodge, Invoice_line invoiceLine) {
         this.id = id;
         this.payment_date = payment_date;
         this.total_price = total_price;
         this.total_w_out_tax = total_w_out_tax;
         this.reservation = reservation;
         this.lodge = lodge;
-        this.invoiceLineHasInvoice = invoiceLineHasInvoice;
         this.invoiceLine = invoiceLine;
     }
 
@@ -72,14 +69,6 @@ public class Invoice {
 
     public void setLodge(Lodge lodge) {
         this.lodge = lodge;
-    }
-
-    public InvoiceLine_Has_Invoice getInvoiceLineHasInvoice() {
-        return invoiceLineHasInvoice;
-    }
-
-    public void setInvoiceLineHasInvoice(InvoiceLine_Has_Invoice invoiceLineHasInvoice) {
-        this.invoiceLineHasInvoice = invoiceLineHasInvoice;
     }
 
     public Invoice_line getInvoiceLine() {

@@ -1,6 +1,7 @@
 package com.example.pousadas.models;
 
 import com.example.pousadas.enums.Status;
+import com.example.pousadas.enums.Status_Res;
 
 import java.util.Date;
 
@@ -8,16 +9,16 @@ public class Reservation {
     private int id;
     private Date init_date, end_date;
     private float total_price;
-    private Status status;
+    private Status_Res status_res;
     private User client;
     private Room room;
 
-    public Reservation(int id, Date init_date, Date end_date, float total_price, Status status, User client, Room room) {
+    public Reservation(int id, Date init_date, Date end_date, float total_price, Status_Res status_res, User client, Room room) {
         this.id = id;
         this.init_date = init_date;
         this.end_date = end_date;
         this.total_price = total_price;
-        this.status = status;
+        this.status_res = status_res;
         this.client = client;
         this.room = room;
     }
@@ -54,12 +55,12 @@ public class Reservation {
         this.total_price = total_price;
     }
 
-    public Status getStatus() {
-        return status;
+    public Status_Res getStatus() {
+        return status_res;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setStatus(Status_Res status) {
+        this.status_res = status_res;
     }
 
     public User getClient() {
