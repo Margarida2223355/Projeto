@@ -13,7 +13,6 @@ import com.google.android.material.textfield.TextInputEditText;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private TextInputEditText txtUsername, txtPassword;
     private User user = new User();
     private ActivityLoginBinding binding;
 
@@ -23,16 +22,13 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        txtUsername = binding.txtUsername;
-        txtPassword = binding.txtPassword;
-
         login_aut();
     }
 
     private void login_aut() {
 
-        txtUsername.setText("Admin");
-        txtPassword.setText("123456789");
+        binding.txtUsername.setText("Admin");
+        binding.txtPassword.setText("123456789");
 
     }
 
@@ -41,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onClickLogin(View view) {
-        if(checkAuth(txtUsername.getText().toString(),txtPassword.getText().toString())) {
+        if(checkAuth(binding.txtUsername.getText().toString(),binding.txtPassword.getText().toString())) {
             return;
         }
 
@@ -55,7 +51,8 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), FuncActivity.class));
                 break;
             case CLIENT:
-                startActivity(new Intent(getApplicationContext(), ClientActivity.class));
+                //startActivity(new Intent(getApplicationContext(), ClientActivity.class));
+                startActivity((new Intent(getApplicationContext(), IPConfigActivity.class)).putExtra("name", binding.txtUsername.getText().toString()));
                 break;
         }
         finish();

@@ -37,6 +37,7 @@ public class Singleton {
     private DBHelper.ServicesTable servicesTable;
     private DBHelper.ReservationsTable reservationsTable;
     private static RequestQueue volleyQueue;
+    private static final String INIT_URL = "http://192.168.1.92/Projeto/projeto/backend/web/api/";
     private static String apiUrl;
 
     public static synchronized Singleton getInstance(Context context) {
@@ -102,7 +103,7 @@ public class Singleton {
         }
 
         else {
-            apiUrl = "http://192.168.1.91/Projeto/projeto/backend/web/api/refeicaos/" + geral_.convertFromDate(geral_.getFromDate(date)) + "/" + category.getCategory();
+            apiUrl = INIT_URL + "refeicaos/" + geral_.convertFromDate(geral_.getFromDate(date)) + "/" + category.getCategory();
             JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
@@ -148,7 +149,7 @@ public class Singleton {
         }
 
         else {
-            apiUrl = "http://192.168.1.91/Projeto/projeto/backend/web/api/servicos";
+            apiUrl = INIT_URL + "servicos";
             JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
@@ -194,7 +195,7 @@ public class Singleton {
         }
 
         else {
-            apiUrl = "http://192.168.1.91/Projeto/projeto/backend/web/api/reservas/" + geral_.convertFromDate(geral_.getFromDate(initDate)) + "/" + geral_.convertFromDate(geral_.getFromDate(endDate));
+            apiUrl = INIT_URL + "reservas/" + geral_.convertFromDate(geral_.getFromDate(initDate)) + "/" + geral_.convertFromDate(geral_.getFromDate(endDate));
             JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {

@@ -37,4 +37,8 @@
     <string name="txtEndDate">Data Final</string>
     <string name="txtDescription">Descrição</string>
 
+    <!-- TextFields página de IP -->
+    <string name="hintIPConfig">IP Address</string>
+    <string name="IPConfig">Configuração IP</string>
+    <string name="btnStart">Start</string>
 </resources>
