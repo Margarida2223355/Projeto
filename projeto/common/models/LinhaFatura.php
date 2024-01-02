@@ -92,4 +92,13 @@ class LinhaFatura extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Servico::class, ['id' => 'servico_id']);
     }
+
+    public static function verificarPedidosConfirmados($reservaId)
+    {
+        return static::find()->where(['reserva_id' => $reservaId, 'status' => 'Confirmado'])->exists();
+    }
+    public static function verificarPedidoConfirmado($linhaFaturaId)
+    {
+        return static::find()->where(['id' => $linhaFaturaId, 'status' => 'Confirmado'])->exists();
+    }
 }

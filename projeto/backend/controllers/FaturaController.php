@@ -1,10 +1,9 @@
 <?php
 
-namespace frontend\controllers;
+namespace backend\controllers;
 
 use common\models\Fatura;
 use common\models\Reserva;
-use DateTime;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
@@ -27,44 +26,11 @@ class FaturaController extends Controller
             [
                 'access' => [
                     'class' => AccessControl::class,
-                    'only' => ['view','create','index'],
                     'rules' => [
                         [
-                            'actions' => ['view'],
+                            'actions' => ['index','view','create'],
                             'allow' => true,
-                            'roles' => ['@'],
-                            'matchCallback' => function ($rule, $action) {
-                                // Verificar se o user está tentando acessar ou modificar sua própria view
-                                $userId = Yii::$app->user->id;
-                                $faturaId = Yii::$app->request->getQueryParam('id');
-                                
-                                if($faturaId == null){
-                                    return false;
-                                }
-                                $fatura = Fatura::findOne($faturaId);
-                                return $fatura !== null && $userId == $fatura->reserva->cliente_id;
-                            }
-                        ],
-                        [
-                            'actions' => ['index'],
-                            'allow' => true,
-                            'roles' => ['@'],
-                            'matchCallback' => function ($rule, $action) {
-                                $userId = Yii::$app->user->id;
-                                $requestedUserId = Yii::$app->request->getQueryParam('userId');
-                                return $userId == $requestedUserId;
-                            }
-                        ],
-                        [
-                            'actions' => ['create'],
-                            'allow' => true,
-                            'roles' => ['@'],
-                            'matchCallback' => function ($rule, $action) {
-                                $userId = Yii::$app->user->id;
-                                $reservaId = Yii::$app->request->getQueryParam('id');
-                                $reserva = Reserva::find()->where(['id'=>$reservaId])->one();
-                                return $userId == $reserva->cliente_id;
-                            }
+                            'roles' => ['acederBackend'],
                         ],
                     ],
                 ],
@@ -83,11 +49,10 @@ class FaturaController extends Controller
      *
      * @return string
      */
-    public function actionIndex($userId)
+    public function actionIndex()
     {
-
         $dataProvider = new ActiveDataProvider([
-            'query' => Fatura::find()->joinWith('reserva')->andWhere(['reserva.cliente_id' => $userId]),
+            'query' => Fatura::find(),
             /*
             'pagination' => [
                 'pageSize' => 50
@@ -137,6 +102,11 @@ class FaturaController extends Controller
         $model->data_pagamento = date('Y-m-d');
         $model->pousada_id = 1;
 
+        //Quando cria a fatura a reserva fica inativa
+        $reserva = Reserva::findOne(['id'=>$model->reserva_id]);
+        $reserva->status = "Inativa";
+        $reserva->save();
+
         if ($this->request->isPost) {
             if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -149,6 +119,7 @@ class FaturaController extends Controller
             'model' => $model,
         ]);
     }
+
 
     /**
      * Finds the Fatura model based on its primary key value.
@@ -165,5 +136,4 @@ class FaturaController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
-    
 }

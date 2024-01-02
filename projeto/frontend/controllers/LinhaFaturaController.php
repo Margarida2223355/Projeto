@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\Fatura;
 use common\models\LinhaFatura;
 use common\models\Refeicao;
 use common\models\Servico;
@@ -69,6 +70,11 @@ class LinhaFaturaController extends Controller
      */
     public function actionIndex($reserva_id)
     {
+        if (Fatura::faturaExistsForReservaId($reserva_id)) {
+            // Caso exista uma fatura para esta reserva
+            Yii::$app->session->setFlash('error', 'Não pode adicionar compras pois já existe uma fatura para esta reserva.');
+            return $this->redirect(['reserva/index']);
+        }
         $dataProvider = new ActiveDataProvider([
             'query' => LinhaFatura::find()->where(['reserva_id' => $reserva_id]),
             /*
@@ -108,6 +114,12 @@ class LinhaFaturaController extends Controller
      */
     public function actionCreate($reserva_id,$tipo)
     {
+        if (Fatura::faturaExistsForReservaId($reserva_id)) {
+            // Caso exista uma fatura para esta reserva
+            Yii::$app->session->setFlash('error', 'Não pode adicionar compras pois já existe uma fatura para esta reserva.');
+            return $this->redirect(['reserva/index']);
+        }
+
         $model = new LinhaFatura();
         $model->reserva_id = $reserva_id;
         $model->status = 'carrinho';
@@ -149,13 +161,27 @@ class LinhaFaturaController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        if (LinhaFatura::verificarPedidoConfirmado($id)) {
+            // Caso exista uma fatura para esta reserva
+            Yii::$app->session->setFlash('error', 'Não pode atualizar a compra pois esse pedido já esta confirmado.');
+            return $this->redirect(['reserva/index']);
+        }
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
+        if ($model->refeicao_id) {
+            $refeicoes = Refeicao::find()->all();
+            $servicos = null;
+        } elseif ($model->servico_id) {
+            $servicos = Servico::find()->all();
+            $refeicoes = null;
+        }  
+
         return $this->render('update', [
             'model' => $model,
+            'refeicoes' => $refeicoes,
+            'servicos' => $servicos,
         ]);
     }
 
@@ -168,6 +194,11 @@ class LinhaFaturaController extends Controller
      */
     public function actionDelete($id)
     {
+        if (LinhaFatura::verificarPedidoConfirmado($id)) {
+            // Caso exista uma fatura para esta reserva
+            Yii::$app->session->setFlash('error', 'Não pode cancelar a compra pois esse pedido já esta confirmado.');
+            return $this->redirect(['reserva/index']);
+        }
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);

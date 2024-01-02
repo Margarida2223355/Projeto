@@ -98,4 +98,7 @@ class InfUser extends \yii\db\ActiveRecord
     {
         return $this->user->email;
     }
+    public static function getTotalUsers(){
+        return static::find()->count();
+    }
 }

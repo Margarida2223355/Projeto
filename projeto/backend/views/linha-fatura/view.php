@@ -4,20 +4,19 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
-/** @var common\models\Reserva $model */
+/** @var common\models\LinhaFatura $model */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Reservas', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Linha Faturas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="reserva-view">
+<div class="linha-fatura-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Gerar Fatura', ['fatura/create', 'id' => $model->id], ['class' => 'btn btn-success']) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -31,11 +30,23 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'quarto_id',
-            'cliente_id',
-            'data_inicial',
-            'data_final',
-            'preco_total',
+            'quantidade',
+            'descricao',
+            [
+                'attribute' => 'Serviço',
+                'value' => function ($model) {
+                    return $model->servico ? $model->servico->nome : null;;
+                },
+            ],
+            [
+                'attribute' => 'Refeição',
+                'value' => function ($model) {
+                    return $model->refeicao ? $model->refeicao->nome : null;;
+                },
+            ],
+            'sub_total',
+            'preco_unitario',
+            'reserva_id',
             'status',
         ],
     ]) ?>

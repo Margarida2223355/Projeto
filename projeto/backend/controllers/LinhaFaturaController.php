@@ -2,7 +2,11 @@
 
 namespace backend\controllers;
 
+use common\models\Fatura;
 use common\models\LinhaFatura;
+use common\models\Refeicao;
+use common\models\Servico;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -26,7 +30,7 @@ class LinhaFaturaController extends Controller
                     'class' => AccessControl::class,
                     'rules' => [
                         [
-                            'actions' => ['index','view','create','update','delete'],
+                            'actions' => ['index','view','create','update','delete','confirmar'],
                             'allow' => true,
                             'roles' => ['acederBackend'],
                         ],
@@ -51,16 +55,14 @@ class LinhaFaturaController extends Controller
     {
         $dataProvider = new ActiveDataProvider([
             'query' => LinhaFatura::find(),
-            /*
             'pagination' => [
-                'pageSize' => 50
+                'pageSize' => 20
             ],
             'sort' => [
                 'defaultOrder' => [
                     'id' => SORT_DESC,
                 ]
             ],
-            */
         ]);
 
         return $this->render('index', [
@@ -86,12 +88,32 @@ class LinhaFaturaController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate()
+    public function actionCreate($reserva_id,$tipo)
     {
+        if (Fatura::faturaExistsForReservaId($reserva_id)) {
+            // Caso exista uma fatura para esta reserva
+            Yii::$app->session->setFlash('error', 'Não pode adicionar compras pois já existe uma fatura para esta reserva.');
+            return $this->redirect(['reserva/index']);
+        }
+
         $model = new LinhaFatura();
+        $model->reserva_id = $reserva_id;
+        $model->status = 'carrinho';
+        
+
+        if ($tipo === 'refeicao') {
+            $refeicoes = Refeicao::find()->all();
+            $servicos = null;
+        } elseif ($tipo === 'servico') {
+            $servicos = Servico::find()->all();
+            $refeicoes = null;
+        }   
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            if ($model->load($this->request->post())) {
+                $model->preco_unitario = $tipo === 'refeicao' ? $model->refeicao->preco : $model->servico->preco;
+                $model->sub_total = $model->preco_unitario * $model->quantidade;
+                $model->save();
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -100,6 +122,8 @@ class LinhaFaturaController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'refeicoes' => $refeicoes,
+            'servicos' => $servicos,
         ]);
     }
 
@@ -118,8 +142,18 @@ class LinhaFaturaController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
+        if ($model->refeicao_id) {
+            $refeicoes = Refeicao::find()->all();
+            $servicos = null;
+        } elseif ($model->servico_id) {
+            $servicos = Servico::find()->all();
+            $refeicoes = null;
+        }  
+        
         return $this->render('update', [
             'model' => $model,
+            'refeicoes' => $refeicoes,
+            'servicos' => $servicos,
         ]);
     }
 
@@ -151,5 +185,14 @@ class LinhaFaturaController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionConfirmar($id)
+    {
+        $model = $this->findModel($id);
+        $model->status = 'Confirmado';
+        $model->save();
+
+        return $this->redirect(['index']);
     }
 }

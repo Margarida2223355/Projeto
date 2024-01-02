@@ -1,53 +1,162 @@
 <?php
-
-/** @var yii\web\View $this */
-
-$this->title = 'My Yii Application';
+$this->title = 'Dashboard';
+$this->params['breadcrumbs'] = [['label' => $this->title]];
 ?>
-<div class="site-index">
-
-    <div class="jumbotron text-center bg-transparent">
-        <h1 class="display-4">Congratulations!</h1>
-
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="https://www.yiiframework.com">Get started with Yii</a></p>
-    </div>
-
-    <div class="body-content">
-
+<div class="container-fluid">
         <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
+            <div class="col-lg-3 col-6">
+                <?=
+                \hail812\adminlte\widgets\InfoBox::widget([
+                    'id' => 'total-voos-info-box',
+                    'text' => 'Utilizadores Cadastrados',
+                    'number' => $numeroUsers,
+                    'theme' => 'info',
+                    'icon' => 'fas fa-plane-departure',
+                ]);
 
-                <p><a class="btn btn-outline-secondary" href="https://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
+
+                ?>
             </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="https://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
+            <div class="col-lg-3 col-6">
+                <?=
+                \hail812\adminlte\widgets\InfoBox::widget([
+                    'id' => 'voos-hoje-info-box',
+                    'text' => 'Total Reservas',
+                    'number' => $totalReservas,
+                    'theme' => 'success',
+                    'icon' => 'fas fa-plane-departure',
+                ]);
+            ?>
             </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
+        </div>
+        <div class="row">
 
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="https://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
+            <div class="col-lg-3 col-6">
+                <?=
+                \hail812\adminlte\widgets\SmallBox::widget([
+                    'id' => 'avioes-inoperacionais-info-box',
+                    'text' => 'Total de Quartos',
+                    'title' => $numeroQuartos,
+                    'theme' => 'danger',
+                    'icon' => 'fas fa-plane',
+                    'linkUrl' => '../aviao/index'
+                ]);
+                ?>
+            </div>
+            <div class="col-lg-3 col-6">
+                <?=
+                \hail812\adminlte\widgets\SmallBox::widget([
+                    'id' => 'pistas-info-box',
+                    'text' => 'Total Refeições',
+                    'title' => $numeroRefeicoes,
+                    'theme' => 'danger',
+                    'icon' => 'fas fa-road',
+                    'linkUrl' => '../pista/index'
+                ]);
+                ?>
+            </div>
+            <div class="col-lg-3 col-6">
+                <?=
+                \hail812\adminlte\widgets\SmallBox::widget([
+                    'id' => 'avioes-danificados-info-box',
+                    'text' => 'Total Servicos',
+                    'title' => $numeroServicos,
+                    'theme' => 'danger',
+                    'icon' => 'fas fa-plane',
+                    'linkUrl' => '../aviao/index'
+                ]);
+                ?>
+            </div>
+            <div class="col-lg-3 col-6">
+                <?=
+                \hail812\adminlte\widgets\SmallBox::widget([
+                    'id' => 'avioes-manutencao-info-box',
+                    'text' => 'Avioes em manutenção',
+                    'title' => $numeroUsers,
+                    'theme' => 'warning',
+                    'icon' => 'fas fa-plane',
+                    'linkUrl' => '../aviao/index'
+                ]);
+                ?>
+            </div>
+            <div class="col-lg-3 col-6">
+                <?=
+                \hail812\adminlte\widgets\SmallBox::widget([
+                    'id' => 'voos-planeados-info-box',
+                    'text' => 'Voos planeados',
+                    'title' => $numeroUsers,
+                    'theme' => 'info',
+                    'icon' => 'fas fa-plane-departure',
+                    'linkUrl' => '../voo/index'
+                ]);
+                ?>
+            </div>
+            <div class="col-lg-3 col-6">
+                <?=
+                \hail812\adminlte\widgets\SmallBox::widget([
+                    'id' => 'voos-circulacao-info-box',
+                    'text' => 'Voos em circulacao',
+                    'title' => $numeroUsers,
+                    'theme' => 'success',
+                    'icon' => 'fas fa-plane-departure',
+                    'linkUrl' => '../voo/index'
+                ]);
+                ?>
+            </div>
+            <div class="col-lg-3 col-6">
+                <?=
+                \hail812\adminlte\widgets\SmallBox::widget([
+                    'id' => 'voos-atrasados-info-box',
+                    'text' => 'Voos atrasados',
+                    'title' => $numeroUsers,
+                    'theme' => 'danger',
+                    'icon' => 'fas fa-plane-slash',
+                    'linkUrl' => '../voo/index'
+                ]);
+                ?>
             </div>
         </div>
 
-    </div>
+    <?php
+    if(Yii::$app->user->can('gestor')){
+        ?>
+        <div class="row">
+            <div class="col-lg-3 col-6">
+                <?=
+                \hail812\adminlte\widgets\SmallBox::widget([
+                    'id' => 'funcionarios-info-box',
+                    'text' => 'Total de funcionarios',
+                    'title' => $numeroUsers,
+                    'theme' => 'success',
+                    'icon' => 'fas fa-users',
+                    'linkUrl' => '../funcionario/index'
+                ]);
+                ?>
+            </div>
+        </div>
+    <?php }
+    ?>
+
+    <?php
+    if(Yii::$app->user->can('funcionario')){
+        ?>
+        <div class="row">
+            <div class="col-lg-3 col-6">
+                <?=
+                \hail812\adminlte\widgets\SmallBox::widget([
+                    'id' => 'recurso-info-box',
+                    'text' => 'Total de recursos inferiores a 100 unidades',
+                    'title' => $numeroUsers,
+                    'theme' => 'warning',
+                    'icon' => 'fas fa-box',
+                    'linkUrl' => '../recurso/index'
+                ]);
+                ?>
+            </div>
+        </div>
+    <?php }
+    ?>
+
+
 </div>

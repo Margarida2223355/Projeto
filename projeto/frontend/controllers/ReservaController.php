@@ -2,6 +2,8 @@
 
 namespace frontend\controllers;
 
+use common\models\Fatura;
+use common\models\LinhaFatura;
 use common\models\Reserva;
 use common\models\Quarto;
 use DateTime;
@@ -150,7 +152,6 @@ class ReservaController extends Controller
         $model->data_inicial = $dataInicial;
         $model->data_final = $dataFinal;
         $model->status = "inativa";
-        $model->imposto_id = 1;
 
         // Verificar se ja existe uma reserva para o mesmo quarto com datas sobrepostas
         $reservaSobreposta = Reserva::find()
@@ -206,7 +207,14 @@ class ReservaController extends Controller
 
         if (\Yii::$app->user->can('permission_self_operations', ['reserva' => $model])) {
             
+            // verifica se existe uma fatura para esta reserva
+            if (Fatura::faturaExistsForReservaId($id)) {
+                Yii::$app->session->setFlash('error', 'Essa reserva não pode ser alterada pois já existe uma fatura.');
+                return $this->redirect(['index']);
+            }
+
             if ($this->request->isPost && $model->load($this->request->post())) {
+                
                 // Verificar se ja existe uma reserva para o mesmo quarto com datas sobrepostas
                 $reservaSobreposta = Reserva::find()
                 ->andWhere(['quarto_id' => $model->quarto_id])
@@ -246,9 +254,20 @@ class ReservaController extends Controller
     {
         $model = $this->findModel($id);
         if (\Yii::$app->user->can('permission_self_operations', ['reserva' => $model])) {
-            
-            // alterar a reserva para cancelada
+            // Verifica se existe uma fatura para esta reserva
+            if (Fatura::faturaExistsForReservaId($id)) {
+                Yii::$app->session->setFlash('error', 'Essa reserva não pode ser apagada pois já existe uma fatura.');
+                return $this->redirect(['index']);
+            }
+            if (LinhaFatura::verificarPedidosConfirmados($id)) {
+                // Caso em que já existe uma LinhaFatura confirmada na reserva
+                Yii::$app->session->setFlash('error', 'Essa reserva não pode ser apagada pois já existe um pedido confirmado para esta reserva.');
+                return $this->redirect(['index']);
+            }
 
+            // Deleta todas as LinhaFatura associadas à reserva
+            LinhaFatura::deleteAll(['reserva_id' => $id]);
+            $model->delete();
         }
         else{
             throw new \yii\web\ForbiddenHttpException('Você não tem permissão para acessar esta página.');

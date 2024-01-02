@@ -16,9 +16,9 @@ use yii\helpers\ArrayHelper;
     
     <?= $form->field($model, 'quarto_id')->input($model->quarto_id, ['readonly' => true])?>
 
-    <?= $form->field($model, 'data_inicial')->input([$model->data_inicial, 'readonly' => true])?>
+    <?= $form->field($model, 'data_inicial')->input($model->data_inicial, ['readonly' => true])?>
     
-    <?= $form->field($model, 'data_final')->input([$model->data_final, 'readonly' => true])?>
+    <?= $form->field($model, 'data_final')->input($model->data_final, ['readonly' => true])?>
 
     <?= $form->field($model, 'preco_total')->textInput([ 'readonly' => true]) ?>
 

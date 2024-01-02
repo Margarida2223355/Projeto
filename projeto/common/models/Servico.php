@@ -59,4 +59,7 @@ class Servico extends \yii\db\ActiveRecord
     {
         return $this->hasMany(LinhaFatura::class, ['servico_id' => 'id']);
     }
+    public static function getTotalServicos(){
+        return static::find()->count();
+    }
 }
