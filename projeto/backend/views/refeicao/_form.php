@@ -15,6 +15,10 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'nome')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'preco')->textInput() ?>
+    
+    <?= $form->field($model, 'data')->textInput(['type' => 'date']) ?>
+
+    <?= $form->field($model, 'categoria')->dropDownList(['Almoco' => 'Almoço', 'Jantar' => 'Jantar']) ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

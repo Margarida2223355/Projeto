@@ -45,6 +45,7 @@ use yii\helpers\Html;
                     ['label' => 'Refeições', 'icon' => 'utensils', 'url' => ['/refeicao/index']],
                     ['label' => 'Pousada', 'icon' => 'hotel', 'url' => ['/pousada/index']],
                     ['label' => 'Reservas', 'icon' => 'book', 'url' => ['/reserva/index']],
+                    ['label' => 'Pedidos', 'icon' => 'shopping-cart', 'url' => ['/linha-fatura/index']],
                 ],
             ]);
             ?>

@@ -16,6 +16,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
+    <p>
+        <?= Html::a('Create Fatura', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
+
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
@@ -23,32 +28,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'data_pagamento',
-            // [
-            //     'attribute' => 'Pousada',
-            //     'value' => function ($model) {
-            //         return $model->pousada->denominacao_social;
-            //     },
-            // ],
-            // [
-            //     'attribute' => 'NIF',
-            //     'value' => function ($model) {
-            //         return $model->pousada->nif;
-            //     },
-            // ],
-            // [
-            //     'attribute' => 'Morada Empresa',
-            //     'value' => function ($model) {
-            //         return $model->pousada->morada;
-            //     },
-            // ],
             'reserva_id',
             'preco_total',
             [
                 'class' => ActionColumn::className(),
-                'template' => '{view}',
                 'urlCreator' => function ($action, Fatura $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
-                }
+                 }
             ],
         ],
     ]); ?>

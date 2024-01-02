@@ -11,6 +11,7 @@ $this->params['breadcrumbs'][] = ['label' => 'Linha Faturas', 'url' => ['index',
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
+
 <div class="linha-fatura-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
@@ -31,8 +32,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'quantidade',
-            'servico_id',
-            'refeicao_id',
+            [
+                'attribute' => 'Serviço',
+                'value' => function ($model) {
+                    return $model->servico ? $model->servico->nome : null;;
+                },
+            ],
+            [
+                'attribute' => 'Refeição',
+                'value' => function ($model) {
+                    return $model->refeicao ? $model->refeicao->nome : null;;
+                },
+            ],
             'sub_total',
             'preco_unitario',
             'reserva_id',

@@ -16,9 +16,7 @@ use Yii;
  * @property string $data_final
  * @property float $preco_total
  * @property string $status
- * @property int $imposto_id 
 
- * @property Imposto $imposto
  * @property User $cliente
  * @property LinhaFatura[] $linhaFaturas
  * @property Quarto $quarto
@@ -39,15 +37,14 @@ class Reserva extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['quarto_id', 'cliente_id', 'data_inicial', 'data_final', 'preco_total', 'status','imposto_id'], 'required'],
-            [['quarto_id', 'cliente_id', 'imposto_id'], 'integer'],
+            [['quarto_id', 'cliente_id', 'data_inicial', 'data_final', 'preco_total', 'status'], 'required'],
+            [['quarto_id', 'cliente_id'], 'integer'],
             [['data_inicial', 'data_final'], 'safe'],
             [['data_final'], 'compare', 'compareAttribute' => 'data_inicial', 'operator' => '>=', 'message' => 'A data final deve ser igual ou posterior à data inicial.'],
             [['preco_total'], 'number'],
             [['status'], 'string'],
             [['quarto_id'], 'exist', 'skipOnError' => true, 'targetClass' => Quarto::class, 'targetAttribute' => ['quarto_id' => 'id']],
             [['cliente_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['cliente_id' => 'id']],
-            [['imposto_id'], 'exist', 'skipOnError' => true, 'targetClass' => Imposto::class, 'targetAttribute' => ['imposto_id' => 'id']],
         ];
     }
 
@@ -63,20 +60,10 @@ class Reserva extends \yii\db\ActiveRecord
             'data_inicial' => 'Data Inicial',
             'data_final' => 'Data Final',
             'preco_total' => 'Preco Total',
-            'imposto_id' => 'Imposto ID', 
             'status' => 'Status',
         ];
     }
 
-    /**
-    * Gets query for [[Imposto]].
-    *
-    * @return \yii\db\ActiveQuery
-    */
-   public function getImposto()
-   {
-       return $this->hasOne(Imposto::class, ['id' => 'imposto_id']);
-   }
 
     /**
      * Gets query for [[Cliente]].

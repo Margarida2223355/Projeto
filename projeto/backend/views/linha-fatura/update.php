@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /** @var common\models\LinhaFatura $model */
 
 $this->title = 'Update Linha Fatura: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Reserva', 'url' => ['reserva/index']];
+$this->params['breadcrumbs'][] = ['label' => 'Linha Faturas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>

@@ -7,6 +7,7 @@ use yii\widgets\DetailView;
 /** @var common\models\Fatura $model */
 
 $this->title = $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Faturas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 
@@ -18,6 +19,7 @@ JS;
 
 $this->registerJs($script, yii\web\View::POS_HEAD);
 ?>
+
 <div class="fatura-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
