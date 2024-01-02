@@ -1,16 +1,21 @@
 package com.example.pousadas.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Toast;
 
+import com.example.pousadas.activities.ReservationDetailActivity;
 import com.example.pousadas.adapters.ListReservationAdapter;
-import com.example.pousadas.databinding.FragmentRoomClientBinding;
+import com.example.pousadas.databinding.FragmentReservationClientBinding;
 import com.example.pousadas.listeners.ReservationsListener;
 import com.example.pousadas.models.Geral;
 import com.example.pousadas.models.Reservation;
@@ -21,13 +26,13 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 
-public class RoomClientFragment extends Fragment implements ReservationsListener {
+public class ReservationClientFragment extends Fragment implements ReservationsListener {
 
-    private FragmentRoomClientBinding binding;
+    private FragmentReservationClientBinding binding;
     private final Geral geral_ = new Geral();
     private MaterialAlertDialogBuilder alert;
 
-    public RoomClientFragment() {
+    public ReservationClientFragment() {
         // Required empty public constructor
     }
 
@@ -35,7 +40,7 @@ public class RoomClientFragment extends Fragment implements ReservationsListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentRoomClientBinding.inflate(getLayoutInflater());
+        binding = FragmentReservationClientBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
 
         /* *************************************** */
@@ -96,7 +101,7 @@ public class RoomClientFragment extends Fragment implements ReservationsListener
             }
         });
 
-        /* Método quando se clica na lupa para pesquisar as reservas */
+        /* Listener para quando se clica na lupa para pesquisar as reservas */
         binding.search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,7 +129,7 @@ public class RoomClientFragment extends Fragment implements ReservationsListener
     @Override
     public void onRefreshReservationsList(ArrayList<Reservation> reservations) {
         if (reservations != null) {
-            binding.listRoom.setAdapter(new ListReservationAdapter(getContext(), reservations));
+            binding.listRoom.setAdapter((new ListReservationAdapter(getContext(), reservations)));
         }
 
     }

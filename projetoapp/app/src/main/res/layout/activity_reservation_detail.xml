@@ -4,48 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.RoomDetailActivity">
+    tools:context=".activities.ReservationDetailActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
-                android:src="@drawable/ic_launcher_background" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/txtWelcome"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="25dp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/txtName"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="bottom"
-                    android:text="Client Name" />
-            </LinearLayout>
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -80,7 +44,6 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/txtClientReservation"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".4"
@@ -93,7 +56,8 @@
                             android:layout_height="wrap_content"
                             android:layout_weight=".7"
                             android:ems="10"
-                            android:inputType="text"
+                            android:inputType="number"
+                            style="@style/ReservationText"
                             tools:ignore="SpeakableTextPresentCheck" />
                     </LinearLayout>
 
@@ -108,7 +72,6 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/txtClientRoom"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".4"
@@ -121,6 +84,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight=".7"
                             android:ems="10"
+                            style="@style/ReservationText"
                             android:inputType="text"
                             tools:ignore="SpeakableTextPresentCheck" />
                     </LinearLayout>
@@ -136,7 +100,6 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/txtClientInit"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".4"
@@ -149,6 +112,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight=".7"
                             android:ems="10"
+                            style="@style/ReservationText"
                             android:inputType="text"
                             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
                     </LinearLayout>
@@ -164,7 +128,6 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/txtClientEnd"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".4"
@@ -177,6 +140,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight=".7"
                             android:ems="10"
+                            style="@style/ReservationText"
                             android:inputType="text"
                             tools:ignore="SpeakableTextPresentCheck" />
                     </LinearLayout>
@@ -192,7 +156,6 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/txtClientTotal"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight=".4"
@@ -206,11 +169,38 @@
                             android:layout_height="wrap_content"
                             android:layout_weight=".7"
                             android:ems="10"
-                            android:inputType="text"
-                            android:textStyle="bold"
+                            style="@style/ReservationText"
+                            android:inputType="numberDecimal"
                             tools:ignore="SpeakableTextPresentCheck" />
 
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight=".8"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".4"
+                            android:gravity="end"
+                            android:text="@string/txtClientStatus"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/eClientStatus"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".7"
+                            android:ems="10"
+                            style="@style/ReservationText"
+                            android:inputType="text"
+                            tools:ignore="SpeakableTextPresentCheck" />
+
+                    </LinearLayout>
+
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

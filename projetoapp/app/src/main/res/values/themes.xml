@@ -44,4 +44,9 @@
         <item name="backgroundColor">@color/white</item>
     </style>
 
+    <style name="ReservationText">
+        <item name="android:textColor">@color/colorSecondary</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
 </resources>

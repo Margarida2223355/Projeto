@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
                 break;
             case CLIENT:
                 //startActivity(new Intent(getApplicationContext(), ClientActivity.class));
-                startActivity((new Intent(getApplicationContext(), IPConfigActivity.class)).putExtra("name", binding.txtUsername.getText().toString()));
+                startActivity((new Intent(getApplicationContext(), IPConfigActivity.class)).putExtra(IPConfigActivity.NAME, binding.txtUsername.getText().toString()));
                 break;
         }
         finish();

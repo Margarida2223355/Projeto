@@ -25,6 +25,7 @@
     <string name="txtClientEnd">Data Fim:</string>
     <string name="txtClientDay">Valor Diário:</string>
     <string name="txtClientTotal">Valor Total:</string>
+    <string name="txtClientStatus">Status:</string>
     <string name="txtWelcome">Bem vindo/a</string>
 
     <!-- TextFields na página marcar refeições -->

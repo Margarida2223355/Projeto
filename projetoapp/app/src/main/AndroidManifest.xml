@@ -20,7 +20,8 @@
             android:name=".activities.IPConfigActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.RoomDetailActivity"
+            android:name=".activities.ReservationDetailActivity"
+            android:parentActivityName=".activities.ClientActivity"
             android:exported="false" />
         <activity
             android:name=".activities.FuncActivity"
@@ -30,6 +31,7 @@
             android:exported="false" />
         <activity
             android:name=".activities.ClientActivity"
+            android:launchMode="singleTop"
             android:exported="false" />
         <activity
             android:name=".activities.LoginActivity"

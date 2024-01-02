@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".fragments.RoomsClientFragment">
+    tools:context=".fragments.ReservationClientFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -86,12 +86,19 @@
             app:cardCornerRadius="20dp"
             style="@style/CardView">
 
-            <ListView
-                android:id="@+id/listRoom"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="@null">
-            </ListView>
+                android:layout_height="match_parent">
+
+                <ListView
+                    android:id="@+id/listRoom"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="@null">
+                </ListView>
+
+            </FrameLayout>
+
         </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>

@@ -90,6 +90,17 @@ public class Singleton {
         return null;
     }
 
+    public ArrayList<Reservation> getReservations() { return reservations; }
+
+    public Reservation getReservation(int id) {
+        for (Reservation reservation : reservations) {
+            if (reservation.getId() == id) return reservation;
+        }
+
+        return null;
+    }
+
+
     /* API */
     /* Obter lista de refeições com base na data e horário selecionados */
     public void getFoodsByDateSchedule(Date date, Category category, final Context context) {

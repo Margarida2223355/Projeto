@@ -2,16 +2,20 @@ package com.example.pousadas.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.example.pousadas.R;
 import com.example.pousadas.databinding.ActivityIpconfigBinding;
 
 public class IPConfigActivity extends AppCompatActivity {
+
+    public static final String NAME = "NAME";
     private ActivityIpconfigBinding binding;
 
     @Override
@@ -22,9 +26,14 @@ public class IPConfigActivity extends AppCompatActivity {
         binding = ActivityIpconfigBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        if (getIntent().hasExtra("name")) {
-            binding.txtName.setText(getIntent().getStringExtra("name"));
+        if (getIntent().hasExtra(NAME)) {
+            binding.txtName.setText(getIntent().getStringExtra(NAME));
         }
+
+        /* *************************************** */
+        binding.txtIP.setText("192.168.1.92");
+        /* *************************************** */
+
 
         /* Atualizar txtField do IP
          *
@@ -96,12 +105,17 @@ public class IPConfigActivity extends AppCompatActivity {
                  */
                 for (int i = 10; i < Math.min(input.length(), 12); i++) {
                     formattedIp.append(input.charAt(i));
+
+                    if (i == 11) {
+                        ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                    }
                 }
 
                 binding.txtIP.removeTextChangedListener(this); // Remover o TextWatcher temporariamente para evitar chamadas recursivas
                 binding.txtIP.setText(formattedIp.toString());
                 binding.txtIP.setSelection(formattedIp.length());
-                binding.txtIP.addTextChangedListener(this);            }
+                binding.txtIP.addTextChangedListener(this);
+            }
         });
 
         /* Ao clicar no botão Star abrir a Activity */

@@ -7,12 +7,11 @@ import androidx.fragment.app.FragmentManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Toast;
 
 import com.example.pousadas.R;
 import com.example.pousadas.databinding.ActivityClientBinding;
 import com.example.pousadas.fragments.FoodClientFragment;
-import com.example.pousadas.fragments.RoomClientFragment;
+import com.example.pousadas.fragments.ReservationClientFragment;
 import com.example.pousadas.fragments.ServicesClientFragment;
 import com.example.pousadas.fragments.ShopClientFragment;
 import com.example.pousadas.models.Geral;
@@ -68,7 +67,7 @@ public class ClientActivity extends AppCompatActivity {
         Fragment fragment = null;
 
         if (view.getId() == R.id.btnRoom) {
-            fragment = new RoomClientFragment();
+            fragment = new ReservationClientFragment();
         }
 
         else if (view.getId() == R.id.btnFood) {

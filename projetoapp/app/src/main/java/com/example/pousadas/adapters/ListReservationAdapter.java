@@ -2,13 +2,14 @@ package com.example.pousadas.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Toast;
 
-import com.example.pousadas.activities.RoomDetailActivity;
+import com.example.pousadas.activities.ReservationDetailActivity;
 import com.example.pousadas.databinding.ItemRoomListBinding;
 import com.example.pousadas.models.Reservation;
 
@@ -80,15 +81,15 @@ public class ListReservationAdapter extends BaseAdapter {
             binding = myViewHolder.item;
         }
 
-        binding.detail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.getContext().startActivity(new Intent(v.getContext(), RoomDetailActivity.class));
-            }
-        });
-
         /* Atualizar a viewHolder */
         myViewHolder.update(reservations.get(position));
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity((new Intent(context, ReservationDetailActivity.class)).putExtra(ReservationDetailActivity.ID_RESERVATION, reservations.get(position).getId()));
+            }
+        });
 
         return convertView;
     }
@@ -107,7 +108,8 @@ public class ListReservationAdapter extends BaseAdapter {
 
         /* Método para atualizar os valores */
         public void update(Reservation reservation) {
-            item.description.setText(reservation.getRoom().getDescricao());
+            item.description.setText("Reserva id: " + reservation.getId());
         }
     }
+
 }

@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import com.example.pousadas.R;
 import com.example.pousadas.databinding.ActivityAdminBinding;
 import com.example.pousadas.fragments.FoodClientFragment;
-import com.example.pousadas.fragments.RoomClientFragment;
+import com.example.pousadas.fragments.ReservationClientFragment;
 import com.example.pousadas.models.Geral;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -66,7 +66,7 @@ public class AdminActivity extends AppCompatActivity {
         Fragment fragment = null;
 
         if (view.getId() == R.id.btnRoom) {
-            fragment = new RoomClientFragment();
+            fragment = new ReservationClientFragment();
             Toast.makeText(this, "Room", Toast.LENGTH_SHORT).show();
         }
 
