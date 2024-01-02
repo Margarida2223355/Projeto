@@ -4,6 +4,11 @@ namespace backend\controllers;
 
 use common\models\LoginForm;
 use backend\models\SignupForm;
+use common\models\InfUser;
+use common\models\Quarto;
+use common\models\Refeicao;
+use common\models\Reserva;
+use common\models\Servico;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -70,7 +75,15 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $numeroUsers = InfUser::getTotalUsers();
+        $totalReservas = Reserva::getTotalReservas();
+        $numeroQuartos = Quarto::getTotalQuartos();
+        $numeroRefeicoes = Refeicao::getTotalRefeicoes();
+        $numeroServicos = Servico::getTotalServicos();
+        return $this->render('index', ['numeroUsers' => $numeroUsers, 
+        'totalReservas' => $totalReservas,'numeroQuartos'=>$numeroQuartos,
+        'numeroRefeicoes'=>$numeroRefeicoes, 'numeroServicos'=>$numeroServicos,
+    ]);
     }
 
     /**

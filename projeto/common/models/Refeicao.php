@@ -62,4 +62,7 @@ class Refeicao extends \yii\db\ActiveRecord
     {
         return $this->hasMany(LinhaFatura::class, ['refeicao_id' => 'id']);
     }
+    public static function getTotalRefeicoes(){
+        return static::find()->count();
+    }
 }

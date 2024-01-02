@@ -118,4 +118,7 @@ class Reserva extends \yii\db\ActiveRecord
 
        return $preco_diarias = $numDias * $this->quarto->preco;
     }
+    public static function getTotalReservas(){
+        return static::find()->count();
+    }
 }

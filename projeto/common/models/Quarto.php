@@ -104,5 +104,7 @@ class Quarto extends \yii\db\ActiveRecord
 
         return $quartosDisponiveis;
     }
-
+    public static function getTotalQuartos(){
+        return static::find()->count();
+    }
 }
