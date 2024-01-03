@@ -19,6 +19,9 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ],
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -92,10 +95,11 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/user',
                     'extraPatterns' => [
-
+                        //'GET {username}' => 'getuser',
+                        'GET login' => 'login'
                     ],
                     'tokens' => [
-
+                        '{username}' => '<username:[\w\.]++>'
                     ]
                 ],
                 [

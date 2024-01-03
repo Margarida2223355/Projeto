@@ -14,9 +14,7 @@ import com.example.pousadas.enums.Category;
 import com.example.pousadas.listeners.FoodsListener;
 import com.example.pousadas.listeners.ReservationsListener;
 import com.example.pousadas.listeners.ServicesListener;
-import com.example.pousadas.utils.FoodJsonParser;
-import com.example.pousadas.utils.ReservationJsonParser;
-import com.example.pousadas.utils.ServiceJsonParser;
+import com.example.pousadas.utils.JsonParser;
 
 import org.json.JSONArray;
 
@@ -36,9 +34,9 @@ public class Singleton {
     private DBHelper.FoodsTable foodsTable;
     private DBHelper.ServicesTable servicesTable;
     private DBHelper.ReservationsTable reservationsTable;
+    private JsonParser jsonParser = new JsonParser();
     private static RequestQueue volleyQueue;
     private static final String INIT_URL = "http://192.168.1.92/Projeto/projeto/backend/web/api/";
-    private static String apiUrl;
 
     public static synchronized Singleton getInstance(Context context) {
         if (instance == null) {
@@ -105,7 +103,7 @@ public class Singleton {
     /* Obter lista de refeições com base na data e horário selecionados */
     public void getFoodsByDateSchedule(Date date, Category category, final Context context) {
 
-        if (!FoodJsonParser.isConnectionInternet(context)) {
+        if (!JsonParser.isConnectionInternet(context)) {
             Toast.makeText(context, "No internet Connection", Toast.LENGTH_SHORT).show();
 
             if (foodsListener != null) {
@@ -114,13 +112,17 @@ public class Singleton {
         }
 
         else {
-            apiUrl = INIT_URL + "refeicaos/" + geral_.convertFromDate(geral_.getFromDate(date)) + "/" + category.getCategory();
-            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
+            JsonArrayRequest request = new JsonArrayRequest(
+                    Request.Method.GET,
+                    INIT_URL + "refeicaos/" + geral_.convertFromDate(geral_.getFromDate(date)) + "/" + category.getCategory(),
+                    null,
+                    new Response.Listener<JSONArray>() {
+
                 @Override
                 public void onResponse(JSONArray response) {
                     System.out.println("--> " + response);
 
-                    foods = FoodJsonParser.jsonFoodsParser(response);
+                    foods = jsonParser.new JsonFoodsParser().jsonFoodsParser(response);
                     addFoodsDB(foods);
 
                     if (foodsListener != null) {
@@ -151,7 +153,7 @@ public class Singleton {
     }
 
     public void getAllServices(final Context context) {
-        if (!FoodJsonParser.isConnectionInternet(context)) {
+        if (!jsonParser.isConnectionInternet(context)) {
             Toast.makeText(context, "No internet Connection", Toast.LENGTH_SHORT).show();
 
             if (servicesListener != null) {
@@ -160,13 +162,16 @@ public class Singleton {
         }
 
         else {
-            apiUrl = INIT_URL + "servicos";
-            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
+            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,
+                    INIT_URL + "servicos",
+                null,
+                new Response.Listener<JSONArray>()
+                {
                 @Override
                 public void onResponse(JSONArray response) {
                     System.out.println("--> " + response);
 
-                    services = ServiceJsonParser.jsonServicesParser(response);
+                    services = jsonParser.new JsonServicesParser().jsonServicesParser(response);
                     addServicesDB(services);
 
                     if (servicesListener != null) {
@@ -197,7 +202,7 @@ public class Singleton {
     }
 
     public void getReservationsByDates(Date initDate, Date endDate, final Context context) {
-        if (!ReservationJsonParser.isConnectionInternet(context)) {
+        if (!jsonParser.isConnectionInternet(context)) {
             Toast.makeText(context, "No internet Connection", Toast.LENGTH_SHORT).show();
 
             if (reservationsListener != null) {
@@ -206,13 +211,16 @@ public class Singleton {
         }
 
         else {
-            apiUrl = INIT_URL + "reservas/" + geral_.convertFromDate(geral_.getFromDate(initDate)) + "/" + geral_.convertFromDate(geral_.getFromDate(endDate));
-            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, apiUrl, null, new Response.Listener<JSONArray>() {
+            JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,
+                    INIT_URL + "reservas/" + geral_.convertFromDate(geral_.getFromDate(initDate)) + "/" + geral_.convertFromDate(geral_.getFromDate(endDate)),
+                    null,
+                    new Response.Listener<JSONArray>() {
+
                 @Override
                 public void onResponse(JSONArray response) {
                     System.out.println("--> " + response);
 
-                    reservations = ReservationJsonParser.jsonReservationsParser(response);
+                    reservations = jsonParser.new JsonReservationsParser().jsonReservationsParser(response);
                     addReservationsDB(reservations);
 
                     if (reservationsListener != null) {

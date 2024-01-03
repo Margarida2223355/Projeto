@@ -9,7 +9,6 @@ import android.view.View;
 import com.example.pousadas.databinding.ActivityLoginBinding;
 import com.example.pousadas.enums.Role;
 import com.example.pousadas.models.User;
-import com.google.android.material.textfield.TextInputEditText;
 
 public class LoginActivity extends AppCompatActivity {
 
