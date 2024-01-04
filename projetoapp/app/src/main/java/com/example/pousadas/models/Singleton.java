@@ -18,6 +18,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.pousadas.activities.IPConfigActivity;
+import com.example.pousadas.activities.LoginActivity;
 import com.example.pousadas.db.DBHelper;
 import com.example.pousadas.enums.Category;
 import com.example.pousadas.listeners.FoodsListener;
@@ -57,7 +58,7 @@ public class Singleton extends AppCompatActivity {
     private DBHelper.UserTable userTable;
     private JsonParser jsonParser = new JsonParser();
     private static RequestQueue volleyQueue;
-    private SharedPreferences sharedPreferences;
+    private SharedPreferences ipPreferences, userPreferences;
     private static final String PROJECTURL = "/Projeto/projeto/backend/web/api/";
     private String INIT_URL;
     public static synchronized Singleton getInstance(Context context) {
@@ -78,9 +79,11 @@ public class Singleton extends AppCompatActivity {
         reservationsTable = dbHelper.new ReservationsTable();
         userTable = dbHelper.new UserTable();
 
-        sharedPreferences = context.getSharedPreferences(IPConfigActivity.IPCONFIG, Context.MODE_PRIVATE);
+        ipPreferences = context.getSharedPreferences(IPConfigActivity.IPCONFIG, Context.MODE_PRIVATE);
+        userPreferences = context.getSharedPreferences(LoginActivity.PREFERENCES, Context.MODE_PRIVATE);
+
         INIT_URL = "http://"
-                + sharedPreferences.getString(IPConfigActivity.IP, "")
+                + ipPreferences.getString(IPConfigActivity.IP, "")
                 + PROJECTURL;
     }
 
@@ -244,7 +247,7 @@ public class Singleton extends AppCompatActivity {
 
         else {
             JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,
-                    INIT_URL + "reservas/" + geral_.convertFromDate(geral_.getFromDate(initDate)) + "/" + geral_.convertFromDate(geral_.getFromDate(endDate)),
+                    INIT_URL + "reservas/" + geral_.convertFromDate(geral_.getFromDate(initDate)) + "/" + geral_.convertFromDate(geral_.getFromDate(endDate)) + "/" + userPreferences.getInt(LoginActivity.USER_ID, 0),
                     null,
                     new Response.Listener<JSONArray>() {
 
