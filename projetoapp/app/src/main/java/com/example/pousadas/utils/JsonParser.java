@@ -148,6 +148,31 @@ public class JsonParser {
         }
     }
 
+    public class JsonUserParser {
+        public User jsonUserParser(JSONObject response) {
+            User user = null;
+
+            try {
+                user = new User(
+                        response.getInt("id"),
+                        response.getString("nome_completo"),
+                        response.getString("morada"),
+                        response.getString("pais"),
+                        response.getString("telefone"),
+                        (float) response.getDouble("salario"),
+                        response.getString("nif")
+                );
+            }
+
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return  user;
+        }
+    }
+
+
     /* Método para verificar se ligação à internet foi realizada */
     public static boolean isConnectionInternet(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -158,4 +183,5 @@ public class JsonParser {
                         &&
                         networkInfo.isConnectedOrConnecting();
     }
+
 }

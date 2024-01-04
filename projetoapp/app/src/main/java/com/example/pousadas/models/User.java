@@ -8,7 +8,7 @@ public class User {
     private int id;
     private String nome, morada, pais, telefone, nif;
     private float salario;
-    private Role role;
+    //private Role role;
 
     public User() {}
 
@@ -74,11 +74,12 @@ public class User {
         this.salario = salario;
     }
 
+    /*
     public Role getRole() {
         return role;
     }
 
     public void setRole(Role role) {
         this.role = role;
-    }
+    }*/
 }

@@ -2,18 +2,24 @@ package com.example.pousadas.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
 import com.example.pousadas.databinding.ActivityLoginBinding;
-import com.example.pousadas.enums.Role;
+import com.example.pousadas.listeners.UserListener;
+import com.example.pousadas.models.Singleton;
 import com.example.pousadas.models.User;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements UserListener {
 
-    private User user = new User();
+    private User loggedUser = null;
     private ActivityLoginBinding binding;
+    public static final String USER_ID = "USER_ID";
+    public static final String USER_NAME = "USER_NAME";
+    public static final String PREFERENCES = "My Preferences";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,40 +27,33 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        login_aut();
-    }
-
-    private void login_aut() {
-
-        binding.txtUsername.setText("Admin");
-        binding.txtPassword.setText("123456789");
-
-    }
-
-    private boolean checkAuth(String email, String pass) {
-        return ((email == null) || (pass == null));
     }
 
     public void onClickLogin(View view) {
-        if(checkAuth(binding.txtUsername.getText().toString(),binding.txtPassword.getText().toString())) {
-            return;
-        }
+        binding.txtUsername.setText("123456789");
+        binding.txtPassword.setText("123456789");
 
-        /* Abrir atividade consoante o role do user que fez login */
-        user.setRole(Role.CLIENT); //Para teste
-        switch (user.getRole()) {
-            case ADMIN:
-                startActivity(new Intent(getApplicationContext(), AdminActivity.class));
-                break;
-            case FUNC:
-                startActivity(new Intent(getApplicationContext(), FuncActivity.class));
-                break;
-            case CLIENT:
-                //startActivity(new Intent(getApplicationContext(), ClientActivity.class));
-                startActivity((new Intent(getApplicationContext(), IPConfigActivity.class)).putExtra(IPConfigActivity.NAME, binding.txtUsername.getText().toString()));
-                break;
+        Singleton.getInstance(getApplicationContext()).setUserListener(this);
+
+        Singleton.getInstance(getApplicationContext()).getUser(
+                binding.txtUsername.getText().toString(),
+                binding.txtPassword.getText().toString(),
+                getApplicationContext()
+        );
+    }
+
+    @Override
+    public void onLogin(User user) {
+        if (user != null) {
+
+            getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE).edit()
+                    .putInt(USER_ID, user.getId())
+                    .putString(USER_NAME, user.getNome())
+                    .apply();
+
+            startActivity(new Intent(getApplicationContext(), IPConfigActivity.class));
+            finish();
         }
-        finish();
     }
 }
 

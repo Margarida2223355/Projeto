@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,8 +16,8 @@ import com.example.pousadas.databinding.ActivityIpconfigBinding;
 
 public class IPConfigActivity extends AppCompatActivity {
 
-    public static final String NAME = "NAME";
     private ActivityIpconfigBinding binding;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +27,11 @@ public class IPConfigActivity extends AppCompatActivity {
         binding = ActivityIpconfigBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        if (getIntent().hasExtra(NAME)) {
-            binding.txtName.setText(getIntent().getStringExtra(NAME));
-        }
+       sharedPreferences = getSharedPreferences(LoginActivity.PREFERENCES, Context.MODE_PRIVATE);
+
+        binding.txtName.setText(
+                sharedPreferences.getString(LoginActivity.USER_NAME, "")
+        );
 
         /* *************************************** */
         binding.txtIP.setText("192.168.1.92");

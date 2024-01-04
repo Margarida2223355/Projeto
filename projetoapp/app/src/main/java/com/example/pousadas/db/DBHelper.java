@@ -269,5 +269,55 @@ public class DBHelper extends SQLiteOpenHelper {
         }
 
     }
+    public class UserTable {
+        public User getUser() {
+            User user = null;
+            Cursor cursor = db.query(
+                    MyDatabase.UserTable.DB_TABLE,
+                        new String[] {MyDatabase.ReservationTable.ID, MyDatabase.UserTable.NOME_COMPLETO, MyDatabase.UserTable.MORADA, MyDatabase.UserTable.PAIS, MyDatabase.UserTable.TELEFONE, MyDatabase.UserTable.SALARIO, MyDatabase.UserTable.NIF},
+                    null,
+                    null,
+                    null,
+                    null,
+                    null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    user = new User(
+                            cursor.getInt(0),
+                            cursor.getString(1),
+                            cursor.getString(2),
+                            cursor.getString(3),
+                            cursor.getString(4),
+                            (float) cursor.getDouble(5),
+                            cursor.getString(6)
+                    );
+
+                } while (cursor.moveToNext());
+
+                cursor.close();
+            }
+
+            return user;
+        }
+
+        public void removeUserDB() {
+            db.delete(MyDatabase.UserTable.DB_TABLE, null, null);
+        }
+
+        public void addUserDB(User user) {
+            ContentValues values = new ContentValues();
+
+            values.put(MyDatabase.UserTable.NOME_COMPLETO, user.getNome());
+            values.put(MyDatabase.UserTable.MORADA, user.getMorada());
+            values.put(MyDatabase.UserTable.PAIS, user.getPais());
+            values.put(MyDatabase.UserTable.TELEFONE, user.getTelefone());
+            values.put(MyDatabase.UserTable.SALARIO, user.getSalario());
+            values.put(MyDatabase.UserTable.NIF, user.getNif());
+
+            db.insert(MyDatabase.UserTable.DB_TABLE, null, values);
+        }
+
+    }
 
 }

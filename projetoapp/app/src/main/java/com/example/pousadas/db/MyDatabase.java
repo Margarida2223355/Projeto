@@ -95,4 +95,38 @@ public class MyDatabase {
                             + " FOREIGN KEY(" + ROOM_ID + ") REFERENCES Quarto(id));";
         }
     }
+
+    /* Tabela Users */
+    public static class UserTable implements BaseColumns {
+        public static final String DB_TABLE = "inf_user";
+        public static final String ID = "id";
+        public static final String NOME_COMPLETO = "nome_completo";
+        public static final String MORADA = "morada";
+        public static final String PAIS = "pais";
+        public static final String TELEFONE = "telefone";
+        public static final String SALARIO = "salario";
+        public static final String NIF = "nif";
+
+        public String createReservationTable() {
+            return
+                    "CREATE TABLE "
+                            + DB_TABLE
+                            + "("
+                            + ID
+                            + " INTEGER PRIMARY KEY, "
+                            + NOME_COMPLETO
+                            + " TEXT NOT NULL, "
+                            + MORADA
+                            + " TEXT NOT NULL, "
+                            + PAIS
+                            + " TEXT NOT NULL, "
+                            + TELEFONE
+                            + " TEXT NOT NULL, "
+                            + SALARIO
+                            + " DOUBLE NOT NULL, "
+                            + NIF
+                            + " TEXT NOT NULL);";
+
+        }
+    }
 }
