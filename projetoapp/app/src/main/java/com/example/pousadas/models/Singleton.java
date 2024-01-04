@@ -2,6 +2,7 @@ package com.example.pousadas.models;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Base64;
 import android.widget.Toast;
@@ -16,6 +17,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.pousadas.activities.IPConfigActivity;
 import com.example.pousadas.db.DBHelper;
 import com.example.pousadas.enums.Category;
 import com.example.pousadas.listeners.FoodsListener;
@@ -55,8 +57,9 @@ public class Singleton extends AppCompatActivity {
     private DBHelper.UserTable userTable;
     private JsonParser jsonParser = new JsonParser();
     private static RequestQueue volleyQueue;
-    public static final String INIT_URL = "http://192.168.1.92/Projeto/projeto/backend/web/api/";
-
+    private SharedPreferences sharedPreferences;
+    private static final String PROJECTURL = "/Projeto/projeto/backend/web/api/";
+    private String INIT_URL;
     public static synchronized Singleton getInstance(Context context) {
         if (instance == null) {
             instance = new Singleton(context);
@@ -74,6 +77,11 @@ public class Singleton extends AppCompatActivity {
         servicesTable = dbHelper.new ServicesTable();
         reservationsTable = dbHelper.new ReservationsTable();
         userTable = dbHelper.new UserTable();
+
+        sharedPreferences = context.getSharedPreferences(IPConfigActivity.IPCONFIG, Context.MODE_PRIVATE);
+        INIT_URL = "http://"
+                + sharedPreferences.getString(IPConfigActivity.IP, "")
+                + PROJECTURL;
     }
 
     public void setFoodsListener(FoodsListener foodsListener) {

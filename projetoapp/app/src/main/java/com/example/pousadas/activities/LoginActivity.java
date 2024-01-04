@@ -18,8 +18,8 @@ public class LoginActivity extends AppCompatActivity implements UserListener {
     private User loggedUser = null;
     private ActivityLoginBinding binding;
     public static final String USER_ID = "USER_ID";
-    public static final String USER_NAME = "USER_NAME";
     public static final String PREFERENCES = "My Preferences";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +48,9 @@ public class LoginActivity extends AppCompatActivity implements UserListener {
 
             getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE).edit()
                     .putInt(USER_ID, user.getId())
-                    .putString(USER_NAME, user.getNome())
                     .apply();
 
-            startActivity(new Intent(getApplicationContext(), IPConfigActivity.class));
+            startActivity(new Intent(getApplicationContext(), ClientActivity.class));
             finish();
         }
     }

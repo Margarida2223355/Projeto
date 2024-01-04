@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,12 +32,15 @@ public class ClientActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private Geral geral_;
     private ActivityClientBinding binding;
+    private SharedPreferences userPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityClientBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        userPreferences = getSharedPreferences(LoginActivity.PREFERENCES, Context.MODE_PRIVATE);
 
         /* Função para definir botões e navbar */
         defineButtons();

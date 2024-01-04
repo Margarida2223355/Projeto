@@ -17,7 +17,8 @@ import com.example.pousadas.databinding.ActivityIpconfigBinding;
 public class IPConfigActivity extends AppCompatActivity {
 
     private ActivityIpconfigBinding binding;
-    private SharedPreferences sharedPreferences;
+    public static final String IP = "IP";
+    public static final String IPCONFIG = "IP Config";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,16 +28,14 @@ public class IPConfigActivity extends AppCompatActivity {
         binding = ActivityIpconfigBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-       sharedPreferences = getSharedPreferences(LoginActivity.PREFERENCES, Context.MODE_PRIVATE);
-
-        binding.txtName.setText(
-                sharedPreferences.getString(LoginActivity.USER_NAME, "")
-        );
-
         /* *************************************** */
-        binding.txtIP.setText("192.168.1.92");
+        binding.txtIP.setText("172.22.193.97");
         /* *************************************** */
 
+        getSharedPreferences(IPCONFIG, Context.MODE_PRIVATE)
+                .edit()
+                .putString(IP, binding.txtIP.getText().toString())
+                .apply();
 
         /* Atualizar txtField do IP
          *
@@ -109,7 +108,7 @@ public class IPConfigActivity extends AppCompatActivity {
                 for (int i = 10; i < Math.min(input.length(), 12); i++) {
                     formattedIp.append(input.charAt(i));
 
-                    if (i == 11) {
+                    if (i == 12) {
                         ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
                     }
                 }
@@ -125,7 +124,7 @@ public class IPConfigActivity extends AppCompatActivity {
         binding.btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), ClientActivity.class));
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             }
         });
     }
