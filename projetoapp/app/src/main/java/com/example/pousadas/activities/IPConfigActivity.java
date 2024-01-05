@@ -29,7 +29,7 @@ public class IPConfigActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         /* *************************************** */
-        binding.txtIP.setText("172.22.193.97");
+        binding.txtIP.setText("192.168.1.92");
         /* *************************************** */
 
         getSharedPreferences(IPCONFIG, Context.MODE_PRIVATE)

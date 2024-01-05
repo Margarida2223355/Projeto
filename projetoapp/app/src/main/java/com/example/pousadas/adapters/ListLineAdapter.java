@@ -85,12 +85,12 @@ public class ListLineAdapter extends BaseAdapter {
         public void update(Invoice_line line) {
             if (line.getService() != null) {
                 item.description.setText(line.getService().getDescription());
-                item.description.setText(line.getService().getQty());
+                item.qty.setText(String.valueOf(line.getService().getQty()));
             }
 
             else if (line.getFood() != null) {
                 item.description.setText(line.getFood().getName());
-                item.description.setText(line.getFood().getQty());
+                item.qty.setText(String.valueOf(line.getFood().getQty()));
             }
         }
     }

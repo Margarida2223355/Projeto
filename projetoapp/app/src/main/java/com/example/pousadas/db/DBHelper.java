@@ -370,8 +370,21 @@ public class DBHelper extends SQLiteOpenHelper {
             ContentValues values = new ContentValues();
 
             values.put(MyDatabase.InvoiceLineTable.QTY, line.getQty());
-            values.put(MyDatabase.InvoiceLineTable.SERVICE_ID, line.getService().getId());
-            values.put(MyDatabase.InvoiceLineTable.FOOD_ID, line.getFood().getId());
+            if (line.getService() == null) {
+                values.put(MyDatabase.InvoiceLineTable.SERVICE_ID, 0);
+            }
+
+            else {
+                values.put(MyDatabase.InvoiceLineTable.SERVICE_ID, line.getService().getId());
+            }
+
+            if (line.getFood() == null) {
+                values.put(MyDatabase.InvoiceLineTable.FOOD_ID, 0);
+            }
+
+            else {
+                values.put(MyDatabase.InvoiceLineTable.FOOD_ID, line.getFood().getId());
+            }
             values.put(MyDatabase.InvoiceLineTable.SUB_TOTAL, line.getTotal());
             values.put(MyDatabase.InvoiceLineTable.UNIT_PRICE, line.getUnit_price());
             values.put(MyDatabase.InvoiceLineTable.RESERVATION_ID, line.getReservation());
