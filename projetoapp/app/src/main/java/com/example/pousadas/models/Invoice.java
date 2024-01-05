@@ -7,8 +7,8 @@ public class Invoice {
     private Date payment_date = null;
     private float total_price = .0F, total_w_out_tax= .0F;
     private Reservation reservation;
-    private Lodge lodge;
     private Invoice_line invoiceLine;
+    private Lodge lodge;
 
     public Invoice(int id, Reservation reservation, Lodge lodge, Invoice_line invoiceLine) {
         this.id = id;

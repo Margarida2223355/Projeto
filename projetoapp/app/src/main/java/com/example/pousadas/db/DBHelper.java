@@ -11,6 +11,7 @@ import com.example.pousadas.enums.Status;
 import com.example.pousadas.enums.Status_Res;
 import com.example.pousadas.models.Food;
 import com.example.pousadas.models.Geral;
+import com.example.pousadas.models.Invoice_line;
 import com.example.pousadas.models.Reservation;
 import com.example.pousadas.models.Room;
 import com.example.pousadas.models.Service;
@@ -37,6 +38,8 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(new MyDatabase.FoodTable().createFoodTable());
         db.execSQL(new MyDatabase.ServiceTable().createServiceTable());
         db.execSQL(new MyDatabase.ReservationTable().createReservationTable());
+        db.execSQL(new MyDatabase.UserTable().createUserTable());
+        db.execSQL(new MyDatabase.InvoiceLineTable().createLineTable());
     }
 
     @Override
@@ -44,6 +47,9 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + MyDatabase.FoodTable.DB_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + MyDatabase.ServiceTable.DB_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + MyDatabase.ReservationTable.DB_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + MyDatabase.UserTable.DB_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + MyDatabase.InvoiceLineTable.DB_TABLE);
+
         this.onCreate(db);
     }
 
@@ -157,6 +163,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
             db.insert(MyDatabase.ServiceTable.DB_TABLE, null, values);
         }
+
+
 
     }
     public class ReservationsTable {
@@ -274,7 +282,7 @@ public class DBHelper extends SQLiteOpenHelper {
             User user = null;
             Cursor cursor = db.query(
                     MyDatabase.UserTable.DB_TABLE,
-                        new String[] {MyDatabase.ReservationTable.ID, MyDatabase.UserTable.NOME_COMPLETO, MyDatabase.UserTable.MORADA, MyDatabase.UserTable.PAIS, MyDatabase.UserTable.TELEFONE, MyDatabase.UserTable.SALARIO, MyDatabase.UserTable.NIF},
+                        new String[] {MyDatabase.UserTable.ID, MyDatabase.UserTable.NOME_COMPLETO, MyDatabase.UserTable.MORADA, MyDatabase.UserTable.PAIS, MyDatabase.UserTable.TELEFONE, MyDatabase.UserTable.SALARIO, MyDatabase.UserTable.NIF},
                     null,
                     null,
                     null,
@@ -316,6 +324,151 @@ public class DBHelper extends SQLiteOpenHelper {
             values.put(MyDatabase.UserTable.NIF, user.getNif());
 
             db.insert(MyDatabase.UserTable.DB_TABLE, null, values);
+        }
+
+    }
+    public class InvoiceLineTable {
+        public ArrayList<Invoice_line> getAllLines() {
+            ArrayList<Invoice_line> lines = new ArrayList<>();
+            Cursor cursor = db.query(
+                    MyDatabase.InvoiceLineTable.DB_TABLE,
+                    new String[] {MyDatabase.InvoiceLineTable.ID, MyDatabase.InvoiceLineTable.QTY, MyDatabase.InvoiceLineTable.SERVICE_ID, MyDatabase.InvoiceLineTable.FOOD_ID, MyDatabase.InvoiceLineTable.SUB_TOTAL, MyDatabase.InvoiceLineTable.UNIT_PRICE, MyDatabase.InvoiceLineTable.RESERVATION_ID, MyDatabase.InvoiceLineTable.STATUS},
+                    null,
+                    null,
+                    null,
+                    null,
+                    null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    Invoice_line auxLine = new Invoice_line(
+                            cursor.getInt(0),
+                            cursor.getInt(1),
+                            getServiceDetailsFromDatabase(cursor.getInt(2)),
+                            getFoodDetailsFromDatabase(cursor.getInt(3)),
+                            (float) cursor.getDouble(4),
+                            (float) cursor.getDouble(5),
+                            cursor.getInt(6),
+                            Status.getFromString(cursor.getString(7))
+                    );
+
+                    lines.add(auxLine);
+
+                } while (cursor.moveToNext());
+
+                cursor.close();
+            }
+
+            return lines;
+        }
+
+        public void removeAllLinesDB() {
+            db.delete(MyDatabase.InvoiceLineTable.DB_TABLE, null, null);
+        }
+
+        public void addLineDB(Invoice_line line) {
+            ContentValues values = new ContentValues();
+
+            values.put(MyDatabase.InvoiceLineTable.QTY, line.getQty());
+            values.put(MyDatabase.InvoiceLineTable.SERVICE_ID, line.getService().getId());
+            values.put(MyDatabase.InvoiceLineTable.FOOD_ID, line.getFood().getId());
+            values.put(MyDatabase.InvoiceLineTable.SUB_TOTAL, line.getTotal());
+            values.put(MyDatabase.InvoiceLineTable.UNIT_PRICE, line.getUnit_price());
+            values.put(MyDatabase.InvoiceLineTable.RESERVATION_ID, line.getReservation());
+            values.put(MyDatabase.InvoiceLineTable.STATUS, line.getStatus().getStatus());
+
+            db.insert(MyDatabase.InvoiceLineTable.DB_TABLE, null, values);
+        }
+        private Service getServiceDetailsFromDatabase(int anInt) {
+            Service auxService = null;
+
+            Cursor cursor = db.rawQuery(
+                    "SELECT * FROM servico WHERE id = " + anInt,
+                    null
+            );
+
+            if (cursor.moveToFirst()) {
+                auxService = new Service(
+                        cursor.getInt(0),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getFloat(3)
+                );
+            }
+
+            cursor.close();
+
+            return auxService;
+        }
+        private Food getFoodDetailsFromDatabase(int anInt) {
+            Food auxFood = null;
+
+            Cursor cursor = db.rawQuery(
+                    "SELECT * FROM refeicao WHERE id = " + anInt,
+                    null
+            );
+
+            if (cursor.moveToFirst()) {
+                auxFood = new Food(
+                        cursor.getInt(0),
+                        cursor.getString(1),
+                        cursor.getFloat(2),
+                        geral_.convertToDateDB(cursor.getString(3)),
+                        Category.getFromString(cursor.getString(4))
+                );
+            }
+
+            cursor.close();
+
+            return auxFood;
+        }
+        private Room getRoomDetailsFromDatabase(int anInt) {
+            Room auxRoom = null;
+
+            Cursor cursor = db.rawQuery(
+                    "SELECT * FROM quarto WHERE id = " + anInt,
+                    null
+            );
+
+            if (cursor.moveToFirst()) {
+                auxRoom = new Room(
+                        anInt,
+                        cursor.getString(1),
+                        cursor.getInt(2),
+                        cursor.getInt(3),
+                        cursor.getInt(4),
+                        cursor.getInt(5),
+                        (float) cursor.getDouble(6)
+                );
+            }
+
+            cursor.close();
+
+            return auxRoom;
+        }
+        private User getUserDetailsFromDatabase(int anInt) {
+            User auxUser = null;
+
+            Cursor cursor = db.rawQuery(
+                    "SELECT * FROM inf_user WHERE id = " + anInt,
+                    null
+            );
+
+            if (cursor.moveToFirst()) {
+                auxUser = new User(
+                        anInt,
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(3),
+                        cursor.getString(4),
+                        (float) cursor.getDouble(5),
+                        cursor.getString(6)
+                );
+            }
+
+            cursor.close();
+
+            return auxUser;
         }
 
     }

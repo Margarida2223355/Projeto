@@ -15,6 +15,9 @@ return [
         'api' => [
             'class' => 'app\modules\api\ModuleAPI',
         ],
+        'debug' => [
+            'class' => 'yii\debug\Module',
+        ],
     ],
     'components' => [
         'request' => [
@@ -64,11 +67,12 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/reserva',
                     'extraPatterns' => [
-                        'GET {init_date}/{end_date}' => 'getreservationbydates'
+                        'GET {init_date}/{end_date}/{id}' => 'getreservationbydates'
                     ],
                     'tokens' => [
                         '{init_date}' => '<init_date:\d{4}-\d{2}-\d{2}>',
-                        '{end_date}' => '<end_date:\d{4}-\d{2}-\d{2}>'
+                        '{end_date}' => '<end_date:\d{4}-\d{2}-\d{2}>',
+                        '{id}' => '<id:\d+>'
                     ]
                 ],
                 [
@@ -95,7 +99,6 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/user',
                     'extraPatterns' => [
-                        //'GET {username}' => 'getuser',
                         'GET login' => 'login'
                     ],
                     'tokens' => [
@@ -105,6 +108,16 @@ return [
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/fatura',
+                    'extraPatterns' => [
+
+                    ],
+                    'tokens' => [
+
+                    ]
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/linhafatura',
                     'extraPatterns' => [
 
                     ],

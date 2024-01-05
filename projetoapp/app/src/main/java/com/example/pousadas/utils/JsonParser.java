@@ -5,9 +5,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.example.pousadas.enums.Category;
+import com.example.pousadas.enums.Status;
 import com.example.pousadas.enums.Status_Res;
 import com.example.pousadas.models.Food;
 import com.example.pousadas.models.Geral;
+import com.example.pousadas.models.Invoice_line;
 import com.example.pousadas.models.Reservation;
 import com.example.pousadas.models.Room;
 import com.example.pousadas.models.Service;
@@ -171,6 +173,62 @@ public class JsonParser {
             return  user;
         }
     }
+    public class JsonLineParser {
+        public ArrayList<Invoice_line> jsonLinesParser(JSONArray response) {
+            ArrayList<Invoice_line> lines = new ArrayList<>();
+
+            try {
+                for (int i = 0; i < response.length(); i++) {
+                    JSONObject line = (JSONObject) response.get(i);
+                    JSONObject service;
+                    JSONObject food;
+
+                    Service auxService = null;
+                    Food auxFood = null;
+
+                    if (line.optJSONObject("servico") != null) {
+                        service = (JSONObject) line.getJSONObject("servico");
+                        auxService = new Service(
+                                service.getInt("id"),
+                                service.getString("nome"),
+                                service.getString("descricao"),
+                                (float) service.getDouble("preco"));
+                    }
+
+                    if (line.optJSONObject("refeicao") != null) {
+                        food = (JSONObject) line.getJSONObject("refeicao");
+                        auxFood = new Food(
+                                food.getInt("id"),
+                                food.getString("nome"),
+                                (float) food.getDouble("preco"),
+                                geral_.convertToDate(food.getString("data")),
+                                Category.getFromString(food.getString("categoria")));
+
+                    }
+
+                    Invoice_line auxLine = new Invoice_line(
+                            line.getInt("id"),
+                            line.getInt("quantidade"),
+                            auxService,
+                            auxFood,
+                            (float) line.getDouble("sub_total"),
+                            (float) line.getDouble("preco_unitario"),
+                            line.getInt("reserva_id"),
+                            Status.getFromString(line.getString("status"))
+                    );
+
+                    lines.add(auxLine);
+                }
+            }
+
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return  lines;
+        }
+    }
+
 
 
     /* Método para verificar se ligação à internet foi realizada */

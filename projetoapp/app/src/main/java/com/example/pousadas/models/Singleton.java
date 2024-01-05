@@ -22,6 +22,7 @@ import com.example.pousadas.activities.LoginActivity;
 import com.example.pousadas.db.DBHelper;
 import com.example.pousadas.enums.Category;
 import com.example.pousadas.listeners.FoodsListener;
+import com.example.pousadas.listeners.LinesListener;
 import com.example.pousadas.listeners.ReservationsListener;
 import com.example.pousadas.listeners.ServicesListener;
 import com.example.pousadas.listeners.UserListener;
@@ -46,16 +47,19 @@ public class Singleton extends AppCompatActivity {
     private ArrayList<Food> foods;
     private ArrayList<Service> services;
     private ArrayList<Reservation> reservations;
+    private ArrayList<Invoice_line> lines;
     private static Singleton instance;
     private FoodsListener foodsListener;
     private ServicesListener servicesListener;
     private ReservationsListener reservationsListener;
     private UserListener userListener;
+    private LinesListener linesListener;
     private DBHelper dbHelper;
     private DBHelper.FoodsTable foodsTable;
     private DBHelper.ServicesTable servicesTable;
     private DBHelper.ReservationsTable reservationsTable;
     private DBHelper.UserTable userTable;
+    private DBHelper.InvoiceLineTable lineTable;
     private JsonParser jsonParser = new JsonParser();
     private static RequestQueue volleyQueue;
     private SharedPreferences ipPreferences, userPreferences;
@@ -73,11 +77,13 @@ public class Singleton extends AppCompatActivity {
         foods = new ArrayList<>();
         services = new ArrayList<>();
         reservations = new ArrayList<>();
+        lines = new ArrayList<>();
         dbHelper = new DBHelper(context);
         foodsTable = dbHelper.new FoodsTable();
         servicesTable = dbHelper.new ServicesTable();
         reservationsTable = dbHelper.new ReservationsTable();
         userTable = dbHelper.new UserTable();
+        lineTable = dbHelper.new InvoiceLineTable();
 
         ipPreferences = context.getSharedPreferences(IPConfigActivity.IPCONFIG, Context.MODE_PRIVATE);
         userPreferences = context.getSharedPreferences(LoginActivity.PREFERENCES, Context.MODE_PRIVATE);
@@ -101,6 +107,9 @@ public class Singleton extends AppCompatActivity {
 
     public void setUserListener(UserListener userListener) {
         this.userListener = userListener;
+    }
+    public void setLinesListener(LinesListener linesListener) {
+        this.linesListener = linesListener;
     }
 
     public ArrayList<Food> getFoods() { return foods; }
@@ -335,4 +344,56 @@ public class Singleton extends AppCompatActivity {
     public void addUserDB(User user) {
         userTable.addUserDB(user);
     }
+
+    public void getLines(final Context context) {
+
+        if (!JsonParser.isConnectionInternet(context)) {
+            Toast.makeText(context, "No internet Connection", Toast.LENGTH_SHORT).show();
+
+            if (linesListener != null) {
+                linesListener.onRefreshLinesList(lineTable.getAllLines());
+            }
+        }
+
+        else {
+            JsonArrayRequest request = new JsonArrayRequest(
+                    Request.Method.GET,
+                    INIT_URL + "linha-fatura/",
+                    null,
+                    new Response.Listener<JSONArray>() {
+
+                        @Override
+                        public void onResponse(JSONArray response) {
+                            System.out.println("--> " + response);
+
+                            lines = jsonParser.new JsonLineParser().jsonLinesParser(response);
+                            addLinesDB(lines);
+
+                            if (linesListener != null) {
+                                linesListener.onRefreshLinesList(lines);
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("--> " + error);
+                }
+            });
+
+            volleyQueue.add(request);
+        }
+    }
+
+    private void addLinesDB(ArrayList<Invoice_line> lines) {
+        lineTable.removeAllLinesDB();
+
+        for (Invoice_line line : lines) {
+            addLineDB(line);
+        }
+    }
+
+    private void addLineDB(Invoice_line line) {
+        lineTable.addLineDB(line);
+    }
+
 }

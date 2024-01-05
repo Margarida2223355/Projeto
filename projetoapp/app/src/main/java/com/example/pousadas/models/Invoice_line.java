@@ -7,17 +7,17 @@ public class Invoice_line {
     private float total, unit_price;
     private Status status;
     private Food food;
-    private Reservation reservation;
+    private int reservation_id;
     private Service service;
 
-    public Invoice_line(int id, int qty, float total, float unit_price, Status status, Food food, Reservation reservation, Service service) {
+    public Invoice_line(int id, int qty, Service service, Food food, float total, float unit_price, int reservation_id, Status status) {
         this.id = id;
         this.qty = qty;
         this.total = total;
         this.unit_price = unit_price;
         this.status = status;
         this.food = food;
-        this.reservation = reservation;
+        this.reservation_id = reservation_id;
         this.service = service;
     }
 
@@ -65,12 +65,12 @@ public class Invoice_line {
         this.food = food;
     }
 
-    public Reservation getReservation() {
-        return reservation;
+    public int getReservation() {
+        return reservation_id;
     }
 
-    public void setReservation(Reservation reservation) {
-        this.reservation = reservation;
+    public void setReservation(int reservation_id) {
+        this.reservation_id = reservation_id;
     }
 
     public Service getService() {

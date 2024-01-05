@@ -9,7 +9,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.pousadas.R;
-public class ShopClientFragment extends Fragment {
+import com.example.pousadas.adapters.ListLineAdapter;
+import com.example.pousadas.databinding.FragmentServicesClientBinding;
+import com.example.pousadas.databinding.FragmentShopClientBinding;
+import com.example.pousadas.listeners.LinesListener;
+import com.example.pousadas.listeners.ServicesListener;
+import com.example.pousadas.models.Invoice_line;
+import com.example.pousadas.models.Singleton;
+
+import java.util.ArrayList;
+
+public class ShopClientFragment extends Fragment implements LinesListener {
+
+    private FragmentShopClientBinding binding;
 
     public ShopClientFragment() {
         // Required empty public constructor
@@ -19,6 +31,19 @@ public class ShopClientFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_shop_client, container, false);
+        binding = FragmentShopClientBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+
+        Singleton.getInstance(getContext()).setLinesListener(this);
+        Singleton.getInstance(getContext()).getLines(getContext());
+
+        return view;
+    }
+
+    @Override
+    public void onRefreshLinesList(ArrayList<Invoice_line> lines) {
+        if (lines != null) {
+            binding.listShop.setAdapter(new ListLineAdapter(getContext(), lines));
+        }
     }
 }

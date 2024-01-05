@@ -9,9 +9,10 @@ class ReservaController extends ActiveController
 {
     public $modelClass = 'common\models\Reserva';
 
-    public function actionGetreservationbydates($init_date, $end_date) {
+    public function actionGetreservationbydates($init_date, $end_date, $id) {
         $reservas = Reserva::find()
             -> where(['between', 'data_inicial', $init_date, $end_date])
+            -> andWhere(['cliente_id' => $id])
             -> all();
 
 

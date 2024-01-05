@@ -107,7 +107,7 @@ public class MyDatabase {
         public static final String SALARIO = "salario";
         public static final String NIF = "nif";
 
-        public String createReservationTable() {
+        public String createUserTable() {
             return
                     "CREATE TABLE "
                             + DB_TABLE
@@ -129,4 +129,46 @@ public class MyDatabase {
 
         }
     }
+
+    /* Tabela Invoice Lines */
+    public static class InvoiceLineTable implements BaseColumns {
+        public static final String DB_TABLE = "linha_fatura";
+        public static final String ID = "id";
+        public static final String QTY = "quantidade";
+        public static final String SERVICE_ID = "servico_id";
+        public static final String FOOD_ID = "refeicao_id";
+        public static final String SUB_TOTAL = "sub_total";
+        public static final String UNIT_PRICE = "preco_unitario";
+        public static final String RESERVATION_ID = "reserva_id";
+        public static final String STATUS = "status";
+
+        public String createLineTable() {
+            return
+                    "CREATE TABLE "
+                            + DB_TABLE
+                            + "("
+                            + ID
+                            + " INTEGER PRIMARY KEY, "
+                            + QTY
+                            + " INTEGER NOT NULL, "
+                            + SERVICE_ID
+                            + " INTEGER NOT NULL, "
+                            + FOOD_ID
+                            + " INTEGER NOT NULL, "
+                            + SUB_TOTAL
+                            + " DOUBLE NOT NULL, "
+                            + UNIT_PRICE
+                            + " DOUBLE NOT NULL, "
+                            + RESERVATION_ID
+                            + " INTEGER NOT NULL, "
+                            + STATUS
+                            + " TEXT NOT NULL, "
+                            + " FOREIGN KEY(" + SERVICE_ID + ") REFERENCES Servico(id), "
+                            + " FOREIGN KEY(" + RESERVATION_ID + ") REFERENCES Reserva(id), "
+                            + " FOREIGN KEY(" + FOOD_ID + ") REFERENCES Refeicao(id));";
+
+
+        }
+    }
+
 }
