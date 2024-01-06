@@ -39,16 +39,20 @@ use yii\helpers\Html;
             echo \hail812\adminlte\widgets\Menu::widget([
                 'items' => [
                     ['label' => 'Quartos', 'icon' => 'bed', 'url' => ['/quarto/index']],
-                    ['label' => 'Fornecedores', 'icon' => 'box', 'url' => ['/fornecedor/index']],
+                    ['label' => 'Fornecedores', 'icon' => 'box', 'url' => ['/fornecedor/index'],'visible' => Yii::$app->user->can('gestor'),],
+                    ['label' => 'Categoria Custos', 'icon' => 'chart-pie', 'url' => ['/descricao-custo/index'],'visible' => Yii::$app->user->can('gestor'),],
+                    ['label' => 'Gastos', 'icon' => 'money-bill', 'url' => ['/custo/index'],'visible' => Yii::$app->user->can('gestor'),],
                     ['label' => 'Users', 'icon' => 'users', 'url' => ['/inf-user/index']],
                     ['label' => 'Serviços', 'icon' => 'hiking', 'url' => ['/servico/index']],
                     ['label' => 'Refeições', 'icon' => 'utensils', 'url' => ['/refeicao/index']],
                     ['label' => 'Pousada', 'icon' => 'hotel', 'url' => ['/pousada/index']],
                     ['label' => 'Reservas', 'icon' => 'book', 'url' => ['/reserva/index']],
                     ['label' => 'Pedidos', 'icon' => 'shopping-cart', 'url' => ['/linha-fatura/index']],
-                ],
+                    ['label' => 'Faturas', 'icon' => 'file-invoice', 'url' => ['/fatura/index']],
+                ]   
             ]);
             ?>
+
         </nav>
         <!-- /.sidebar-menu -->
     </div>

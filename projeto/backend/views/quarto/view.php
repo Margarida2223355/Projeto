@@ -4,7 +4,9 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\widgets\ListView;
 use yii\bootstrap4\Carousel;
+use frontend\assets\BackendAsset;
 
+$backend = BackendAsset::register($this);
 
 /** @var yii\web\View $this */
 /** @var common\models\Quarto $model */
@@ -51,26 +53,36 @@ $this->params['breadcrumbs'][] = $this->title;
     <h2>Imagens do Quarto</h2>
 
     <?php
-    $items = [];
-    foreach ($model->getImgs()->all() as $imagem) {
-        $items[] = [
-            'content' => Html::img('img/quartos/' . $imagem->image, ['class' => 'd-block w-100', 'alt' => 'Imagem do Quarto']),
-        ];
-    }
-    echo Carousel::widget([
-        'items' => $items,
-        'options' => [
-            'class' => 'carousel slide', // adiciona a classe do Bootstrap Carousel
-            'data' => [
-                'ride' => 'carousel',
-            ],
+$items = [];
+foreach ($model->getImgs()->all() as $imagem) {
+    $items[] = [
+        'content' => Html::img(
+            $backend->baseUrl . '/' . $imagem->image,
+            [
+                'class' => 'img-fluid', // classe Bootstrap para imagens responsivas
+                'alt' => 'Imagem do Quarto',
+                'style' => 'max-height: 300px; width: auto;', // ajuste a altura máxima desejada
+            ]
+        ),
+    ];
+}
+
+echo Carousel::widget([
+    'items' => $items,
+    'options' => [
+        'class' => 'carousel slide',
+        'data' => [
+            'ride' => 'carousel',
         ],
-        'controls' => [
-            '<span class="carousel-control-prev-icon" aria-hidden="true"></span>',
-            '<span class="carousel-control-next-icon" aria-hidden="true"></span>',
-        ],
-        'showIndicators' => true, // exibe indicadores de navegação
-    ]);
-    ?>
+    ],
+    'controls' => [
+        '<span class="carousel-control-prev-icon" aria-hidden="true"></span>',
+        '<span class="carousel-control-next-icon" aria-hidden="true"></span>',
+    ],
+    'showIndicators' => true,
+]);
+?>
+
+
 
 </div>

@@ -121,4 +121,14 @@ class Reserva extends \yii\db\ActiveRecord
     public static function getTotalReservas(){
         return static::find()->count();
     }
+    public static function getReservasSemanaAtual(){
+        $today = new \DateTime();
+    $startOfWeek = $today->modify('this week')->format('Y-m-d 00:00:00');
+    $endOfWeek = $today->modify('this week +6 days')->format('Y-m-d 23:59:59');
+
+    return static::find()
+        ->where(['between', 'data_inicial', $startOfWeek, $endOfWeek])
+        ->andWhere(['>=', 'data_final', $startOfWeek])
+        ->count();
+    }
 }

@@ -176,9 +176,7 @@ class ReservaController extends Controller
         // Acesse o número de dias a partir do objeto DateInterval
         $numDias = $diferenca->days;
 
-        $model->preco_total = $numDias * $model->quarto->preco;
-
-
+        $model->preco_total = ($numDias < 1) ? $model->quarto->preco : $numDias * $model->quarto->preco;
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
@@ -289,6 +287,28 @@ class ReservaController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function findReservaAtual(){
+        
+        $userId = Yii::$app->user->id;
+        $reservasAtivas = Reserva::find()
+        ->andWhere(['user_id' => $userId, 'status' => 'ativo'])
+        ->all();
+
+        foreach ($reservasAtivas as $reserva) {
+            // Verifica se a reserva é a única ativa
+            $numReservasAtivas = Reserva::find()
+            ->andWhere(['user_id' => $reserva->user_id, 'status' => 'ativo'])
+            ->count();
+
+            if ($numReservasAtivas == 1) {
+                return $reserva;
+            }
+            else{
+                return $reservasAtivas;
+            }
+        }
     }
     
 }

@@ -59,7 +59,11 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
 
     <h2>LinhaFaturas</h2>
-
+    
+    <p>
+        <?= Html::a('Refeições', ['linha-fatura/create', 'reserva_id' => $model->id,'tipo' => 'refeicao'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Serviços', ['linha-fatura/create', 'reserva_id' => $model->id,'tipo' => 'servico'], ['class' => 'btn btn-success']) ?>
+    </p>
     <?= GridView::widget([
         'dataProvider' => new \yii\data\ArrayDataProvider([
             'allModels' => $model->linhaFaturas,

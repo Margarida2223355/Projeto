@@ -60,4 +60,16 @@ class Custo extends \yii\db\ActiveRecord
     {
         return $this->hasOne(DescricaoCusto::class, ['id' => 'descricao_custo_id']);
     }
+    public static function getTotalMes() {
+        $dataAtual = new \DateTime();
+        $inicioMes = $dataAtual->format('Y-m-01 00:00:00');
+        $fimMes = $dataAtual->format('Y-m-t 23:59:59');
+
+        $total = static::find()
+            ->where(['between', 'data', $inicioMes, $fimMes])
+            ->sum('valor');
+
+        return $total;
+    }
+   
 }

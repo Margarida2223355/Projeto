@@ -14,8 +14,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'descricao')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'fornecedor_id')->textInput() ?>
-
+    <?= $form->field($model, 'fornecedor_id')->dropDownList(
+    \yii\helpers\ArrayHelper::map(\backend\models\Fornecedor::find()->all(), 'id', 'nome'),
+    ['prompt' => 'Selecione um fornecedor']
+) ?>
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
