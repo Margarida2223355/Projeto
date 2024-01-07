@@ -32,7 +32,7 @@ class ReservaController extends ActiveController
 
         return $reservasAux;
     }
-
+    
     public function actionGetreservationbyid($id) {
 
         $reserva = Reserva::findOne([

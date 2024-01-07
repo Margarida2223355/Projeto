@@ -68,7 +68,7 @@ return [
                     'controller' => 'api/reserva',
                     'extraPatterns' => [
                         'GET {init_date}/{end_date}/{id}' => 'getreservationbydates',
-                        'GET {id}/reserva' => 'getreservationbyid'
+                        'GET {id}/reserva' => 'getreservationbyid'                    
                     ],
                     'tokens' => [
                         '{init_date}' => '<init_date:\d{4}-\d{2}-\d{2}>',
@@ -109,7 +109,7 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/fatura',
                     'extraPatterns' => [
-                        
+
                     ],
                     'tokens' => [
 
@@ -124,7 +124,7 @@ return [
                         'PUT editline/{id}' => 'editline',
                     ],
                 ],
-
+                
             ],
         ],
         // 'view' => [
