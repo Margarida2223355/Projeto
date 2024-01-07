@@ -70,4 +70,26 @@ class LinhaFaturaController extends ActiveController
             ];
         }
     }
+
+    public function actionEditline($id) {
+        $newQty = Yii::$app -> request -> post('quantidade');
+        $line = LinhaFatura::findOne(['id' => $id]);
+
+        if($line) {
+            $line -> quantidade = $newQty;
+            $line -> save();
+
+            return [
+                'success' => true,
+                'message' => 'Linha da fatura criada com sucesso',
+            ];
+        }
+
+        else {
+            return [
+                'success' => false,
+                'message' => 'Erro ao adicionar linha',
+            ];
+        }
+    }
 }

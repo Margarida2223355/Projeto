@@ -93,7 +93,6 @@ public class ListLineAdapter extends BaseAdapter {
 
                     Singleton.getInstance(context).editLineAPI(line, context);
 
-                    //oldQty = Integer.parseInt(s.toString());
                     myViewHolder.item.qty.clearFocus();
                     ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(binding.qty.getWindowToken(), 0);
                 }
