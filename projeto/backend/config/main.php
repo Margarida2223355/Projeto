@@ -120,7 +120,8 @@ return [
                     'controller' => 'api/linha-fatura',
                     'extraPatterns' => [
                         'GET {id}' => 'lines',
-                        'POST line' => 'createline',
+                        'POST createline' => 'createline',
+                        'PUT editline/{id}' => 'editline',
                     ],
                 ],
 

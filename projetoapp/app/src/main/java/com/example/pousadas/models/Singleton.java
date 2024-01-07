@@ -146,6 +146,16 @@ public class Singleton extends AppCompatActivity {
         return null;
     }
 
+    public Invoice_line getLine(int id) {
+        for (Invoice_line line : lineTable.getAllLines()) {
+            if (line.getId() == id) {
+                return line;
+            }
+        }
+
+        return null;
+    }
+
 
     /* API */
     /* Obter lista de refeições com base na data e horário selecionados */
@@ -441,7 +451,7 @@ public class Singleton extends AppCompatActivity {
         else {
             StringRequest request = new StringRequest(
                     Request.Method.POST,
-                    INIT_URL + "linha-faturas/line",
+                    INIT_URL + "linha-faturas/createline",
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -490,6 +500,44 @@ public class Singleton extends AppCompatActivity {
         }
     }
 
+    public void editLineAPI(Invoice_line line, final Context context) {
+        if (!JsonParser.isConnectionInternet(context)) {
+            Toast.makeText(context, "No internet Connection!", Toast.LENGTH_SHORT).show();
+        }
+
+        else {
+            StringRequest request = new StringRequest(
+                    Request.Method.PUT,
+                    INIT_URL + "linha-faturas/editline/" + line.getId(),
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            editLineDB(line);
+                            Toast.makeText(context, "Linha alterada com sucesso!", Toast.LENGTH_SHORT).show();
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            System.out.println("--> Erro: " + error.getMessage());
+                        }
+                    }
+            ) {
+                @Nullable
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+
+                    headers.put("quantidade", Integer.toString(line.getQty()));
+
+                    return headers;
+                }
+            };
+
+            volleyQueue.add(request);
+        }
+    }
+    
     private void addLinesDB(ArrayList<Invoice_line> lines) {
         lineTable.removeAllLinesDB();
 
@@ -502,4 +550,11 @@ public class Singleton extends AppCompatActivity {
         lineTable.addLineDB(line);
     }
 
+    private void editLineDB(Invoice_line line) {
+        Invoice_line auxLine = getLine(line.getId());
+
+        if (auxLine != null) {
+            lineTable.editLineDB(auxLine);
+        }
+    }
 }

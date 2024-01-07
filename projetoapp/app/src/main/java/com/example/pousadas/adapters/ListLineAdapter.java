@@ -1,16 +1,21 @@
 package com.example.pousadas.adapters;
 
+
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
+import android.widget.Toast;
+import android.view.inputmethod.InputMethodManager;
+
 
 import com.example.pousadas.databinding.ItemLineListBinding;
-import com.example.pousadas.databinding.ItemListBinding;
-import com.example.pousadas.databinding.ItemRoomListBinding;
 import com.example.pousadas.models.Invoice_line;
-import com.example.pousadas.models.Reservation;
+import com.example.pousadas.models.Singleton;
 
 import java.util.ArrayList;
 
@@ -18,6 +23,7 @@ public class ListLineAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater;
     private ArrayList<Invoice_line> lines;
+    int oldQty;
 
     public ListLineAdapter(Context context, ArrayList<Invoice_line> lines) {
         this.context = context;
@@ -66,6 +72,34 @@ public class ListLineAdapter extends BaseAdapter {
 
         myViewHolder.update(lines.get(position));
 
+        binding.qty.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                oldQty = lines.get(position).getQty();
+                if ((!s.toString().isEmpty()) && (!(Integer.parseInt(s.toString()) == oldQty))) {
+
+                    Invoice_line line = lines.get(position);
+                    line.setQty(Integer.parseInt(myViewHolder.item.qty.getText().toString()));
+
+                    Singleton.getInstance(context).editLineAPI(line, context);
+
+                    //oldQty = Integer.parseInt(s.toString());
+                    myViewHolder.item.qty.clearFocus();
+                    ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(binding.qty.getWindowToken(), 0);
+                }
+            }
+        });
+
         return convertView;
     }
 
@@ -85,12 +119,12 @@ public class ListLineAdapter extends BaseAdapter {
         public void update(Invoice_line line) {
             if (line.getService() != null) {
                 item.description.setText(line.getService().getDescription());
-                item.qty.setText(String.valueOf(line.getService().getQty()));
+                item.qty.setText(String.valueOf(line.getQty()));
             }
 
             else if (line.getFood() != null) {
                 item.description.setText(line.getFood().getName());
-                item.qty.setText(String.valueOf(line.getFood().getQty()));
+                item.qty.setText(String.valueOf(line.getQty()));
             }
         }
     }

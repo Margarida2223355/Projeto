@@ -392,6 +392,35 @@ public class DBHelper extends SQLiteOpenHelper {
 
             db.insert(MyDatabase.InvoiceLineTable.DB_TABLE, null, values);
         }
+
+        public boolean editLineDB(Invoice_line line) {
+            ContentValues values = new ContentValues();
+
+            values.put(MyDatabase.InvoiceLineTable.QTY, line.getQty());
+            if (line.getService() == null) {
+                values.put(MyDatabase.InvoiceLineTable.SERVICE_ID, 0);
+            }
+
+            else {
+                values.put(MyDatabase.InvoiceLineTable.SERVICE_ID, line.getService().getId());
+            }
+
+            if (line.getFood() == null) {
+                values.put(MyDatabase.InvoiceLineTable.FOOD_ID, 0);
+            }
+
+            else {
+                values.put(MyDatabase.InvoiceLineTable.FOOD_ID, line.getFood().getId());
+            }
+            values.put(MyDatabase.InvoiceLineTable.SUB_TOTAL, line.getTotal());
+            values.put(MyDatabase.InvoiceLineTable.UNIT_PRICE, line.getUnit_price());
+            values.put(MyDatabase.InvoiceLineTable.RESERVATION_ID, line.getReservation());
+            values.put(MyDatabase.InvoiceLineTable.STATUS, line.getStatus().getStatus());
+
+            return
+                    db.update(MyDatabase.InvoiceLineTable.DB_TABLE, values, "id= ?", new String[]{"" + line.getId()}) > 0;
+        }
+
         private Service getServiceDetailsFromDatabase(int anInt) {
             Service auxService = null;
 
