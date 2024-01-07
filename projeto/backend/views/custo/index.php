@@ -1,6 +1,6 @@
 <?php
 
-use app\models\Custo;
+use backend\models\Custo;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;

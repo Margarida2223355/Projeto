@@ -126,7 +126,7 @@ class FaturaController extends Controller
     public function actionCreate($id)
     {
         if (Fatura::faturaExistsForReservaId($id)) {
-            // Caso exista uma fatura para esta reserva
+            // Caso já exista uma fatura para esta reserva
             Yii::$app->session->setFlash('error', 'Já existe uma fatura para esta reserva.');
             return $this->redirect(['reserva/index']);
         }
@@ -136,6 +136,11 @@ class FaturaController extends Controller
         $model->preco_total = $model->reserva->calcularTotal();
         $model->data_pagamento = date('Y-m-d');
         $model->pousada_id = 1;
+
+        //Quando cria a fatura a reserva fica inativa
+        $reserva = Reserva::findOne(['id'=>$model->reserva_id]);
+        $reserva->status = "Inativa";
+        $reserva->save();
 
         if ($this->request->isPost) {
             if ($model->save()) {

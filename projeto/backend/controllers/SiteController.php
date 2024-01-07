@@ -2,8 +2,10 @@
 
 namespace backend\controllers;
 
+use backend\models\Custo;
 use common\models\LoginForm;
 use backend\models\SignupForm;
+use common\models\Fatura;
 use common\models\InfUser;
 use common\models\Quarto;
 use common\models\Refeicao;
@@ -80,9 +82,15 @@ class SiteController extends Controller
         $numeroQuartos = Quarto::getTotalQuartos();
         $numeroRefeicoes = Refeicao::getTotalRefeicoes();
         $numeroServicos = Servico::getTotalServicos();
+        $numeroFaturas = Fatura::getTotalFaturas();
+        $reservasSemana = Reserva::getReservasSemanaAtual();
+        $totalMesAtual = Custo::getTotalMes();
+
         return $this->render('index', ['numeroUsers' => $numeroUsers, 
         'totalReservas' => $totalReservas,'numeroQuartos'=>$numeroQuartos,
         'numeroRefeicoes'=>$numeroRefeicoes, 'numeroServicos'=>$numeroServicos,
+        'numeroFaturas'=>$numeroFaturas, 'reservasSemana'=>$reservasSemana,
+        'totalMesAtual'=>$totalMesAtual,
     ]);
     }
 

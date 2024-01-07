@@ -91,7 +91,7 @@ class FaturaController extends Controller
     public function actionCreate($id)
     {
         if (Fatura::faturaExistsForReservaId($id)) {
-            // Caso exista uma fatura para esta reserva
+            // Caso já exista uma fatura para esta reserva
             Yii::$app->session->setFlash('error', 'Já existe uma fatura para esta reserva.');
             return $this->redirect(['reserva/index']);
         }

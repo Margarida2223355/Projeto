@@ -93,5 +93,7 @@ class Fatura extends \yii\db\ActiveRecord
     {
         return static::find()->where(['reserva_id' => $reservaId])->exists();
     }
-
+    public static function getTotalFaturas(){
+        return static::find()->count();
+    }
 }
