@@ -133,4 +133,8 @@ public class ReservationClientFragment extends Fragment implements ReservationsL
         }
 
     }
+
+    @Override
+    public void onRefreshReservationActive(Reservation reservation) {
+    }
 }

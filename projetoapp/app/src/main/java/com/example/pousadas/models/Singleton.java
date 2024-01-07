@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.util.Base64;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
@@ -16,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.pousadas.activities.IPConfigActivity;
 import com.example.pousadas.activities.LoginActivity;
@@ -29,6 +31,7 @@ import com.example.pousadas.listeners.UserListener;
 import com.example.pousadas.utils.JsonParser;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -108,6 +111,7 @@ public class Singleton extends AppCompatActivity {
     public void setUserListener(UserListener userListener) {
         this.userListener = userListener;
     }
+
     public void setLinesListener(LinesListener linesListener) {
         this.linesListener = linesListener;
     }
@@ -282,6 +286,51 @@ public class Singleton extends AppCompatActivity {
         }
     }
 
+    public void getReservationAtive(final Context context) {
+        if (!jsonParser.isConnectionInternet(context)) {
+            Toast.makeText(context, "No internet Connection", Toast.LENGTH_SHORT).show();
+
+            if (reservationsListener != null) {
+                ArrayList<Reservation> auxReservations = reservationsTable.getAllReservations();
+                Reservation reservation = null;
+
+                for (Reservation res : auxReservations) {
+                    if (res.getClient().getId() == userPreferences.getInt(LoginActivity.USER_ID, 0)) {
+                        reservation = res;
+                    }
+                }
+
+                reservationsListener.onRefreshReservationActive(reservation);
+            }
+        }
+
+        else {
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
+                    INIT_URL + "reservas/" + userPreferences.getInt(LoginActivity.USER_ID, 0) + "/reserva",
+                    null,
+                    new Response.Listener<JSONObject>() {
+
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            System.out.println("--> " + response);
+
+                            Reservation reservation = jsonParser.new JsonReservationsParser().jsonReservationParser(response);
+
+                            if (reservationsListener != null) {
+                                reservationsListener.onRefreshReservationActive(reservation);
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("--> " + error);
+                }
+            });
+
+            volleyQueue.add(request);
+        }
+    }
+
     private void addReservationsDB(ArrayList<Reservation> reservations) {
         reservationsTable.removeAllReservationsDB();
 
@@ -358,7 +407,7 @@ public class Singleton extends AppCompatActivity {
         else {
             JsonArrayRequest request = new JsonArrayRequest(
                     Request.Method.GET,
-                    INIT_URL + "linha-fatura/",
+                    INIT_URL + "linha-faturas/" + userPreferences.getInt(LoginActivity.RESERVATION_ID, 0),
                     null,
                     new Response.Listener<JSONArray>() {
 
@@ -379,6 +428,63 @@ public class Singleton extends AppCompatActivity {
                     System.out.println("--> " + error);
                 }
             });
+
+            volleyQueue.add(request);
+        }
+    }
+
+    public void addLineAPI(final Invoice_line line, final Context context) {
+        if (!JsonParser.isConnectionInternet(context)) {
+            Toast.makeText(context, "No internet Connection", Toast.LENGTH_SHORT).show();
+        }
+
+        else {
+            StringRequest request = new StringRequest(
+                    Request.Method.POST,
+                    INIT_URL + "linha-faturas/line",
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                if ((new JSONObject(response)).getBoolean("success")) {
+                                    addLineDB(jsonParser.new JsonLineParser().jsonLineParser(response));
+                                    Toast.makeText(context, "Linha inserida com sucesso!", Toast.LENGTH_SHORT).show();
+                                }
+
+                                else {
+                                    Toast.makeText(context, "Erro", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+            new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            System.out.println("--> Error adding Line on API " + error.getMessage());
+                        }
+                    }) {
+                @Nullable
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+
+                    headers.put("id", Integer.toString(line.getId()));
+                    headers.put("quantidade", Integer.toString(line.getQty()));
+                    headers.put("servico_id", line.getService() != null ? Integer.toString(line.getService().getId()) : "");
+                    headers.put("refeicao_id", line.getFood() != null ? Integer.toString(line.getFood().getId()) : "");
+                    headers.put("sub_total", Float.toString(line.getTotal()));
+                    headers.put("preco_unitario", Float.toString(line.getUnit_price()));
+                    headers.put("reserva_id", Integer.toString(line.getReservation()));
+                    headers.put("status", line.getStatus().getStatus());
+
+                    return headers;
+
+                }
+            };
 
             volleyQueue.add(request);
         }

@@ -71,4 +71,9 @@ public class Service {
     public void remQty() {
         if (qty > 0) qty--;
     }
+
+    public float getTotal() {
+        return
+                qty * price;
+    }
 }

@@ -9,15 +9,20 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.pousadas.databinding.ActivityLoginBinding;
+import com.example.pousadas.listeners.ReservationsListener;
 import com.example.pousadas.listeners.UserListener;
+import com.example.pousadas.models.Reservation;
 import com.example.pousadas.models.Singleton;
 import com.example.pousadas.models.User;
 
-public class LoginActivity extends AppCompatActivity implements UserListener {
+import java.util.ArrayList;
+
+public class LoginActivity extends AppCompatActivity implements UserListener, ReservationsListener {
 
     private User loggedUser = null;
     private ActivityLoginBinding binding;
     public static final String USER_ID = "USER_ID";
+    public static final String RESERVATION_ID = "RESERVATION_ID";
     public static final String PREFERENCES = "My Preferences";
 
 
@@ -40,6 +45,10 @@ public class LoginActivity extends AppCompatActivity implements UserListener {
                 binding.txtPassword.getText().toString(),
                 getApplicationContext()
         );
+
+        Singleton.getInstance(getApplicationContext()).setReservationsListener(this);
+        Singleton.getInstance(getApplicationContext()).getReservationAtive(getApplicationContext());
+
     }
 
     @Override
@@ -53,6 +62,19 @@ public class LoginActivity extends AppCompatActivity implements UserListener {
             startActivity(new Intent(getApplicationContext(), ClientActivity.class));
             finish();
         }
+    }
+
+    @Override
+    public void onRefreshReservationsList(ArrayList<Reservation> reservations) {
+
+    }
+
+    @Override
+    public void onRefreshReservationActive(Reservation reservation) {
+        getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+                .edit()
+                .putInt(RESERVATION_ID, reservation.getId())
+                .apply();
     }
 }
 

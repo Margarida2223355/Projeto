@@ -32,4 +32,23 @@ class ReservaController extends ActiveController
 
         return $reservasAux;
     }
+
+    public function actionGetreservationbyid($id) {
+
+        $reserva = Reserva::findOne([
+                'cliente_id' => $id,
+                'status' => "Ativa"
+        ]);
+
+
+        return [
+                'id' => $reserva -> id,
+                'quarto' => $reserva -> quarto,
+                'cliente' => $reserva -> cliente,
+                'data_inicial' => $reserva -> data_inicial,
+                'data_final' => $reserva -> data_final,
+                'preco_total' => $reserva -> preco_total,
+                'status' => $reserva -> status,
+        ];
+    }
 }

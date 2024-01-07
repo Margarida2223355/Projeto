@@ -67,7 +67,8 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/reserva',
                     'extraPatterns' => [
-                        'GET {init_date}/{end_date}/{id}' => 'getreservationbydates'
+                        'GET {init_date}/{end_date}/{id}' => 'getreservationbydates',
+                        'GET {id}/reserva' => 'getreservationbyid'
                     ],
                     'tokens' => [
                         '{init_date}' => '<init_date:\d{4}-\d{2}-\d{2}>',
@@ -102,14 +103,13 @@ return [
                         'GET login' => 'login'
                     ],
                     'tokens' => [
-                        '{username}' => '<username:[\w\.]++>'
                     ]
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/fatura',
                     'extraPatterns' => [
-
+                        
                     ],
                     'tokens' => [
 
@@ -117,14 +117,13 @@ return [
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'api/linhafatura',
+                    'controller' => 'api/linha-fatura',
                     'extraPatterns' => [
-
+                        'GET {id}' => 'lines',
+                        'POST line' => 'createline',
                     ],
-                    'tokens' => [
-
-                    ]
                 ],
+
             ],
         ],
         // 'view' => [

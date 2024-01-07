@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.pousadas.enums.Category;
 import com.example.pousadas.enums.Status;
 import com.example.pousadas.enums.Status_Res;
@@ -117,6 +118,56 @@ public class JsonParser {
 
             return reservations;
         }
+
+        public Reservation jsonReservationParser(JSONObject response) {
+            Reservation auxReservation = null;
+
+            try {
+                JSONObject reservation = response;
+                JSONObject room = (JSONObject) reservation.getJSONObject("quarto");
+                JSONObject client = (JSONObject) reservation.getJSONObject("cliente");
+
+                /* Cliente */
+                User auxUser = new User(
+                        client.getInt("id"),
+                        client.getString("nome_completo"),
+                        client.getString("morada"),
+                        client.getString("pais"),
+                        client.getString("telefone"),
+                        (float) client.getDouble("salario"),
+                        client.getString("nif")
+                );
+
+                /* Quarto */
+                Room auxRoom = new Room(
+                        room.getInt("id"),
+                        room.getString("descricao"),
+                        room.getInt("camas_solteiro"),
+                        room.getInt("camas_casal"),
+                        room.getInt("arcondicionado"),
+                        room.getInt("aquecedor"),
+                        (float) room.getDouble("preco")
+                );
+
+                /* Reserva:
+                 *
+                 * Inclui um quarto e um cliente
+                 */
+                auxReservation = new Reservation(
+                        reservation.getInt("id"),
+                        geral_.convertToDate(reservation.getString("data_inicial")),
+                        geral_.convertToDate(reservation.getString("data_final")),
+                        (float) reservation.getDouble("preco_total"),
+                        Status_Res.getFromString(reservation.getString("status")),
+                        auxUser,
+                        auxRoom
+                );
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return auxReservation;
+        }
     }
 
     public class JsonServicesParser {
@@ -173,6 +224,7 @@ public class JsonParser {
             return  user;
         }
     }
+
     public class JsonLineParser {
         public ArrayList<Invoice_line> jsonLinesParser(JSONArray response) {
             ArrayList<Invoice_line> lines = new ArrayList<>();
@@ -227,9 +279,56 @@ public class JsonParser {
 
             return  lines;
         }
+        public Invoice_line jsonLineParser(String response) {
+            Invoice_line auxLine = null;
+
+            try {
+                JSONObject line = new JSONObject(response).getJSONObject("line");
+                JSONObject service;
+                JSONObject food;
+
+                Service auxService = null;
+                Food auxFood = null;
+
+                if (line.optJSONObject("servico") != null) {
+                    service = (JSONObject) line.getJSONObject("servico");
+                    auxService = new Service(
+                            service.getInt("id"),
+                            service.getString("nome"),
+                            service.getString("descricao"),
+                            (float) service.getDouble("preco"));
+                }
+
+                if (line.optJSONObject("refeicao") != null) {
+                    food = (JSONObject) line.getJSONObject("refeicao");
+                    auxFood = new Food(
+                            food.getInt("id"),
+                            food.getString("nome"),
+                            (float) food.getDouble("preco"),
+                            geral_.convertToDate(food.getString("data")),
+                            Category.getFromString(food.getString("categoria")));
+
+                }
+
+                auxLine = new Invoice_line(
+                        line.getInt("id"),
+                        line.getInt("quantidade"),
+                        auxService,
+                        auxFood,
+                        (float) line.getDouble("sub_total"),
+                        (float) line.getDouble("preco_unitario"),
+                        line.getInt("reserva_id"),
+                        Status.getFromString(line.getString("status"))
+                );
+            }
+
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return auxLine;
+        }
     }
-
-
 
     /* Método para verificar se ligação à internet foi realizada */
     public static boolean isConnectionInternet(Context context) {

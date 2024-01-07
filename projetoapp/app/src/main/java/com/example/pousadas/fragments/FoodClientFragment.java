@@ -1,5 +1,7 @@
 package com.example.pousadas.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,12 +14,20 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.example.pousadas.R;
+import com.example.pousadas.activities.LoginActivity;
 import com.example.pousadas.adapters.ListFoodAdapter;
+import com.example.pousadas.databinding.ActivityLoginBinding;
 import com.example.pousadas.databinding.FragmentFoodClientBinding;
 import com.example.pousadas.enums.Category;
+import com.example.pousadas.enums.Status;
 import com.example.pousadas.listeners.FoodsListener;
+import com.example.pousadas.listeners.LinesListener;
+import com.example.pousadas.listeners.ReservationsListener;
 import com.example.pousadas.models.Food;
 import com.example.pousadas.models.Geral;
+import com.example.pousadas.models.Invoice_line;
+import com.example.pousadas.models.Reservation;
+import com.example.pousadas.models.Service;
 import com.example.pousadas.models.Singleton;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
@@ -30,6 +40,7 @@ public class FoodClientFragment extends Fragment implements FoodsListener {
     private FragmentFoodClientBinding binding;
     private final Geral geral_ = new Geral();
     private MaterialAlertDialogBuilder alert;
+    private SharedPreferences userPreferences;
 
     public FoodClientFragment() {
         // Required empty public constructor
@@ -42,6 +53,8 @@ public class FoodClientFragment extends Fragment implements FoodsListener {
         binding = FragmentFoodClientBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
 
+        userPreferences = getContext().getSharedPreferences(LoginActivity.PREFERENCES, Context.MODE_PRIVATE);
+
         /* *************************************** */
         binding.txtFoodDate.setText("2023-12-31");
         binding.txtFoodTime.setText("Jantar");
@@ -52,6 +65,7 @@ public class FoodClientFragment extends Fragment implements FoodsListener {
                 .setTitle("Erro")
                 .setPositiveButton("OK", null);
 
+        //Singleton.getInstance(getContext()).setReservationsListener(this);
         Singleton.getInstance(getContext()).setFoodsListener(this);
 
         /* Ao clicar no text field, abre o date picker */
@@ -108,18 +122,32 @@ public class FoodClientFragment extends Fragment implements FoodsListener {
          * Para adicionar as refeições ao carrinho.
          */
         binding.add.setOnClickListener(new View.OnClickListener() {
-            ArrayList<Food> addFoods;
+            //ArrayList<Food> addFoods;
             @Override
             public void onClick(View v) {
-                addFoods = new ArrayList<>();
+                ArrayList<Food> addFoods = new ArrayList<>();
 
-                for (int i=0; i<binding.listFood.getAdapter().getCount(); i++) {
+                for (int i = 0; i < binding.listFood.getAdapter().getCount(); i++) {
                     Food food = (Food) binding.listFood.getAdapter().getItem(i);
                     if (food.getQty() > 0) {
                         addFoods.add(food);
                     }
                 }
-                Toast.makeText(getContext(), "Adicionar " + addFoods.size(), Toast.LENGTH_SHORT).show();
+
+                for (Food food : addFoods) {
+                    System.out.println("--> " + food.getName());
+                    Singleton.getInstance(getContext()).addLineAPI(new Invoice_line(
+                            0,
+                            food.getQty(),
+                            null,
+                            food,
+                            food.getTotal(),
+                            food.getPrice(),
+                            userPreferences.getInt(LoginActivity.RESERVATION_ID, 0),
+                            Status.CARRINHO
+                    ), getContext());
+                }
+
             }
         });
 
@@ -132,4 +160,5 @@ public class FoodClientFragment extends Fragment implements FoodsListener {
             binding.listFood.setAdapter(new ListFoodAdapter(getContext(), foods));
         }
     }
+
 }
