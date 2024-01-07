@@ -31,7 +31,7 @@ class LinhaFaturaController extends ActiveController
         }
 
         return $linesAux;
-    }
+    }        
 
     public function actionCreateline() {
         $requestData = Yii::$app -> request -> post();
