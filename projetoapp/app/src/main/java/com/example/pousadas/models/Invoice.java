@@ -4,27 +4,17 @@ import java.util.Date;
 
 public class Invoice {
     private int id;
-    private Date payment_date = null;
-    private float total_price = .0F, total_w_out_tax= .0F;
-    private Reservation reservation;
-    private Invoice_line invoiceLine;
-    private Lodge lodge;
+    private Date payment_date;
+    private float total_price;
+    private int reservation_id;
+    private int lodge_id;
 
-    public Invoice(int id, Reservation reservation, Lodge lodge, Invoice_line invoiceLine) {
-        this.id = id;
-        this.reservation = reservation;
-        this.lodge = lodge;
-        this.invoiceLine = invoiceLine;
-    }
-
-    public Invoice(int id, Date payment_date, float total_price, float total_w_out_tax, Reservation reservation, Lodge lodge, Invoice_line invoiceLine) {
+    public Invoice(int id, Date payment_date, float total_price, int reservation_id, int lodge_id) {
         this.id = id;
         this.payment_date = payment_date;
         this.total_price = total_price;
-        this.total_w_out_tax = total_w_out_tax;
-        this.reservation = reservation;
-        this.lodge = lodge;
-        this.invoiceLine = invoiceLine;
+        this.reservation_id = reservation_id;
+        this.lodge_id = lodge_id;
     }
 
     public int getId() {
@@ -47,35 +37,19 @@ public class Invoice {
         this.total_price = total_price;
     }
 
-    public float getTotal_w_out_tax() {
-        return total_w_out_tax;
+    public int getReservation() {
+        return reservation_id;
     }
 
-    public void setTotal_w_out_tax(float total_w_out_tax) {
-        this.total_w_out_tax = total_w_out_tax;
+    public void setReservation(int reservation_id) {
+        this.reservation_id = reservation_id;
     }
 
-    public Reservation getReservation() {
-        return reservation;
+    public int getLodge() {
+        return lodge_id;
     }
 
-    public void setReservation(Reservation reservation) {
-        this.reservation = reservation;
-    }
-
-    public Lodge getLodge() {
-        return lodge;
-    }
-
-    public void setLodge(Lodge lodge) {
-        this.lodge = lodge;
-    }
-
-    public Invoice_line getInvoiceLine() {
-        return invoiceLine;
-    }
-
-    public void setInvoiceLine(Invoice_line invoiceLine) {
-        this.invoiceLine = invoiceLine;
+    public void setLodge(int lodge_id) {
+        this.lodge_id = lodge_id;
     }
 }

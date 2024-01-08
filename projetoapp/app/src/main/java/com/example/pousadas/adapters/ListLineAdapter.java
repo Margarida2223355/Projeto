@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 import android.view.inputmethod.InputMethodManager;
 
@@ -96,6 +97,13 @@ public class ListLineAdapter extends BaseAdapter {
                     myViewHolder.item.qty.clearFocus();
                     ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(binding.qty.getWindowToken(), 0);
                 }
+            }
+        });
+        binding.checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Invoice_line line = lines.get(position);
+                line.setSelected(isChecked);
             }
         });
 

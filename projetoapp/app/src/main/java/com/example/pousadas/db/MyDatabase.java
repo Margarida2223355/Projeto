@@ -171,4 +171,35 @@ public class MyDatabase {
         }
     }
 
+    public static class InvoiceTable implements BaseColumns {
+        public static final String DB_TABLE = "fatura";
+        public static final String ID = "id";
+        public static final String LODGE_ID = "pousada_id";
+        public static final String PAYMENT_DATE = "data_pagamento";
+        public static final String RESERVATION_ID = "reserva_id";
+        public static final String TOTAL = "preco_total";
+
+        public String createLineTable() {
+            return
+                    "CREATE TABLE "
+                            + DB_TABLE
+                            + "("
+                            + ID
+                            + " INTEGER PRIMARY KEY, "
+                            + LODGE_ID
+                            + " INTEGER NOT NULL, "
+                            + PAYMENT_DATE
+                            + " DATE NOT NULL, "
+                            + RESERVATION_ID
+                            + " INTEGER NOT NULL, "
+                            + TOTAL
+                            + " DOUBLE NOT NULL, "
+                            + " FOREIGN KEY(" + LODGE_ID + ") REFERENCES Pousada(id), "
+                            + " FOREIGN KEY(" + RESERVATION_ID + ") REFERENCES Refeicao(id));";
+
+
+        }
+    }
+
+
 }

@@ -65,7 +65,6 @@ public class FoodClientFragment extends Fragment implements FoodsListener {
                 .setTitle("Erro")
                 .setPositiveButton("OK", null);
 
-        //Singleton.getInstance(getContext()).setReservationsListener(this);
         Singleton.getInstance(getContext()).setFoodsListener(this);
 
         /* Ao clicar no text field, abre o date picker */

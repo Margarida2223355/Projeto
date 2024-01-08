@@ -9,6 +9,7 @@ public class Invoice_line {
     private Food food;
     private int reservation_id;
     private Service service;
+    private boolean isSelected;
 
     public Invoice_line(int id, int qty, Service service, Food food, float total, float unit_price, int reservation_id, Status status) {
         this.id = id;
@@ -79,5 +80,13 @@ public class Invoice_line {
 
     public void setService(Service service) {
         this.service = service;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }

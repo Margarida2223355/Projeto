@@ -10,7 +10,9 @@ import com.example.pousadas.enums.Status;
 import com.example.pousadas.enums.Status_Res;
 import com.example.pousadas.models.Food;
 import com.example.pousadas.models.Geral;
+import com.example.pousadas.models.Invoice;
 import com.example.pousadas.models.Invoice_line;
+import com.example.pousadas.models.Lodge;
 import com.example.pousadas.models.Reservation;
 import com.example.pousadas.models.Room;
 import com.example.pousadas.models.Service;
@@ -329,6 +331,32 @@ public class JsonParser {
             return auxLine;
         }
     }
+
+    public class JsonInvoiceParser {
+        public Invoice jsonInvoiceParser(String response) {
+            Invoice auxInvoice = null;
+
+            try {
+                JSONObject invoice = new JSONObject(response).getJSONObject("fatura");
+
+                auxInvoice = new Invoice(
+                        invoice.getInt("id"),
+                        geral_.convertToDate("data_pagamento"),
+                        (float) invoice.getDouble("preco_total"),
+                        invoice.getInt("reserva_id"),
+                        invoice.getInt("pousada_id")
+                );
+
+            }
+
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return auxInvoice;
+        }
+    }
+
 
     /* Método para verificar se ligação à internet foi realizada */
     public static boolean isConnectionInternet(Context context) {

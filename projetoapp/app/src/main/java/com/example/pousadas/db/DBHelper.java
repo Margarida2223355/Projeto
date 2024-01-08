@@ -11,7 +11,9 @@ import com.example.pousadas.enums.Status;
 import com.example.pousadas.enums.Status_Res;
 import com.example.pousadas.models.Food;
 import com.example.pousadas.models.Geral;
+import com.example.pousadas.models.Invoice;
 import com.example.pousadas.models.Invoice_line;
+import com.example.pousadas.models.Lodge;
 import com.example.pousadas.models.Reservation;
 import com.example.pousadas.models.Room;
 import com.example.pousadas.models.Service;
@@ -40,6 +42,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(new MyDatabase.ReservationTable().createReservationTable());
         db.execSQL(new MyDatabase.UserTable().createUserTable());
         db.execSQL(new MyDatabase.InvoiceLineTable().createLineTable());
+        db.execSQL(new MyDatabase.InvoiceTable().createLineTable());
     }
 
     @Override
@@ -49,6 +52,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + MyDatabase.ReservationTable.DB_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + MyDatabase.UserTable.DB_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + MyDatabase.InvoiceLineTable.DB_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + MyDatabase.InvoiceTable.DB_TABLE);
 
         this.onCreate(db);
     }
@@ -421,6 +425,11 @@ public class DBHelper extends SQLiteOpenHelper {
                     db.update(MyDatabase.InvoiceLineTable.DB_TABLE, values, "id= ?", new String[]{"" + line.getId()}) > 0;
         }
 
+        public boolean removeLineDB(int id){
+            return (db.delete(MyDatabase.InvoiceTable.DB_TABLE, "id = ?",  new String[]{"" + id}) == 1);
+        }
+
+
         private Service getServiceDetailsFromDatabase(int anInt) {
             Service auxService = null;
 
@@ -514,5 +523,113 @@ public class DBHelper extends SQLiteOpenHelper {
         }
 
     }
+    public class InvoiceTable {
+        public void addInvoiceDB(Invoice invoice) {
+            ContentValues values = new ContentValues();
+
+            values.put(MyDatabase.InvoiceTable.LODGE_ID, invoice.getLodge());
+            values.put(MyDatabase.InvoiceTable.PAYMENT_DATE, geral_.convertFromDate(invoice.getPayment_date()));
+            values.put(MyDatabase.InvoiceTable.RESERVATION_ID, invoice.getReservation());
+            values.put(MyDatabase.InvoiceTable.TOTAL, invoice.getTotal_price());
+
+            db.insert(MyDatabase.InvoiceTable.DB_TABLE, null, values);
+        }
+
+        private Lodge getLodgeDetailsFromDatabase(int anInt) {
+            Lodge auxLodge = null;
+
+            Cursor cursor = db.rawQuery(
+                    "SELECT * FROM pousada WHERE id = " + anInt,
+                    null
+            );
+
+            if (cursor.moveToFirst()) {
+                auxLodge = new Lodge(
+                        cursor.getInt(0),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(3)
+                );
+            }
+
+            cursor.close();
+
+            return auxLodge;
+        }
+        private Reservation getReservationDetailsFromDatabase(int anInt) {
+            Reservation auxReservation = null;
+
+            Cursor cursor = db.rawQuery(
+                    "SELECT * FROM reserva WHERE id = " + anInt,
+                    null
+            );
+
+            if (cursor.moveToFirst()) {
+                auxReservation = new Reservation(
+                        cursor.getInt(0),
+                        geral_.convertToDateDB(cursor.getString(1)),
+                        geral_.convertToDateDB(cursor.getString(2)),
+                        cursor.getFloat(3),
+                        Status_Res.getFromString(cursor.getString(4)),
+                        getUserDetailsFromDatabase(cursor.getInt(5)),
+                        getRoomDetailsFromDatabase(cursor.getInt(6))
+                );
+            }
+
+            cursor.close();
+
+            return auxReservation;
+        }
+        private Room getRoomDetailsFromDatabase(int anInt) {
+            Room auxRoom = null;
+
+            Cursor cursor = db.rawQuery(
+                    "SELECT * FROM quarto WHERE id = " + anInt,
+                    null
+            );
+
+            if (cursor.moveToFirst()) {
+                auxRoom = new Room(
+                        anInt,
+                        cursor.getString(1),
+                        cursor.getInt(2),
+                        cursor.getInt(3),
+                        cursor.getInt(4),
+                        cursor.getInt(5),
+                        (float) cursor.getDouble(6)
+                );
+            }
+
+            cursor.close();
+
+            return auxRoom;
+        }
+        private User getUserDetailsFromDatabase(int anInt) {
+            User auxUser = null;
+
+            Cursor cursor = db.rawQuery(
+                    "SELECT * FROM inf_user WHERE id = " + anInt,
+                    null
+            );
+
+            if (cursor.moveToFirst()) {
+                auxUser = new User(
+                        anInt,
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getString(3),
+                        cursor.getString(4),
+                        (float) cursor.getDouble(5),
+                        cursor.getString(6)
+                );
+            }
+
+            cursor.close();
+
+            return auxUser;
+        }
+
+    }
+
 
 }

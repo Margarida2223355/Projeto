@@ -1,5 +1,7 @@
 package com.example.pousadas.models;
 
+import static android.widget.Toast.LENGTH_SHORT;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -63,6 +65,7 @@ public class Singleton extends AppCompatActivity {
     private DBHelper.ReservationsTable reservationsTable;
     private DBHelper.UserTable userTable;
     private DBHelper.InvoiceLineTable lineTable;
+    private DBHelper.InvoiceTable invoiceTable;
     private JsonParser jsonParser = new JsonParser();
     private static RequestQueue volleyQueue;
     private SharedPreferences ipPreferences, userPreferences;
@@ -87,6 +90,7 @@ public class Singleton extends AppCompatActivity {
         reservationsTable = dbHelper.new ReservationsTable();
         userTable = dbHelper.new UserTable();
         lineTable = dbHelper.new InvoiceLineTable();
+        invoiceTable = dbHelper.new InvoiceTable();
 
         ipPreferences = context.getSharedPreferences(IPConfigActivity.IPCONFIG, Context.MODE_PRIVATE);
         userPreferences = context.getSharedPreferences(LoginActivity.PREFERENCES, Context.MODE_PRIVATE);
@@ -537,7 +541,31 @@ public class Singleton extends AppCompatActivity {
             volleyQueue.add(request);
         }
     }
-    
+
+    public void removeLineAPI(final Invoice_line line, final Context context){
+        if (!jsonParser.isConnectionInternet(context)){
+            Toast.makeText(context, "No internet Connection!", LENGTH_SHORT).show();
+        }
+
+        else{
+            StringRequest req = new StringRequest(
+                    Request.Method.DELETE,
+                    INIT_URL + "linha-faturas/deleteline/" + line.getId(),
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            removeLineDB(line.getId());
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    System.out.println("---> Error removing from API" + error.getMessage());
+                }
+            });
+            volleyQueue.add(req);
+        }
+    }
+
     private void addLinesDB(ArrayList<Invoice_line> lines) {
         lineTable.removeAllLinesDB();
 
@@ -557,4 +585,64 @@ public class Singleton extends AppCompatActivity {
             lineTable.editLineDB(auxLine);
         }
     }
+
+    public void removeLineDB(int id){
+        Invoice_line auxLine = getLine(id);
+        if (auxLine != null)
+            lineTable.removeLineDB(id);
+    }
+
+    public void addInvoiceAPI(final Invoice invoice, final Context context) {
+        if (!JsonParser.isConnectionInternet(context)) {
+            Toast.makeText(context, "No internet Connection", Toast.LENGTH_SHORT).show();
+        }
+
+        else {
+            StringRequest request = new StringRequest(
+                    Request.Method.POST,
+                    INIT_URL + "faturas/invoices",
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                if ((new JSONObject(response)).getBoolean("success")) {
+                                    Toast.makeText(context, "Fatura criada com sucesso!", Toast.LENGTH_SHORT).show();
+                                }
+
+                                else {
+                                    Toast.makeText(context, "Erro", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            System.out.println("--> Error adding Line on API " + error.getMessage());
+                        }
+                    }) {
+                @Nullable
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+
+                    headers.put("id", Integer.toString(invoice.getId()));
+                    headers.put("pousada_id", Integer.toString(invoice.getLodge()));
+                    headers.put("data_pagamento", geral_.convertFromDate(invoice.getPayment_date()));
+                    headers.put("reserva_id", Integer.toString(invoice.getReservation()));
+                    headers.put("preco_total", Float.toString(invoice.getTotal_price()));
+
+                    return headers;
+
+                }
+            };
+
+            volleyQueue.add(request);
+        }
+    }
+
 }
