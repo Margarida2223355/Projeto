@@ -69,7 +69,7 @@ class SignupCest
             'status' => \common\models\User::STATUS_INACTIVE
         ]);
         $I->seeRecord('common\models\infUser', [
-        'nome_completo' => 'tester tester',
+            'nome_completo' => 'tester tester',
             'morada' => 'rua tester',
             'pais' => 'pais tester',
             'telefone' => '66666666',

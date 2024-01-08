@@ -52,16 +52,6 @@ class Img extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[ImgQuartoRelacionamentos]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getImgQuartoRelacionamentos()
-    {
-        return $this->hasMany(ImgQuartoRelacionamento::class, ['img_id' => 'id']);
-    }
-
     /** 
     * Gets query for [[Quarto]]. 
     * 

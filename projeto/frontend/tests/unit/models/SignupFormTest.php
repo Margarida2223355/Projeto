@@ -3,7 +3,10 @@
 namespace frontend\tests\unit\models;
 
 use common\fixtures\UserFixture;
+use common\fixtures\InfUserFixture;
+use common\models\InfUser;
 use frontend\models\SignupForm;
+use Yii;
 
 class SignupFormTest extends \Codeception\Test\Unit
 {
@@ -19,6 +22,10 @@ class SignupFormTest extends \Codeception\Test\Unit
             'user' => [
                 'class' => UserFixture::class,
                 'dataFile' => codecept_data_dir() . 'user.php'
+            ],
+            'infUser' => [
+                'class' => InfUserFixture::class,
+                'dataFile' => codecept_data_dir() . 'infUser.php'
             ]
         ]);
     }
@@ -29,6 +36,11 @@ class SignupFormTest extends \Codeception\Test\Unit
             'username' => 'some_username',
             'email' => 'some_email@example.com',
             'password' => 'some_password',
+            'nome_completo'  => 'name tester',
+            'morada'  => 'rua tester',
+            'pais'  => 'pais tester',
+            'telefone'  => '66666666',
+            'nif'  => '999999666',
         ]);
 
         $user = $model->signup();
@@ -40,8 +52,20 @@ class SignupFormTest extends \Codeception\Test\Unit
             'email' => 'some_email@example.com',
             'status' => \common\models\User::STATUS_INACTIVE
         ]);
+        $infUser = $this->tester->grabRecord('common\models\InfUser', [
+            'nome_completo' => 'name tester',
+            'morada' => 'rua tester',
+            'pais' => 'pais tester',
+            'telefone' => '66666666',
+            'nif' => '999999666',
+        ]);
 
         $this->tester->seeEmailIsSent();
+
+        //apagar role da db
+        $authManager = Yii::$app->authManager;
+        $role = $authManager->getRole('cliente');
+        $authManager->revoke($role, $user->id);
 
         $mail = $this->tester->grabLastSentEmail();
 
