@@ -16,10 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create Linha Fatura', ['create'], ['class' => 'btn btn-success']) ?>
-        
-    </p>
     <p>        
         <?= Html::button('Confirmados', ['class' => 'btn btn-info', 'id' => 'btn-confirmados']) ?>
         <?= Html::button('Carrinhos', ['class' => 'btn btn-info', 'id' => 'btn-carrinhos']) ?>
