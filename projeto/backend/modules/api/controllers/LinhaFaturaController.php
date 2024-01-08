@@ -92,4 +92,9 @@ class LinhaFaturaController extends ActiveController
             ];
         }
     }
+
+    public function actionDeleteline($id) {
+        return
+            LinhaFatura::deleteAll(['id' => $id]);
+    }
 }

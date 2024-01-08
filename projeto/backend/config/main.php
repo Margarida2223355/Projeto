@@ -109,7 +109,7 @@ return [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'api/fatura',
                     'extraPatterns' => [
-
+                        'POST invoices' => 'invoices'
                     ],
                     'tokens' => [
 
@@ -122,6 +122,7 @@ return [
                         'GET {id}' => 'lines',
                         'POST createline' => 'createline',
                         'PUT editline/{id}' => 'editline',
+                        'DELETE deleteline/{id}' => 'deleteline',
                     ],
                 ],
                 
