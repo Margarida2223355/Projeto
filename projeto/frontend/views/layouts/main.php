@@ -39,7 +39,6 @@ AppAsset::register($this);
     $menuItems = [
         ['label' => 'Reserva', 'url' => ['/reserva/index']],
         ['label' => 'Quartos', 'url' => ['/site/quartos']],
-        ['label' => 'About', 'url' => ['/site/about']],
         ['label' => 'Contact', 'url' => ['/site/contact']],
     ];
     if (!Yii::$app->user->isGuest) {
