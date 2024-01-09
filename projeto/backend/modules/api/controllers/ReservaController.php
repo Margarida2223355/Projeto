@@ -44,7 +44,15 @@ class ReservaController extends ActiveController
         return [
                 'id' => $reserva -> id,
                 'quarto' => $reserva -> quarto,
-                'cliente' => $reserva -> cliente,
+                'cliente' => [
+                    'id' => $reserva -> cliente -> id,
+                    'nome_completo' => $reserva -> cliente -> nome_completo,
+                    'morada' => $reserva -> cliente -> morada,
+                    'pais' => $reserva -> cliente -> pais,
+                    'telefone' => $reserva -> cliente -> telefone,
+                    'salario' => is_null($reserva -> cliente -> salario) ? 0 : $reserva -> cliente -> salario,
+                    'nif' => $reserva -> cliente -> nif
+                ],
                 'data_inicial' => $reserva -> data_inicial,
                 'data_final' => $reserva -> data_final,
                 'preco_total' => $reserva -> preco_total,

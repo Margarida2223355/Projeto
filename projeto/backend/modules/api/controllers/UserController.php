@@ -35,8 +35,19 @@ class UserController extends ActiveController
     }
 
     public function actionLogin() {
-        return InfUser::findOne([
+        $user = InfUser::findOne([
             'id' => $this -> user -> id
         ]);
+
+        return
+        [
+            'id' => $user -> id,
+            'nome_completo' => $user -> nome_completo,
+            'morada' => $user -> morada,
+            'pais' => $user -> pais,
+            'telefone' => $user -> telefone,
+            'salario' => is_null($user -> salario) ? 0 : $user -> salario,
+            'nif' => $user -> nif
+        ];
     }
 }
