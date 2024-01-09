@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 $dataInicial = Yii::$app->request->get('dataInicial');
                                 $dataFinal = Yii::$app->request->get('dataFinal');
                             ?>
-                            <?= Html::a('Create Reserva', ['reserva/create', 'quarto_id' => $quarto->id, 'dataInicial' =>$dataInicial, 'dataFinal'=>$dataFinal], ['class' => 'btn btn-success']) ?>
+                            <?= Html::a('Create Reserva 1', ['reserva/create', 'quarto_id' => $quarto->id, 'dataInicial' =>$dataInicial, 'dataFinal'=>$dataFinal], ['class' => 'btn btn-success']) ?>
                         </div>
                     </div>
                 </div>
