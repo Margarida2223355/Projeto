@@ -128,8 +128,12 @@ public class ReservationClientFragment extends Fragment implements ReservationsL
 
     @Override
     public void onRefreshReservationsList(ArrayList<Reservation> reservations) {
-        if (reservations != null) {
+        if (!reservations.isEmpty()) {
             binding.listRoom.setAdapter((new ListReservationAdapter(getContext(), reservations)));
+        }
+
+        else {
+            Toast.makeText(getContext(), "Não existem reservas nestas condições!", Toast.LENGTH_SHORT).show();
         }
 
     }

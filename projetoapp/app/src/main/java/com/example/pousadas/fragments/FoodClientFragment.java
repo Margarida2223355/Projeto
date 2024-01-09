@@ -29,11 +29,14 @@ import com.example.pousadas.models.Invoice_line;
 import com.example.pousadas.models.Reservation;
 import com.example.pousadas.models.Service;
 import com.example.pousadas.models.Singleton;
+import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class FoodClientFragment extends Fragment implements FoodsListener {
 
@@ -71,10 +74,14 @@ public class FoodClientFragment extends Fragment implements FoodsListener {
         binding.calendar.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /* Condição para aparecer datas posteriores à atual */
+                CalendarConstraints dateConstraint = new CalendarConstraints.Builder().setStart(MaterialDatePicker.todayInUtcMilliseconds()).build();
+
                 /* Criar o datepicker*/
                 MaterialDatePicker picker = MaterialDatePicker.Builder
                     .datePicker()
                     .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                    .setCalendarConstraints(dateConstraint)
                     .build();
 
                 /* Mostrar o calendário */
@@ -155,8 +162,12 @@ public class FoodClientFragment extends Fragment implements FoodsListener {
 
     @Override
     public void onRefreshFoodsList(ArrayList<Food> foods) {
-        if (foods != null) {
+        if (!foods.isEmpty()) {
             binding.listFood.setAdapter(new ListFoodAdapter(getContext(), foods));
+        }
+
+        else {
+            Toast.makeText(requireContext(), "Não existem refeições nestas condições!", Toast.LENGTH_SHORT).show();
         }
     }
 

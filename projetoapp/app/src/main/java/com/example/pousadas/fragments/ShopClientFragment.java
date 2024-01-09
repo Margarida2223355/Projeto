@@ -82,8 +82,12 @@ public class ShopClientFragment extends Fragment implements LinesListener {
 
     @Override
     public void onRefreshLinesList(ArrayList<Invoice_line> lines) {
-        if (lines != null) {
+        if (!lines.isEmpty()) {
             binding.listShop.setAdapter(new ListLineAdapter(getContext(), lines));
+        }
+
+        else {
+            Toast.makeText(getContext(), "Carrinho Vazio!", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -35,8 +35,8 @@ public class LoginActivity extends AppCompatActivity implements UserListener, Re
     }
 
     public void onClickLogin(View view) {
-        binding.txtUsername.setText("123456789");
-        binding.txtPassword.setText("123456789");
+        binding.txtUsername.setText("cliente");
+        binding.txtPassword.setText("12345678");
 
         Singleton.getInstance(getApplicationContext()).setUserListener(this);
 

@@ -81,8 +81,12 @@ public class ServicesClientFragment extends Fragment implements ServicesListener
 
     @Override
     public void onRefreshServicesList(ArrayList<Service> services) {
-        if (services != null) {
+        if (!services.isEmpty()) {
             binding.listService.setAdapter(new ListServiceAdapter(getContext(), services));
+        }
+
+        else {
+            Toast.makeText(getContext(), "Não existem serviços disponíveis!", Toast.LENGTH_SHORT).show();
         }
     }
 }
