@@ -53,6 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ]) ?>
     <?= Html::a('Create Reserva', ['create'], [
         'class' => 'btn btn-success',
+        'style' => 'margin-top: 20px',
         'onclick' => '
             var dataInicial = $("#' . Html::getInputId($model, 'data_inicial') . '").val();
             var dataFinal = $("#' . Html::getInputId($model, 'data_final') . '").val();
