@@ -11,9 +11,10 @@ class LinhaFaturaController extends ActiveController
     public $modelClass = 'common\models\LinhaFatura';
 
     public function actionLines($id) {
-        $lines = LinhaFatura::find()
-            -> where(['reserva_id' => $id])
-            -> all();
+        $lines = LinhaFatura::findAll([
+            'reserva_id' => $id,
+            'status' => 'Carrinho'
+        ]);
 
         $linesAux = [];
 
@@ -71,7 +72,7 @@ class LinhaFaturaController extends ActiveController
         }
     }
 
-    public function actionEditline($id) {
+    public function actionEditqty($id) {
         $newQty = Yii::$app -> request -> post('quantidade');
         $line = LinhaFatura::findOne(['id' => $id]);
 
@@ -81,14 +82,36 @@ class LinhaFaturaController extends ActiveController
 
             return [
                 'success' => true,
-                'message' => 'Linha da fatura criada com sucesso',
+                'message' => 'Linha da fatura alterada com sucesso',
             ];
         }
 
         else {
             return [
                 'success' => false,
-                'message' => 'Erro ao adicionar linha',
+                'message' => 'Erro ao alterar linha',
+            ];
+        }
+    }
+
+    public function actionEditstatus($id) {
+        $newStatus = Yii::$app -> request -> post('status');
+        $line = LinhaFatura::findOne(['id' => $id]);
+
+        if($line) {
+            $line -> status = $newStatus;
+            $line -> save();
+
+            return [
+                'success' => true,
+                'message' => 'Linha da fatura alterada com sucesso',
+            ];
+        }
+
+        else {
+            return [
+                'success' => false,
+                'message' => 'Erro ao alterar linha',
             ];
         }
     }

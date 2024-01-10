@@ -72,7 +72,11 @@ public class ServicesClientFragment extends Fragment implements ServicesListener
                             userPreferences.getInt(LoginActivity.RESERVATION_ID, 0),
                             Status.CARRINHO
                     ), getContext());
+                    
+                    service.resetQty();
                 }
+
+                Singleton.getInstance(getContext()).getAllServices(getContext());
             }
         });
 

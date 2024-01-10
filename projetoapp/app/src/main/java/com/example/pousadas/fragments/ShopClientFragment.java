@@ -16,6 +16,7 @@ import com.example.pousadas.activities.LoginActivity;
 import com.example.pousadas.adapters.ListLineAdapter;
 import com.example.pousadas.databinding.FragmentServicesClientBinding;
 import com.example.pousadas.databinding.FragmentShopClientBinding;
+import com.example.pousadas.enums.Status;
 import com.example.pousadas.listeners.LinesListener;
 import com.example.pousadas.listeners.ServicesListener;
 import com.example.pousadas.models.Geral;
@@ -56,7 +57,26 @@ public class ShopClientFragment extends Fragment implements LinesListener {
             }
         });
 
+        binding.remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteLines();
+                Singleton.getInstance(getContext()).getLines(getContext());
+            }
+        });
+
         return view;
+    }
+
+    private void deleteLines() {
+        for(int i=0; i<binding.listShop.getAdapter().getCount(); i++) {
+            Invoice_line auxLine = (Invoice_line) binding.listShop.getAdapter().getItem(i);
+
+            if (auxLine.isSelected()) {
+                Singleton.getInstance(getContext()).removeLineAPI(auxLine, getContext());
+            }
+        }
+
     }
 
     private Invoice createInvoice() {
@@ -66,7 +86,8 @@ public class ShopClientFragment extends Fragment implements LinesListener {
             Invoice_line auxLine = (Invoice_line) binding.listShop.getAdapter().getItem(i);
             if (auxLine.isSelected()) {
                 total+=auxLine.getTotal();
-                Singleton.getInstance(getContext()).removeLineAPI(auxLine, getContext());
+                auxLine.setStatus(Status.CONFIRMADO);
+                Singleton.getInstance(getContext()).editStatusLineAPI(auxLine, getContext());
             }
         }
 
@@ -82,11 +103,11 @@ public class ShopClientFragment extends Fragment implements LinesListener {
 
     @Override
     public void onRefreshLinesList(ArrayList<Invoice_line> lines) {
-        if (!lines.isEmpty()) {
-            binding.listShop.setAdapter(new ListLineAdapter(getContext(), lines));
-        }
 
-        else {
+        binding.listShop.setAdapter(new ListLineAdapter(getContext(), lines));
+
+
+        if (lines.isEmpty()){
             Toast.makeText(getContext(), "Carrinho Vazio!", Toast.LENGTH_SHORT).show();
         }
     }

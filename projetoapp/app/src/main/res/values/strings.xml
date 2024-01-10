@@ -9,6 +9,7 @@
     <string name="food_MenuClient">Refeições</string>
     <string name="service_MenuClient">Serviços Adicionais</string>
     <string name="shop_MenuClient">Carrinho de Compras</string>
+    <string name="shop_delete_MenuClient">Remover</string>
     <string name="settings_MenuClient">Servidor</string>
     <string name="userInfo_MenuClient">Utilizador</string>
 

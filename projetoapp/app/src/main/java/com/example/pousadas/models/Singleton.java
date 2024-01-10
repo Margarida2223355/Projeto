@@ -25,6 +25,7 @@ import com.example.pousadas.activities.IPConfigActivity;
 import com.example.pousadas.activities.LoginActivity;
 import com.example.pousadas.db.DBHelper;
 import com.example.pousadas.enums.Category;
+import com.example.pousadas.enums.Status;
 import com.example.pousadas.listeners.FoodsListener;
 import com.example.pousadas.listeners.LinesListener;
 import com.example.pousadas.listeners.ReservationsListener;
@@ -504,7 +505,7 @@ public class Singleton extends AppCompatActivity {
         }
     }
 
-    public void editLineAPI(Invoice_line line, final Context context) {
+    public void editQtyLineAPI(Invoice_line line, final Context context) {
         if (!JsonParser.isConnectionInternet(context)) {
             Toast.makeText(context, "No internet Connection!", Toast.LENGTH_SHORT).show();
         }
@@ -512,7 +513,7 @@ public class Singleton extends AppCompatActivity {
         else {
             StringRequest request = new StringRequest(
                     Request.Method.PUT,
-                    INIT_URL + "linha-faturas/editline/" + line.getId(),
+                    INIT_URL + "linha-faturas/editqty/" + line.getId(),
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -532,7 +533,7 @@ public class Singleton extends AppCompatActivity {
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> headers = new HashMap<>();
 
-                    headers.put("quantidade", Integer.toString(line.getQty()));
+                    headers.put("status", Integer.toString(line.getQty()));
 
                     return headers;
                 }
@@ -541,6 +542,45 @@ public class Singleton extends AppCompatActivity {
             volleyQueue.add(request);
         }
     }
+
+    public void editStatusLineAPI(Invoice_line line, final Context context) {
+        if (!JsonParser.isConnectionInternet(context)) {
+            Toast.makeText(context, "No internet Connection!", Toast.LENGTH_SHORT).show();
+        }
+
+        else {
+            StringRequest request = new StringRequest(
+                    Request.Method.PUT,
+                    INIT_URL + "linha-faturas/editstatus/" + line.getId(),
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            editLineDB(line);
+                            Toast.makeText(context, "Linha alterada com sucesso!", Toast.LENGTH_SHORT).show();
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            System.out.println("--> Erro: " + error.getMessage());
+                        }
+                    }
+            ) {
+                @Nullable
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<>();
+
+                    headers.put("status", Status.CONFIRMADO.getStatus());
+
+                    return headers;
+                }
+            };
+
+            volleyQueue.add(request);
+        }
+    }
+
 
     public void removeLineAPI(final Invoice_line line, final Context context){
         if (!jsonParser.isConnectionInternet(context)){
@@ -555,6 +595,7 @@ public class Singleton extends AppCompatActivity {
                         @Override
                         public void onResponse(String response) {
                             removeLineDB(line.getId());
+                            Toast.makeText(context, "Linha removida com sucesso!", Toast.LENGTH_SHORT).show();
                         }
                     }, new Response.ErrorListener() {
                 @Override

@@ -152,8 +152,11 @@ public class FoodClientFragment extends Fragment implements FoodsListener {
                             userPreferences.getInt(LoginActivity.RESERVATION_ID, 0),
                             Status.CARRINHO
                     ), getContext());
+
+                    food.resetQty();
                 }
 
+                Singleton.getInstance(getContext()).getFoodsByDateSchedule(geral_.convertToDate(binding.txtFoodDate.getText().toString()), Category.getFromString(binding.txtFoodTime.getText().toString()),getContext());
             }
         });
 

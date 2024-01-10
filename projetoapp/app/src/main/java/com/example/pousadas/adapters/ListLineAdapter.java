@@ -92,7 +92,7 @@ public class ListLineAdapter extends BaseAdapter {
                     Invoice_line line = lines.get(position);
                     line.setQty(Integer.parseInt(myViewHolder.item.qty.getText().toString()));
 
-                    Singleton.getInstance(context).editLineAPI(line, context);
+                    Singleton.getInstance(context).editQtyLineAPI(line, context);
 
                     myViewHolder.item.qty.clearFocus();
                     ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(binding.qty.getWindowToken(), 0);

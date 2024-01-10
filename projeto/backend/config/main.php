@@ -121,7 +121,8 @@ return [
                     'extraPatterns' => [
                         'GET {id}' => 'lines',
                         'POST createline' => 'createline',
-                        'PUT editline/{id}' => 'editline',
+                        'PUT editqty/{id}' => 'editqty',
+                        'PUT editstatus/{id}' => 'editstatus',
                         'DELETE deleteline/{id}' => 'deleteline',
                     ],
                 ],

@@ -90,8 +90,18 @@ public class Food {
         if (qty > 0) qty--;
     }
 
+    /* Método para fazer reset à quantidade
+     *
+     * Utilizado quando vamos adicionar ao carrinho.
+     *
+     */
+    public void resetQty() {
+        qty = 0;
+    }
+
     public float getTotal() {
         return
                 qty * price;
     }
+
 }

@@ -2,7 +2,7 @@ package com.example.pousadas.enums;
 
 public enum Status {
     CARRINHO("Carrinho"),
-    PAGO("Pago"),
+    CONFIRMADO("Confirmado"),
     CANCELADO("Cancelado");
 
     private String status;
