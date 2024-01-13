@@ -1,11 +1,14 @@
 package com.example.pousadas.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -42,11 +45,20 @@ public class ClientActivity extends AppCompatActivity {
         binding = ActivityClientBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        int permissionState = ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS);
+        // If the permission is not granted, request it.
+        if (permissionState == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 1);
+        }
         ipPreferences = getSharedPreferences(IPConfigActivity.IPCONFIG, Context.MODE_PRIVATE);
 
         String batatas = "tcp://" + ipPreferences.getString(IPConfigActivity.IP, "") + ":1883";
-        mqtt = new MQTT(getBaseContext(), batatas);
-        mqtt.publish("Carrinho", "batatas");
+        try {
+            mqtt = new MQTT(getBaseContext(), batatas);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
         userPreferences = getSharedPreferences(LoginActivity.PREFERENCES, Context.MODE_PRIVATE);
 
         /* Função para definir botões e navbar */
@@ -118,5 +130,9 @@ public class ClientActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    public void Exemplo() {
+        System.out.println("--> Aqui");
     }
 }

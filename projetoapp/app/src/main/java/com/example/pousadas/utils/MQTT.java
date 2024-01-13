@@ -1,147 +1,135 @@
 package com.example.pousadas.utils;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
+
+import android.annotation.SuppressLint;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
-import android.os.Build;
+import android.content.Intent;
 
-import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
-import com.example.pousadas.R;
+import com.example.pousadas.activities.ClientActivity;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
+import org.eclipse.paho.client.mqttv3.DisconnectedBufferOptions;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
-import org.eclipse.paho.client.mqttv3.MqttCallback;
-import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
-public class MQTT {
-    private static final String CLIENT = "cliente";
-    private static final String TOPIC = "Carrinho";
+
+public class MQTT{
+    MqttAndroidClient mqttAndroidClient;
+
+    final String serverUri = "tcp://192.168.1.184:1883";
+
+    String clientId = "ExampleAndroidClient";
+    final String subscriptionTopic = "Carrinho";
     private static final String CHANNEL_ID = "MQTT_CHANNEL";
-
-    private MqttAndroidClient mqttClient;
-    private NotificationManager notificationManager;
     private Context context;
 
-    public MQTT(Context context, final String host) {
+    public MQTT(Context context, String host) {
         this.context = context;
 
-        mqttClient = new MqttAndroidClient(context, host, CLIENT);
+        clientId = clientId + System.currentTimeMillis();
 
-        notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        connectMQTT();
-    }
-
-    private void connectMQTT() {
-        mqttClient.setCallback(new MqttCallback() {
+        mqttAndroidClient = new MqttAndroidClient(context, host, clientId);
+        mqttAndroidClient.setCallback(new MqttCallbackExtended() {
             @Override
-            public void connectionLost(Throwable cause) {
-                System.out.println("--> Connection lost: " + cause.getMessage());
+            public void connectComplete(boolean reconnect, String serverURI) {
+
+                if (reconnect) {
+                    System.out.println("--> Reconnected to: " + serverURI);
+                    // Because Clean Session is true, we need to re-subscribe
+                    subscribeToTopic();
+                } else {
+                    System.out.println("--> Connected to: " + serverURI);
+                }
             }
 
-            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void connectionLost(Throwable cause) {
+                System.out.println("--> Connection lost");
+            }
+
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
-                System.out.println("--> " + topic + ", " + message.toString());
-                showNotification(message.toString());
+                System.out.println("--> Msg recebida   " + new String(message.getPayload()));
             }
 
             @Override
             public void deliveryComplete(IMqttDeliveryToken token) {
-
+                System.out.println("-->Entregou alguma coisa");
             }
         });
 
         MqttConnectOptions mqttConnectOptions = new MqttConnectOptions();
         mqttConnectOptions.setAutomaticReconnect(true);
+        mqttConnectOptions.setCleanSession(false);
 
         try {
-            IMqttToken token = mqttClient.connect(mqttConnectOptions);
-            token.setActionCallback(new IMqttActionListener() {
+            mqttAndroidClient.connect(mqttConnectOptions, context, new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
-                    System.out.println("--> Connected MQTT broker");
+                    DisconnectedBufferOptions disconnectedBufferOptions = new DisconnectedBufferOptions();
+                    disconnectedBufferOptions.setBufferEnabled(true);
+                    disconnectedBufferOptions.setBufferSize(100);
+                    disconnectedBufferOptions.setPersistBuffer(false);
+                    disconnectedBufferOptions.setDeleteOldestMessages(false);
+                    mqttAndroidClient.setBufferOpts(disconnectedBufferOptions);
                     subscribeToTopic();
                 }
 
                 @Override
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    System.out.println("--> Failed");
+                    System.out.println("-->Falhou   1" + exception.getMessage());
+
                 }
             });
+
+
+        } catch (MqttException ex){
+            ex.printStackTrace();
         }
 
-        catch (MqttException e) {
-            e.printStackTrace();
-        }
     }
 
-    private void subscribeToTopic() {
+    public void subscribeToTopic(){
+
         try {
-            mqttClient.subscribe(TOPIC, 0);
-            System.out.println("--> " + TOPIC);
-        }
-        catch (MqttException e) {
-            e.printStackTrace();
-        }
-    }
+            mqttAndroidClient.subscribe(subscriptionTopic, 0, null, new IMqttActionListener() {
+                @Override
+                public void onSuccess(IMqttToken asyncActionToken) {
+                    System.out.println("-->Subscribed!");
+                }
 
-    public void publish(String topic, String info)
-    {
-        byte[] encodedInfo = new byte[0];
-        try {
-            encodedInfo = info.getBytes("UTF-8");
-            MqttMessage message = new MqttMessage(encodedInfo);
-            mqttClient.publish(topic, message);
-            System.out.println("-->publish done");
-        } catch (MqttException e) {
-            System.out.println("-->deu erro");
-        }catch (Exception e) {
-            System.out.println("-->deu erro 2");
-            System.out.println("-->" + e.getMessage());
+                @Override
+                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                    System.out.println("--> " + exception.getMessage());
+                }
+            });
 
-        }
+            // THIS DOES NOT WORK!
+            mqttAndroidClient.subscribe(subscriptionTopic, 0, new IMqttMessageListener() {
+                @SuppressLint("MissingPermission")
+                @Override
+                public void messageArrived(String topic, MqttMessage message) throws Exception {
+                    // message Arrived!
+                    System.out.println("-->" + new String(message.getPayload()));
+                    NotificationHelper notification =  new NotificationHelper();
+                    notification.showNotification(context, "Carrinho", message.toString());
+                }
+            });
 
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void showNotification(String notification) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createNotificationChannel();
-
-            Notification.Builder builder = new Notification.Builder(context, CHANNEL_ID)
-                    .setSmallIcon(R.drawable.ic_admin_finance)
-                    .setContentTitle("Nova Mensagem MQTT")
-                    .setContentText(notification);
-
-            notificationManager.notify(1, builder.build());
-        } else {
-            // Em versões mais antigas, você pode usar NotificationCompat
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                    .setSmallIcon(R.drawable.ic_admin_finance)
-                    .setContentTitle("Nova Mensagem MQTT")
-                    .setContentText(notification);
-
-            notificationManager.notify(1, builder.build());
+        } catch (MqttException ex){
+            System.err.println("Exception whilst subscribing");
+            ex.printStackTrace();
         }
     }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void createNotificationChannel() {
-        CharSequence name = "MQTT Channel";
-        String description = "Canal para notificações MQTT";
-
-        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_DEFAULT);
-        notificationManager.createNotificationChannel(channel);
-    }
-
 }
-
