@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\components\MQTT;
 use common\models\Fatura;
 use common\models\LinhaFatura;
 use common\models\Refeicao;
@@ -12,7 +13,6 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-
 
 /**
  * LinhaFaturaController implements the CRUD actions for LinhaFatura model.
@@ -135,7 +135,23 @@ class LinhaFaturaController extends Controller
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
-                $model->preco_unitario = $tipo === 'refeicao' ? $model->refeicao->preco : $model->servico->preco;
+
+                if ($tipo === 'refeicao') {
+
+                    $model->preco_unitario = $model->refeicao->preco;
+                    $this->addItem(
+                        $tipo,
+                        $model -> refeicao -> nome
+                    );
+
+                } else {
+                    $model->preco_unitario = $model->servico->preco;
+                    $this -> addItem(
+                        $tipo,
+                        $model -> servico -> nome
+                    );
+                }
+                
                 $model->sub_total = $model->preco_unitario * $model->quantidade;
                 $model->save();
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -220,4 +236,8 @@ class LinhaFaturaController extends Controller
         throw new NotFoundHttpException('The requested page does not exist.');
     }
     
+    public function addItem($type, $item) {
+        $mqttPublisher = new MQTT();
+        $mqttPublisher -> publishMessage($type . ' ' . $item . ' adicionado ao carrinho');
+    }
 }

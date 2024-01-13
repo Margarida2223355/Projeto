@@ -17,6 +17,7 @@ import com.example.pousadas.fragments.ReservationClientFragment;
 import com.example.pousadas.fragments.ServicesClientFragment;
 import com.example.pousadas.fragments.ShopClientFragment;
 import com.example.pousadas.models.Geral;
+import com.example.pousadas.utils.MQTT;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -32,7 +33,8 @@ public class ClientActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private Geral geral_;
     private ActivityClientBinding binding;
-    private SharedPreferences userPreferences;
+    private SharedPreferences userPreferences, ipPreferences;
+    private MQTT mqtt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,11 @@ public class ClientActivity extends AppCompatActivity {
         binding = ActivityClientBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        ipPreferences = getSharedPreferences(IPConfigActivity.IPCONFIG, Context.MODE_PRIVATE);
+
+        String batatas = "tcp://" + ipPreferences.getString(IPConfigActivity.IP, "") + ":1883";
+        mqtt = new MQTT(getBaseContext(), batatas);
+        mqtt.publish("Carrinho", "batatas");
         userPreferences = getSharedPreferences(LoginActivity.PREFERENCES, Context.MODE_PRIVATE);
 
         /* Função para definir botões e navbar */

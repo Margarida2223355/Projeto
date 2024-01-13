@@ -12,5 +12,8 @@ return [
         'authManager' => [
             'class' => \yii\rbac\DbManager::class,
         ],
+        'mqttPublisher' => [
+            'class' => 'common\components\MQTT',
+        ],
     ],
 ];
