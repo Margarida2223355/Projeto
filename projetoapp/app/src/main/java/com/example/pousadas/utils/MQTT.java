@@ -27,11 +27,8 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 public class MQTT{
     MqttAndroidClient mqttAndroidClient;
 
-    final String serverUri = "tcp://192.168.1.184:1883";
-
     String clientId = "ExampleAndroidClient";
     final String subscriptionTopic = "Carrinho";
-    private static final String CHANNEL_ID = "MQTT_CHANNEL";
     private Context context;
 
     public MQTT(Context context, String host) {

@@ -11,6 +11,7 @@ import android.os.Build;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.example.pousadas.R;
 import com.example.pousadas.activities.ClientActivity;
 
 public class NotificationHelper {
@@ -23,7 +24,7 @@ public class NotificationHelper {
         createNotificationChannel(context);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(android.R.drawable.ic_dialog_info) // Ícone pequeno à esquerda da notificação
+                .setSmallIcon(R.drawable.ic_menu_shop) // Ícone pequeno à esquerda da notificação
                 .setContentTitle(title) // Título da notificação
                 .setContentText(content) // Texto da notificação
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT); // Prioridade da notificação

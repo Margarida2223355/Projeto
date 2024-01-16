@@ -45,17 +45,15 @@ public class ClientActivity extends AppCompatActivity {
         binding = ActivityClientBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        int permissionState = ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS);
-        // If the permission is not granted, request it.
-        if (permissionState == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 1);
-        }
         ipPreferences = getSharedPreferences(IPConfigActivity.IPCONFIG, Context.MODE_PRIVATE);
 
-        String batatas = "tcp://" + ipPreferences.getString(IPConfigActivity.IP, "") + ":1883";
         try {
-            mqtt = new MQTT(getBaseContext(), batatas);
-        } catch (Exception e) {
+            mqtt = new MQTT(
+                    getBaseContext(),
+                    "tcp://" + ipPreferences.getString(IPConfigActivity.IP, "") + ":1883"
+                    );
+        }
+        catch (Exception e) {
             System.out.println(e.getMessage());
         }
 

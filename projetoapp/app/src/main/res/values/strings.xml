@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">pousadas</string>
+    <string name="app_name">Pousadas</string>
     <string name="hintUsername">Username</string>
     <string name="hintPassword">Password</string>
     <string name="btnLogin">Login</string>
