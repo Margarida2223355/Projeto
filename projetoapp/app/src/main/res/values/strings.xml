@@ -43,4 +43,8 @@
     <string name="hintIPConfig">IP Address</string>
     <string name="IPConfig">Configuração IP</string>
     <string name="btnStart">Start</string>
+    <string name="txtClientName">Cliente:</string>
+    <string name="txtInvoiceDate">Data Fatura:</string>
+    <string name="txtPrice">Preço</string>
+    <string name="txtQty">Qty</string>
 </resources>

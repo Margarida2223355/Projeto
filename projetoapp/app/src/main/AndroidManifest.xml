@@ -19,9 +19,11 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".activities.InvoiceActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.IPConfigActivity"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,8 +32,8 @@
         </activity>
         <activity
             android:name=".activities.ReservationDetailActivity"
-            android:parentActivityName=".activities.ClientActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".activities.ClientActivity" />
         <activity
             android:name=".activities.FuncActivity"
             android:exported="false" />
@@ -40,14 +42,13 @@
             android:exported="false" />
         <activity
             android:name=".activities.ClientActivity"
-            android:launchMode="singleTop"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleTop" />
         <activity
             android:name=".activities.LoginActivity"
-            android:exported="false">
-        </activity>
-        <service android:name="org.eclipse.paho.android.service.MqttService">
-        </service>
+            android:exported="false"></activity>
+
+        <service android:name="org.eclipse.paho.android.service.MqttService"></service>
     </application>
 
 </manifest>
