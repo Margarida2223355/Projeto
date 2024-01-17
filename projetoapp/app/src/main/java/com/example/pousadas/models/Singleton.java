@@ -27,6 +27,7 @@ import com.example.pousadas.db.DBHelper;
 import com.example.pousadas.enums.Category;
 import com.example.pousadas.enums.Status;
 import com.example.pousadas.listeners.FoodsListener;
+import com.example.pousadas.listeners.InvoiceListener;
 import com.example.pousadas.listeners.LinesListener;
 import com.example.pousadas.listeners.ReservationsListener;
 import com.example.pousadas.listeners.ServicesListener;
@@ -60,6 +61,7 @@ public class Singleton extends AppCompatActivity {
     private ReservationsListener reservationsListener;
     private UserListener userListener;
     private LinesListener linesListener;
+    private InvoiceListener invoiceListener;
     private DBHelper dbHelper;
     private DBHelper.FoodsTable foodsTable;
     private DBHelper.ServicesTable servicesTable;
@@ -119,6 +121,10 @@ public class Singleton extends AppCompatActivity {
 
     public void setLinesListener(LinesListener linesListener) {
         this.linesListener = linesListener;
+    }
+
+    public void setInvoiceListener(InvoiceListener invoiceListener) {
+        this.invoiceListener = invoiceListener;
     }
 
     public ArrayList<Food> getFoods() { return foods; }
@@ -581,7 +587,6 @@ public class Singleton extends AppCompatActivity {
         }
     }
 
-
     public void removeLineAPI(final Invoice_line line, final Context context){
         if (!jsonParser.isConnectionInternet(context)){
             Toast.makeText(context, "No internet Connection!", LENGTH_SHORT).show();
@@ -633,7 +638,7 @@ public class Singleton extends AppCompatActivity {
             lineTable.removeLineDB(id);
     }
 
-    public void addInvoiceAPI(final Invoice invoice, final Context context) {
+    public void addInvoiceAPI(final Invoice invoice, final ArrayList<Invoice_line> lines, final Context context) {
         if (!JsonParser.isConnectionInternet(context)) {
             Toast.makeText(context, "No internet Connection", Toast.LENGTH_SHORT).show();
         }
@@ -648,6 +653,10 @@ public class Singleton extends AppCompatActivity {
                             try {
                                 if ((new JSONObject(response)).getBoolean("success")) {
                                     Toast.makeText(context, "Fatura criada com sucesso!", Toast.LENGTH_SHORT).show();
+
+                                    if (invoiceListener != null) {
+                                        invoiceListener.onInvoice(invoice, lines);
+                                    }
                                 }
 
                                 else {

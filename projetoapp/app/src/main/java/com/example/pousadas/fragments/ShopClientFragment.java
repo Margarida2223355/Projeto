@@ -1,6 +1,7 @@
 package com.example.pousadas.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -11,27 +12,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.pousadas.R;
+import com.example.pousadas.activities.InvoiceActivity;
 import com.example.pousadas.activities.LoginActivity;
+import com.example.pousadas.adapters.ListInvoiceAdapter;
 import com.example.pousadas.adapters.ListLineAdapter;
-import com.example.pousadas.databinding.FragmentServicesClientBinding;
+import com.example.pousadas.databinding.ActivityInvoiceBinding;
 import com.example.pousadas.databinding.FragmentShopClientBinding;
+import com.example.pousadas.db.DBHelper;
 import com.example.pousadas.enums.Status;
+import com.example.pousadas.listeners.InvoiceListener;
 import com.example.pousadas.listeners.LinesListener;
-import com.example.pousadas.listeners.ServicesListener;
 import com.example.pousadas.models.Geral;
 import com.example.pousadas.models.Invoice;
 import com.example.pousadas.models.Invoice_line;
 import com.example.pousadas.models.Singleton;
+import com.example.pousadas.models.User;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class ShopClientFragment extends Fragment implements LinesListener {
+public class ShopClientFragment extends Fragment implements LinesListener, InvoiceListener {
 
     private FragmentShopClientBinding binding;
     private Geral geral_ = new Geral();
     private SharedPreferences userPreferences;
+
+    public static final String LINES = "Lines";
 
     public ShopClientFragment() {
         // Required empty public constructor
@@ -47,13 +54,13 @@ public class ShopClientFragment extends Fragment implements LinesListener {
         userPreferences = getContext().getSharedPreferences(LoginActivity.PREFERENCES, Context.MODE_PRIVATE);
 
         Singleton.getInstance(getContext()).setLinesListener(this);
+        Singleton.getInstance(getContext()).setInvoiceListener(this);
         Singleton.getInstance(getContext()).getLines(getContext());
 
         binding.add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Singleton.getInstance(getContext()).addInvoiceAPI(createInvoice(), getContext());
-                Singleton.getInstance(getContext()).getLines(getContext());
+                createInvoice();
             }
         });
 
@@ -79,7 +86,8 @@ public class ShopClientFragment extends Fragment implements LinesListener {
 
     }
 
-    private Invoice createInvoice() {
+    private void createInvoice() {
+        ArrayList<Invoice_line> lines = new ArrayList<>();
         float total = 0;
 
         for(int i=0; i<binding.listShop.getAdapter().getCount(); i++) {
@@ -88,17 +96,21 @@ public class ShopClientFragment extends Fragment implements LinesListener {
                 total+=auxLine.getTotal();
                 auxLine.setStatus(Status.CONFIRMADO);
                 Singleton.getInstance(getContext()).editStatusLineAPI(auxLine, getContext());
+                lines.add(auxLine);
             }
         }
 
-        return
+        Singleton.getInstance(getContext()).addInvoiceAPI(
                 new Invoice(
                         0,
                         geral_.getFromDate(new Date()),
                         total,
                         userPreferences.getInt(LoginActivity.RESERVATION_ID, 0),
                         1
-                );
+                ),
+                lines,
+                getContext()
+        );
     }
 
     @Override
@@ -110,5 +122,20 @@ public class ShopClientFragment extends Fragment implements LinesListener {
         if (lines.isEmpty()){
             Toast.makeText(getContext(), "Carrinho Vazio!", Toast.LENGTH_SHORT).show();
         }
+    }
+    @Override
+    public void onInvoice(Invoice invoice, ArrayList<Invoice_line> lines) {
+        /*ActivityInvoiceBinding invoiceBinding = ActivityInvoiceBinding.inflate(getLayoutInflater());
+        invoiceBinding.getRoot();
+
+        User user = (new DBHelper(getContext())).new UserTable().getUser();
+
+        invoiceBinding.listLines.setAdapter(new ListInvoiceAdapter(getContext(), lines));
+        invoiceBinding.ClientName.setText(user.getNome());
+        invoiceBinding.InvoiceDate.setText(geral_.convertFromDateTxt(invoice.getPayment_date()));*/
+
+        Intent intent = new Intent(getContext(), InvoiceActivity.class);
+        intent.putExtra(LINES, lines);
+        startActivity(intent);
     }
 }

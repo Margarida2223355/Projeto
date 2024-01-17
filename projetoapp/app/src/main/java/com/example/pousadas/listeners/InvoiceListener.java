@@ -8,5 +8,5 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface InvoiceListener {
-    void onInvoice(Invoice invoice, List<Invoice_line> lines);
+    void onInvoice(Invoice invoice, ArrayList<Invoice_line> lines);
 }

@@ -11,8 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginHorizontal="50dp"
-        android:layout_marginBottom="100dp">
+        android:layout_marginHorizontal="50dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,18 +45,21 @@
                 <TextView
                     android:id="@+id/ClientName"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    style="@style/ListItem"/>
 
                 <TextView
                     android:id="@+id/InvoiceDate"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    style="@style/ListItem"/>
             </LinearLayout>
         </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".8"
             app:cardCornerRadius="20dp"
             style="@style/CardView">
 
@@ -69,16 +71,27 @@
             </ListView>
         </com.google.android.material.card.MaterialCardView>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginVertical="50dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight=".5"
+                android:layout_height="wrap_content"
+                android:text="@string/txtClientTotal"/>
+
+            <TextView
+                android:id="@+id/total"
+                android:layout_width="0dp"
+                android:layout_weight=".5"
+                android:layout_height="wrap_content"
+                style="@style/ListItem"/>
+
+        </LinearLayout>
+
     </LinearLayout>
-
-    <include
-        android:id="@+id/menu_client"
-        layout="@layout/menu_client"
-        app:layout_anchorGravity="center" />
-
-    <include
-        android:id="@+id/appbar_home"
-        layout="@layout/appbar_home">
-    </include>
 
 </LinearLayout>
