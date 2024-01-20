@@ -1,5 +1,6 @@
 package com.example.pousadas.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -7,11 +8,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Toast;
 
 import com.example.pousadas.R;
 import com.example.pousadas.databinding.ActivityClientBinding;
@@ -23,6 +27,7 @@ import com.example.pousadas.models.Geral;
 import com.example.pousadas.utils.MQTT;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -38,6 +43,8 @@ public class ClientActivity extends AppCompatActivity {
     private ActivityClientBinding binding;
     private SharedPreferences userPreferences, ipPreferences;
     private MQTT mqtt;
+    private final static String HOME = "Home";
+    private final static String LOGOUT =  "Logout";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +87,21 @@ public class ClientActivity extends AppCompatActivity {
                 /* Enviar lista de botões para a função de mostrar o menu */
                 geral_.toggleMenu(buttons);
 
+            }
+        });
+
+        binding.appbarHome.bottomNavView.setOnItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getTitle().toString().equals(HOME)) {
+                    fragmentManager.beginTransaction().replace(R.id.fragmentClient, new ReservationClientFragment()).commit();
+                }
+                else if (item.getTitle().toString().equals(LOGOUT)) {
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                    finish();
+                }
+
+                return false;
             }
         });
     }
