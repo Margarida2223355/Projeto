@@ -14,37 +14,20 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="100dp"
-            android:orientation="horizontal">
+            android:layout_marginVertical="50dp"
+            android:layout_marginHorizontal="100dp"
+            android:orientation="horizontal"
+            android:background="@drawable/logo_back">
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
-                android:src="@drawable/ic_launcher_background" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight=".5"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/txtWelcome"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="25dp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/txtName"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="bottom"
-                    android:text="Client Name" />
-            </LinearLayout>
+                android:text="@string/txtWelcome"
+                android:gravity="top|center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="25dp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -70,7 +53,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="50dp"
+                        android:layout_marginVertical="50dp"
                         android:text="@string/IPConfig" />
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -99,8 +82,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="20dp"
-                        android:paddingVertical="10dp"
+                        android:layout_marginVertical="20dp"
                         android:textSize="30sp"
                         android:text="@string/btnStart"/>
 
