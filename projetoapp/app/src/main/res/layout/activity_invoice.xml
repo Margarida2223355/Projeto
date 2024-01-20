@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     tools:context=".activities.InvoiceActivity">
 
@@ -26,14 +26,17 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/txtClientName"/>
+                    android:text="@string/txtClientName"
+                    tools:ignore="TextSizeCheck" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/txtInvoiceDate"/>
+                    android:text="@string/txtInvoiceDate"
+                    tools:ignore="TextSizeCheck" />
             </LinearLayout>
 
             <LinearLayout
@@ -64,7 +67,7 @@
             style="@style/CardView">
 
             <ListView
-                android:id="@+id/list_lines"
+                android:id="@+id/listLines"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:divider="@null">
@@ -79,9 +82,10 @@
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight=".5"
                 android:layout_height="wrap_content"
-                android:text="@string/txtClientTotal"/>
+                android:layout_weight=".5"
+                android:text="@string/txtClientTotal"
+                tools:ignore="TextSizeCheck" />
 
             <TextView
                 android:id="@+id/total"

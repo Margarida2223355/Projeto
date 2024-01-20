@@ -2,8 +2,8 @@ package com.example.pousadas.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.pousadas.R;
 import com.example.pousadas.adapters.ListInvoiceAdapter;
@@ -13,10 +13,8 @@ import com.example.pousadas.fragments.ShopClientFragment;
 import com.example.pousadas.models.Geral;
 import com.example.pousadas.models.Invoice;
 import com.example.pousadas.models.Invoice_line;
-import com.example.pousadas.models.Singleton;
 import com.example.pousadas.models.User;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class InvoiceActivity extends AppCompatActivity {
@@ -31,8 +29,20 @@ public class InvoiceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invoice);
 
-        Intent intent = getIntent();
-        lines = (ArrayList<Invoice_line>) intent.getSerializableExtra(ShopClientFragment.LINES);
+        binding = ActivityInvoiceBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        user = (new DBHelper(getApplicationContext())).new UserTable().getUser();
+        invoice = getIntent().getParcelableExtra(ShopClientFragment.INVOICE);
+        lines = getIntent().getParcelableArrayListExtra(ShopClientFragment.LINES);
+
+        binding.listLines.setAdapter(new ListInvoiceAdapter(this, lines));
+
+        binding.ClientName.setText(user.getNome());
+        binding.InvoiceDate.setText(geral_.convertFromDate(invoice.getPayment_date()));
+        binding.total.setText(invoice.getTotal_price() + "€");
+
+        Toast.makeText(this, "Aqui", Toast.LENGTH_SHORT).show();
     }
 
 }

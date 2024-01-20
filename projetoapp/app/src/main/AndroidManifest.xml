@@ -19,14 +19,17 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".activities.InvoiceActivity"
+            android:name=".adapters.ListInvoiceAdapter"
             android:exported="false" />
+        <activity
+            android:name=".activities.InvoiceActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.ClientActivity" />
         <activity
             android:name=".activities.IPConfigActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -46,9 +49,9 @@
             android:launchMode="singleTop" />
         <activity
             android:name=".activities.LoginActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
 
-        <service android:name="org.eclipse.paho.android.service.MqttService"></service>
+        <service android:name="org.eclipse.paho.android.service.MqttService" />
     </application>
 
 </manifest>

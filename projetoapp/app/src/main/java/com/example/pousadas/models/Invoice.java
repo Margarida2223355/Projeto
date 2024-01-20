@@ -1,8 +1,13 @@
 package com.example.pousadas.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import java.util.Date;
 
-public class Invoice {
+public class Invoice implements Parcelable {
     private int id;
     private Date payment_date;
     private float total_price;
@@ -16,6 +21,26 @@ public class Invoice {
         this.reservation_id = reservation_id;
         this.lodge_id = lodge_id;
     }
+
+    protected Invoice(Parcel in) {
+        id = in.readInt();
+        payment_date = new Date(in.readLong());
+        total_price = in.readFloat();
+        reservation_id = in.readInt();
+        lodge_id = in.readInt();
+    }
+
+    public static final Creator<Invoice> CREATOR = new Creator<Invoice>() {
+        @Override
+        public Invoice createFromParcel(Parcel in) {
+            return new Invoice(in);
+        }
+
+        @Override
+        public Invoice[] newArray(int size) {
+            return new Invoice[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -51,5 +76,19 @@ public class Invoice {
 
     public void setLodge(int lodge_id) {
         this.lodge_id = lodge_id;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeLong(payment_date.getTime());
+        dest.writeFloat(total_price);
+        dest.writeInt(reservation_id);
+        dest.writeInt(lodge_id);
     }
 }

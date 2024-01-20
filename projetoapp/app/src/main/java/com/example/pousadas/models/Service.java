@@ -1,6 +1,11 @@
 package com.example.pousadas.models;
 
-public class Service {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class Service implements Parcelable {
 
     /* Propriedades da classe Service:
      *
@@ -22,6 +27,26 @@ public class Service {
         this.id = id;
         this.qty = 0;
     }
+
+    protected Service(Parcel in) {
+        price = in.readFloat();
+        description = in.readString();
+        name = in.readString();
+        id = in.readInt();
+        qty = in.readInt();
+    }
+
+    public static final Creator<Service> CREATOR = new Creator<Service>() {
+        @Override
+        public Service createFromParcel(Parcel in) {
+            return new Service(in);
+        }
+
+        @Override
+        public Service[] newArray(int size) {
+            return new Service[size];
+        }
+    };
 
     /* Get e Post
      *
@@ -84,5 +109,19 @@ public class Service {
     public float getTotal() {
         return
                 qty * price;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeFloat(price);
+        dest.writeString(description);
+        dest.writeString(name);
+        dest.writeInt(id);
+        dest.writeInt(qty);
     }
 }

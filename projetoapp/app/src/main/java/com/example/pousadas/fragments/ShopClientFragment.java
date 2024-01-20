@@ -14,11 +14,8 @@ import android.widget.Toast;
 
 import com.example.pousadas.activities.InvoiceActivity;
 import com.example.pousadas.activities.LoginActivity;
-import com.example.pousadas.adapters.ListInvoiceAdapter;
 import com.example.pousadas.adapters.ListLineAdapter;
-import com.example.pousadas.databinding.ActivityInvoiceBinding;
 import com.example.pousadas.databinding.FragmentShopClientBinding;
-import com.example.pousadas.db.DBHelper;
 import com.example.pousadas.enums.Status;
 import com.example.pousadas.listeners.InvoiceListener;
 import com.example.pousadas.listeners.LinesListener;
@@ -26,18 +23,16 @@ import com.example.pousadas.models.Geral;
 import com.example.pousadas.models.Invoice;
 import com.example.pousadas.models.Invoice_line;
 import com.example.pousadas.models.Singleton;
-import com.example.pousadas.models.User;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class ShopClientFragment extends Fragment implements LinesListener, InvoiceListener {
 
     private FragmentShopClientBinding binding;
     private Geral geral_ = new Geral();
     private SharedPreferences userPreferences;
-
+    public static final String INVOICE = "Invoice";
     public static final String LINES = "Lines";
 
     public ShopClientFragment() {
@@ -125,17 +120,11 @@ public class ShopClientFragment extends Fragment implements LinesListener, Invoi
     }
     @Override
     public void onInvoice(Invoice invoice, ArrayList<Invoice_line> lines) {
-        /*ActivityInvoiceBinding invoiceBinding = ActivityInvoiceBinding.inflate(getLayoutInflater());
-        invoiceBinding.getRoot();
 
-        User user = (new DBHelper(getContext())).new UserTable().getUser();
-
-        invoiceBinding.listLines.setAdapter(new ListInvoiceAdapter(getContext(), lines));
-        invoiceBinding.ClientName.setText(user.getNome());
-        invoiceBinding.InvoiceDate.setText(geral_.convertFromDateTxt(invoice.getPayment_date()));*/
-
-        Intent intent = new Intent(getContext(), InvoiceActivity.class);
-        intent.putExtra(LINES, lines);
-        startActivity(intent);
+        startActivity(
+                new Intent(getContext(), InvoiceActivity.class)
+                    .putExtra(INVOICE, invoice)
+                        .putExtra(LINES, lines)
+        );
     }
 }

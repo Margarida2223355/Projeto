@@ -1,11 +1,17 @@
 package com.example.pousadas.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import com.example.pousadas.enums.Category;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
-public class Food {
+public class Food implements Parcelable {
 
     /* Propriedades da classe Food:
      *
@@ -40,6 +46,26 @@ public class Food {
      * Date - get e post
      * Category - get e post
      */
+
+    protected Food(Parcel in) {
+        price = in.readFloat();
+        name = in.readString();
+        id = in.readInt();
+        qty = in.readInt();
+        date = new Date(in.readLong());
+    }
+
+    public static final Creator<Food> CREATOR = new Creator<Food>() {
+        @Override
+        public Food createFromParcel(Parcel in) {
+            return new Food(in);
+        }
+
+        @Override
+        public Food[] newArray(int size) {
+            return new Food[size];
+        }
+    };
 
     public float getPrice() {
         return price;
@@ -104,4 +130,17 @@ public class Food {
                 qty * price;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeFloat(price);
+        dest.writeString(name);
+        dest.writeInt(id);
+        dest.writeInt(qty);
+        dest.writeLong(date.getTime());
+    }
 }

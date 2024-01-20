@@ -84,6 +84,13 @@ public class ClientActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        fragmentManager.beginTransaction().replace(R.id.fragmentClient, new ReservationClientFragment()).commit();
+    }
+
     /* Método que recebe o botão e abre o fragmento consoante o botão selecionado */
     private void setFragmentByView(View view) {
         Fragment fragment = null;
@@ -130,7 +137,4 @@ public class ClientActivity extends AppCompatActivity {
         }
     }
 
-    public void Exemplo() {
-        System.out.println("--> Aqui");
-    }
 }
