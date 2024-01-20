@@ -14,7 +14,7 @@ import com.example.pousadas.R;
 import com.example.pousadas.databinding.ActivityFuncBinding;
 import com.example.pousadas.fragments.FoodClientFragment;
 import com.example.pousadas.fragments.ReservationClientFragment;
-import com.example.pousadas.models.Geral;
+import com.example.pousadas.utils.Geral;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 

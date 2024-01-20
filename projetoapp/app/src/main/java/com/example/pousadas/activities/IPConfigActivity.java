@@ -9,9 +9,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import com.example.pousadas.R;
 import com.example.pousadas.databinding.ActivityIpconfigBinding;
+import com.example.pousadas.utils.Geral;
 
 public class IPConfigActivity extends AppCompatActivity {
 
@@ -28,7 +30,7 @@ public class IPConfigActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         /* *************************************** */
-        binding.txtIP.setText("192.168.1.92");
+        binding.txtIP.setText("172.22.200.44");
         /* *************************************** */
 
         getSharedPreferences(IPCONFIG, Context.MODE_PRIVATE)
@@ -123,7 +125,12 @@ public class IPConfigActivity extends AppCompatActivity {
         binding.btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                if (!(binding.txtIP.getText().toString().isEmpty())) {
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                }
+                else {
+                    Toast.makeText(IPConfigActivity.this, "IP Inválido!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

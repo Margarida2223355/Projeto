@@ -10,7 +10,7 @@ import com.example.pousadas.enums.Category;
 import com.example.pousadas.enums.Status;
 import com.example.pousadas.enums.Status_Res;
 import com.example.pousadas.models.Food;
-import com.example.pousadas.models.Geral;
+import com.example.pousadas.utils.Geral;
 import com.example.pousadas.models.Invoice;
 import com.example.pousadas.models.Invoice_line;
 import com.example.pousadas.models.Lodge;

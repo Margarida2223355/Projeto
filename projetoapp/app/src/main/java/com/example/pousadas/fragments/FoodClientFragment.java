@@ -16,27 +16,20 @@ import android.widget.Toast;
 import com.example.pousadas.R;
 import com.example.pousadas.activities.LoginActivity;
 import com.example.pousadas.adapters.ListFoodAdapter;
-import com.example.pousadas.databinding.ActivityLoginBinding;
 import com.example.pousadas.databinding.FragmentFoodClientBinding;
 import com.example.pousadas.enums.Category;
 import com.example.pousadas.enums.Status;
 import com.example.pousadas.listeners.FoodsListener;
-import com.example.pousadas.listeners.LinesListener;
-import com.example.pousadas.listeners.ReservationsListener;
 import com.example.pousadas.models.Food;
-import com.example.pousadas.models.Geral;
+import com.example.pousadas.utils.Geral;
 import com.example.pousadas.models.Invoice_line;
-import com.example.pousadas.models.Reservation;
-import com.example.pousadas.models.Service;
 import com.example.pousadas.models.Singleton;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class FoodClientFragment extends Fragment implements FoodsListener {
 

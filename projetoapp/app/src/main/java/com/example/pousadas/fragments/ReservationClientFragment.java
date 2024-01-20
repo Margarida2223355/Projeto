@@ -1,23 +1,19 @@
 package com.example.pousadas.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.example.pousadas.activities.ReservationDetailActivity;
 import com.example.pousadas.adapters.ListReservationAdapter;
 import com.example.pousadas.databinding.FragmentReservationClientBinding;
 import com.example.pousadas.listeners.ReservationsListener;
-import com.example.pousadas.models.Geral;
+import com.example.pousadas.utils.Geral;
 import com.example.pousadas.models.Reservation;
 import com.example.pousadas.models.Singleton;
 import com.google.android.material.datepicker.MaterialDatePicker;

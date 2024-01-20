@@ -4,15 +4,12 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.pousadas.enums.Category;
 import com.example.pousadas.enums.Status;
 import com.example.pousadas.enums.Status_Res;
 import com.example.pousadas.models.Food;
-import com.example.pousadas.models.Geral;
 import com.example.pousadas.models.Invoice;
 import com.example.pousadas.models.Invoice_line;
-import com.example.pousadas.models.Lodge;
 import com.example.pousadas.models.Reservation;
 import com.example.pousadas.models.Room;
 import com.example.pousadas.models.Service;

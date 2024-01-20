@@ -19,7 +19,7 @@ import com.example.pousadas.databinding.FragmentShopClientBinding;
 import com.example.pousadas.enums.Status;
 import com.example.pousadas.listeners.InvoiceListener;
 import com.example.pousadas.listeners.LinesListener;
-import com.example.pousadas.models.Geral;
+import com.example.pousadas.utils.Geral;
 import com.example.pousadas.models.Invoice;
 import com.example.pousadas.models.Invoice_line;
 import com.example.pousadas.models.Singleton;

@@ -2,20 +2,16 @@ package com.example.pousadas.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Toast;
 
 import com.example.pousadas.R;
 import com.example.pousadas.databinding.ActivityClientBinding;
@@ -23,11 +19,10 @@ import com.example.pousadas.fragments.FoodClientFragment;
 import com.example.pousadas.fragments.ReservationClientFragment;
 import com.example.pousadas.fragments.ServicesClientFragment;
 import com.example.pousadas.fragments.ShopClientFragment;
-import com.example.pousadas.models.Geral;
+import com.example.pousadas.utils.Geral;
 import com.example.pousadas.utils.MQTT;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

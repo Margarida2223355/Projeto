@@ -10,7 +10,7 @@ import com.example.pousadas.adapters.ListInvoiceAdapter;
 import com.example.pousadas.databinding.ActivityInvoiceBinding;
 import com.example.pousadas.db.DBHelper;
 import com.example.pousadas.fragments.ShopClientFragment;
-import com.example.pousadas.models.Geral;
+import com.example.pousadas.utils.Geral;
 import com.example.pousadas.models.Invoice;
 import com.example.pousadas.models.Invoice_line;
 import com.example.pousadas.models.User;

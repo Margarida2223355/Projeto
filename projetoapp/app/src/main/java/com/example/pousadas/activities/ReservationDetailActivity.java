@@ -1,16 +1,12 @@
 package com.example.pousadas.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 
 import com.example.pousadas.R;
 import com.example.pousadas.databinding.ActivityReservationDetailBinding;
-import com.example.pousadas.models.Geral;
+import com.example.pousadas.utils.Geral;
 import com.example.pousadas.models.Reservation;
 import com.example.pousadas.models.Singleton;
 

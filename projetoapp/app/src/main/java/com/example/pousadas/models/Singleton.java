@@ -2,10 +2,8 @@ package com.example.pousadas.models;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.util.Base64;
 import android.widget.Toast;
 
@@ -32,18 +30,13 @@ import com.example.pousadas.listeners.LinesListener;
 import com.example.pousadas.listeners.ReservationsListener;
 import com.example.pousadas.listeners.ServicesListener;
 import com.example.pousadas.listeners.UserListener;
+import com.example.pousadas.utils.Geral;
 import com.example.pousadas.utils.JsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
