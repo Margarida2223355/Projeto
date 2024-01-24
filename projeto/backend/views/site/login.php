@@ -21,24 +21,29 @@ JS;
     $this->registerJs($js, \yii\web\View::POS_END);
 }
 ?>
-<div class="site-login">
-    <div class="mt-5 offset-lg-3 col-lg-6">
+<div class="card text-center w-50 mx-auto">
+    <div class="card-header center">
         <h1><?= Html::encode($this->title) ?></h1>
+    </div>
 
-        <p>Please fill out the following fields to login:</p>
+    <div class="card-body">
+        <div class="site-login">
+            <div class="mt-5 offset-lg-3 col-lg-6">
 
-        <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+                <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
-            <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+                    <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
 
-            <?= $form->field($model, 'password')->passwordInput() ?>
+                    <?= $form->field($model, 'password')->passwordInput() ?>
 
-            <?= $form->field($model, 'rememberMe')->checkbox() ?>
+                    <?= $form->field($model, 'rememberMe')->checkbox() ?>
 
-            <div class="form-group">
-                <?= Html::submitButton('Login', ['class' => 'btn btn-primary btn-block', 'name' => 'login-button']) ?>
+                    <div class="form-group">
+                        <?= Html::submitButton('Login', ['class' => 'btn btn-primary btn-block', 'name' => 'login-button']) ?>
+                    </div>
+
+                <?php ActiveForm::end(); ?>
             </div>
-
-        <?php ActiveForm::end(); ?>
+        </div>
     </div>
 </div>
