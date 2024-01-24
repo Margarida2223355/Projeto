@@ -70,6 +70,8 @@ class ReservaController extends Controller
             */
         ]);
 
+        $this->title = 'Título da Minha Página';
+
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'model' =>$model,
